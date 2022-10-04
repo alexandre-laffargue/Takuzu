@@ -1,6 +1,7 @@
 # takuzu-06b
 
 test test
+commit pour le rendu
 
 ## Getting started
 
