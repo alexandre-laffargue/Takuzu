@@ -7,13 +7,11 @@
 /*****TEST*****/
 bool test_dummy(int argc, char *name)
 {
-    if(argc != 3){
+    if(argc != 2){
         return false;
     }
-    printf("entréefonction\n");
     if (strcmp("dummy", name) == 0)
     {
-        printf("entrée\n");
         return true;
     }
     return false;
@@ -38,7 +36,7 @@ int main(int argc, char *argv[])
     bool ok = false;
 
     if (strcmp("dummy", argv[1]) == 0){
-      ok = test_dummy(argc, argv[2]);
+      ok = test_dummy(argc, argv[1]);
     }
 
     else
