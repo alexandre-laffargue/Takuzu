@@ -5,7 +5,7 @@
 #include <string.h>
 
 /*****TEST*****/
-bool test_testname(int argc, char *name)
+bool test_dummy(int argc, char *name)
 {
     if(argc != 3){
         return false;
@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
     fprintf(stderr, "=> Start test \"%s\"\n", argv[1]);
     bool ok = false;
 
-    if (strcmp("testname", argv[1]) == 0){
-      ok = test_testname(argc, argv[2]);
+    if (strcmp("dummy", argv[1]) == 0){
+      ok = test_dummy(argc, argv[2]);
     }
 
     else
