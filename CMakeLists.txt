@@ -18,6 +18,7 @@ add_executable(game_test_abahraoui game_test_abahraoui.c)
 target_link_libraries(game_test_abahraoui game libgame)
 
 add_executable(game_test_alelaffargue game_test_alelaffargue.c)
+target_link_libraries(game_test_alelaffargue game libgame)
 
 add_test(test_abahraoui_dummy ./game_test_abahraoui dummy)
 add_test(test_alelaffargue_test_dummy ./game_test_alelaffargue dummy)
