@@ -16,7 +16,7 @@ void usage(int argc, char *argv[])
 
 
 bool test_dummy(){
-    return true
+    return true;
 }
 
 int main(int argc, char *argv[])
