@@ -16,7 +16,21 @@ bool test_dummy()
 bool test_game_set_square(){
     game g=game_default();
     game_set_square(g, 0, 0, S_ZERO);
-    return true;
+    if(game_get_square(g, 0, 0) == S_ZERO){
+        game_set_square(g, 0, 0, S_ONE);
+        if(game_get_square(g, 0, 0) == S_ONE){
+            game_set_square(g, 0, 0, S_EMPTY);
+            if(game_get_square(g, 0, 0) == S_EMPTY){
+                game_set_square(g, 0, 0, S_IMMUTABLE_ZERO);
+                if(game_get_square(g, 0, 0) == S_IMMUTABLE_ZERO){
+                    game_set_square(g, 0, 1, S_IMMUTABLE_ONE);
+                    if(game_get_square(g, 0, 1) == S_IMMUTABLE_ONE){
+                        return true;
+                    }else{return false;}
+                }else{return false;}
+            }else{return false;}
+        }else{return false;}
+    }else{return false;}
 }
 
 bool test_game_default_solution(){
@@ -31,7 +45,23 @@ bool test_game_default_solution(){
 }
 
 bool test_game_get_square(){
-    return true;
+    game g=game_default();
+    game_set_square(g, 0, 0, S_ZERO);
+    if(game_get_square(g, 0, 0) == S_ZERO){
+        game_set_square(g, 0, 0, S_ONE);
+        if(game_get_square(g, 0, 0) == S_ONE){
+            game_set_square(g, 0, 0, S_EMPTY);
+            if(game_get_square(g, 0, 0) == S_EMPTY){
+                game_set_square(g, 0, 0, S_IMMUTABLE_ZERO);
+                if(game_get_square(g, 0, 0) == S_IMMUTABLE_ZERO){
+                    game_set_square(g, 0, 1, S_IMMUTABLE_ONE);
+                    if(game_get_square(g, 0, 1) == S_IMMUTABLE_ONE){
+                        return true;
+                    }else{return false;}
+                }else{return false;}
+            }else{return false;}
+        }else{return false;}
+    }else{return false;}
 }
 
 bool test_game_get_number(){
