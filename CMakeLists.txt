@@ -25,6 +25,9 @@ target_link_libraries(game_test_rolalanne game libgame)
 
 add_test(test_abahraoui_game_is_empty ./game_test_abahraoui game_is_empty)
 add_test(test_abahraoui_game_play_move ./game_test_abahraoui game_play_move)
+
 add_test(test_alelaffargue_dummy ./game_test_alelaffargue dummy)
+add_test(test_alelaffargue_game_default_solution ./game_test_alelaffargue game_default_solution)
+
 add_test(test_rolalanne_dummy ./game_test_rolalanne dummy)
 add_test(test_rolalanne_game_print ./game_test_rolalanne game_print)
