@@ -5,16 +5,9 @@
 #include <string.h>
 
 /*****TEST*****/
-bool test_dummy(int argc, char *name)
+bool test_dummy()
 {
-    if(argc != 2){
-        return false;
-    }
-    if (strcmp("dummy", name) == 0)
-    {
-        return true;
-    }
-    return false;
+    return true;
 }
 
 /****USAGE****/
@@ -36,7 +29,7 @@ int main(int argc, char *argv[])
     bool ok = false;
 
     if (strcmp("dummy", argv[1]) == 0){
-      ok = test_dummy(argc, argv[1]);
+      ok = test_dummy();
     }
 
     else
