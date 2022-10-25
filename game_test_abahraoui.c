@@ -18,9 +18,6 @@ void usage(int argc, char *argv[])
 }
 
 
-bool test_dummy(){
-    return true;
-}
 
 bool test_game_is_empty(){
   game g = game_new_empty();
@@ -39,6 +36,21 @@ bool test_game_is_empty(){
 }
 
 
+bool test_game_play_move(){
+  game g = game_new_empty();
+  for(uint i = 0; i < DEFAULT_SIZE; i++){
+    for(uint j = 0; j < DEFAULT_SIZE; j++){
+      if(game_get_square(g,i,j)==S_EMPTY || game_get_square(g,i,j)==S_ONE || game_get_square(g,i,j)==S_ZERO){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+  }
+}
+
+
 int main(int argc, char *argv[])
 {
   if (argc == 1)
@@ -49,6 +61,8 @@ int main(int argc, char *argv[])
   bool ok = false;
   if (strcmp("game_is_empty", argv[1]) == 0)
     ok = test_game_is_empty();
+  else if(strcmp("game_play_move", argv[1]) == 0)
+    ok = test_game_play_move();
 
     else{
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
