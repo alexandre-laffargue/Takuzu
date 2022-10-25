@@ -50,7 +50,6 @@ bool test_game_play_move(){
   }
 }
 
-
 int main(int argc, char *argv[])
 {
   if (argc == 1)
