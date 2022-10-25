@@ -3,12 +3,36 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include"game.h" 
+#include "game_aux.h"
+
 
 /*****TEST*****/
 bool test_dummy()
 {
     return true;
 }
+
+bool test_game_set_square();
+
+bool test_game_default_solution(){
+    
+    game g = game_default_solution();
+    if(game_is_over(g)){
+        return true;
+    }
+}
+
+bool test_game_get_square();
+
+bool test_game_get_number();
+
+bool test_game_get_next_square();
+
+bool test_game_get_next_number();
+
+bool test_game_is_immutable();
+
 
 /****USAGE****/
 void usage(int argc, char *argv[])
@@ -30,6 +54,10 @@ int main(int argc, char *argv[])
 
     if (strcmp("dummy", argv[1]) == 0){
       ok = test_dummy();
+    }
+
+    else if (strcmp("game_default_solution", argv[1]) == 0){
+      ok = test_game_default_solution();
     }
 
     else
