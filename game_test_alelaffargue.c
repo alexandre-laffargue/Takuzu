@@ -13,7 +13,11 @@ bool test_dummy()
     return true;
 }
 
-bool test_game_set_square();
+bool test_game_set_square(){
+    game g=game_default();
+    game_set_square(g, 0, 0, S_ZERO);
+    return true;
+}
 
 bool test_game_default_solution(){
     
@@ -21,17 +25,30 @@ bool test_game_default_solution(){
     if(game_is_over(g)){
         return true;
     }
+    else{
+        return false;
+    }
 }
 
-bool test_game_get_square();
+bool test_game_get_square(){
+    return true;
+}
 
-bool test_game_get_number();
+bool test_game_get_number(){
+    return true;
+}
 
-bool test_game_get_next_square();
+bool test_game_get_next_square(){
+    return true;
+}
 
-bool test_game_get_next_number();
+bool test_game_get_next_number(){
+    return true;
+}
 
-bool test_game_is_immutable();
+bool test_game_is_immutable(){
+    return true;
+}
 
 
 /****USAGE****/
@@ -56,8 +73,26 @@ int main(int argc, char *argv[])
       ok = test_dummy();
     }
 
+    else if (strcmp("game_set_square", argv[1]) == 0){
+      ok = test_game_set_square();
+    }
+
     else if (strcmp("game_default_solution", argv[1]) == 0){
       ok = test_game_default_solution();
+    }
+    
+    else if (strcmp("game_get_square", argv[1]) == 0){
+      ok = test_game_get_square();
+    }
+
+    else if (strcmp("game_get_number", argv[1]) == 0){
+      ok = test_game_get_number();
+    }
+    else if (strcmp("game_get_next_number", argv[1]) == 0){
+      ok = test_game_get_next_number();
+    }
+    else if (strcmp("game_game_is_immutable", argv[1]) == 0){
+      ok = test_game_is_immutable();
     }
 
     else
