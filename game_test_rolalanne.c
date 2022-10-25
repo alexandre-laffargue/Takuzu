@@ -24,7 +24,12 @@ bool test_game_new();
 bool test_game_new_empty();
 bool test_game_copy();
 bool test_game_equal();
-bool test_game_delete();
+bool test_game_delete(){
+    game g = game_default();
+    game_delete(g);
+    return true;
+    
+}
 bool test_game_default();
 
 
@@ -41,6 +46,14 @@ int main(int argc, char *argv[]){
     
     else if(strcmp("game_print", argv[1]) == 0){
             tmp = test_game_print();
+
+
+
+
+   }
+   
+   else if(strcmp("game_delete", argv[1]) == 0){
+            tmp = test_game_delete();
 
 
 

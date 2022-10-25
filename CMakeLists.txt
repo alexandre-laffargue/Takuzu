@@ -31,3 +31,4 @@ add_test(test_alelaffargue_game_default_solution ./game_test_alelaffargue game_d
 
 add_test(test_rolalanne_dummy ./game_test_rolalanne dummy)
 add_test(test_rolalanne_game_print ./game_test_rolalanne game_print)
+add_test(test_rolalanne_game_delete ./game_test_rolalanne game_delete)
