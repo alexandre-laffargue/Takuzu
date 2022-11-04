@@ -27,7 +27,11 @@ bool test_game_new_empty(){
     return true;
 }
 bool test_game_copy(){
-    return true;
+    game g = game_default();
+    game copy = game_copy(g);
+    return game_equal(g,copy);
+    
+    
 }
 bool test_game_equal(){
     return true;
