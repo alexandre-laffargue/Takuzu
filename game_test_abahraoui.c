@@ -24,17 +24,15 @@ bool test_game_is_empty(){
   for (uint i = 0; i < DEFAULT_SIZE; i++)
   {
     for(uint j = 0; j< DEFAULT_SIZE; j++){
-      if (game_get_square(g,i,j)==S_EMPTY)
+      if (game_get_square(g,i,j)!=S_EMPTY)
       {
        game_delete(g);
-        return true;
-      }
-      else {
-        game_delete(g);
         return false;
-      }      
+      }
     }
   }
+  game_delete(g);
+  return true
 }
 
 
