@@ -37,3 +37,9 @@ add_test(test_alelaffargue_game_game_is_immutable ./game_test_alelaffargue game_
 
 add_test(test_rolalanne_dummy ./game_test_rolalanne dummy)
 add_test(test_rolalanne_game_print ./game_test_rolalanne game_print)
+add_test(test_rolalanne_game_delete ./game_test_rolalanne game_delete)
+add_test(test_rolalanne_game_new ./game_test_rolalanne game_new)
+add_test(test_rolalanne_game_new_empty ./game_test_rolalanne game_new_empty)
+add_test(test_rolalanne_game_copy ./game_test_rolalanne game_copy)
+add_test(test_rolalanne_game_equal ./game_test_rolalanne game_equal)
+add_test(test_rolalanne_game_default ./game_test_rolalanne game_default)

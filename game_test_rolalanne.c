@@ -20,17 +20,27 @@ bool test_game_print(){
     game_print(g);
     return true;
 }
-bool test_game_new();
-bool test_game_new_empty();
-bool test_game_copy();
-bool test_game_equal();
+bool test_game_new(){
+    return true;
+}
+bool test_game_new_empty(){
+    return true;
+}
+bool test_game_copy(){
+    return true;
+}
+bool test_game_equal(){
+    return true;
+}
 bool test_game_delete(){
     game g = game_default();
     game_delete(g);
     return true;
     
 }
-bool test_game_default();
+bool test_game_default(){
+    return true;
+}
 
 
 int main(int argc, char *argv[]){
@@ -58,10 +68,44 @@ int main(int argc, char *argv[]){
 
 
 
+   }
+   else if(strcmp("game_new", argv[1]) == 0){
+            tmp = test_game_new();
+
+
+
+
+   }
+   else if(strcmp("game_new_empty", argv[1]) == 0){
+            tmp = test_game_new_empty();
+
+
+
+
+   }
+   else if(strcmp("game_copy", argv[1]) == 0){
+            tmp = test_game_copy();
+
+
+
+
+   }else if(strcmp("game_equal", argv[1]) == 0){
+            tmp = test_game_equal();
+
+
+
+
+   }else if(strcmp("game_default", argv[1]) == 0){
+            tmp = test_game_default();
+
+
+
+
    }else{
         fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
         exit(EXIT_FAILURE);
     }
+    
 
     if(tmp == true){
         fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
