@@ -42,14 +42,37 @@ bool test_game_play_move(){
   game g = game_new_empty();
   for(uint i = 0; i < DEFAULT_SIZE; i++){
     for(uint j = 0; j < DEFAULT_SIZE; j++){
-      if(game_get_square(g,i,j)==S_EMPTY || game_get_square(g,i,j)==S_ONE || game_get_square(g,i,j)==S_ZERO){
-        return true;
-      }
-      else{
-        return false;
-      }
+  game_set_square(g,i,j,S_ONE);
     }
   }
+    for(uint i = 0; i < DEFAULT_SIZE; i++){
+    for(uint j = 0; j < DEFAULT_SIZE; j++){
+    if(  game_get_square(g,i,j)!=S_ONE) return false;
+    }
+    }
+     for(uint i = 0; i < DEFAULT_SIZE; i++){
+    for(uint j = 0; j < DEFAULT_SIZE; j++){
+  game_set_square(g,i,j,S_EMPTY);
+    }
+  }
+    for(uint i = 0; i < DEFAULT_SIZE; i++){
+    for(uint j = 0; j < DEFAULT_SIZE; j++){
+    if(  game_get_square(g,i,j)!=S_EMPTY) return false;
+    }
+    }
+ for(uint i = 0; i < DEFAULT_SIZE; i++){
+    for(uint j = 0; j < DEFAULT_SIZE; j++){
+  game_set_square(g,i,j,S_ZERO);
+    }
+  }
+    for(uint i = 0; i < DEFAULT_SIZE; i++){
+    for(uint j = 0; j < DEFAULT_SIZE; j++){
+    if(  game_get_square(g,i,j)!=S_ZERO) return false;
+    }
+    }
+
+game_delete(g);
+     return true;
 }
 
 int main(int argc, char *argv[])
