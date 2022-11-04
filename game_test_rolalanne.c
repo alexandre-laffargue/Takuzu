@@ -24,6 +24,15 @@ bool test_game_new(){
     return true;
 }
 bool test_game_new_empty(){
+    game g = game_new_empty();
+    for(int i = 0; i <= 5; i++){
+        for(int j = 0; j <= 5; j++){
+            square tmp = game_get_square(g,i,j);
+            if(tmp != S_EMPTY){
+                return false;
+            }
+        }
+    }
     return true;
 }
 bool test_game_copy(){
