@@ -21,6 +21,17 @@ bool test_game_print(){
     return true;
 }
 bool test_game_new(){
+    /*game g = game_new(S_EMPTY);
+    for(int i = 0; i <= 5; i++){
+        for(int j = 0; j <= 5; j++){
+            if(game_has_error(g,i,j) != 0){
+                return false;
+            }
+        }
+    }*/
+
+
+
     return true;
 }
 bool test_game_new_empty(){
