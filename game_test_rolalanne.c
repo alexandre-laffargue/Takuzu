@@ -62,6 +62,32 @@ bool test_game_delete(){
     
 }
 bool test_game_default(){
+    game g = game_default();
+    for(int i = 0; i <= 5; i++){
+        for(int j = 0; j <= 5; j++){
+           if((i == 0 && j == 1) || (i == 3 && j == 2) || (i == 4 && j == 2))
+                {
+                    if(game_get_square(g,i,j) != S_IMMUTABLE_ONE){
+                        return false;
+                    }
+                }
+           else if ((i == 0 && j == 2) || (i == 2 && j == 1) || (i == 2 && j == 4) || (i == 3 && j == 1)
+            || (i == 4 && j == 5) || (i == 5 && j == 5))
+                {
+                    if(game_get_square(g,i,j) != S_IMMUTABLE_ZERO){
+                        return false;
+                    }
+                }
+            else{
+                if(game_get_square(g,i,j) != S_EMPTY){
+                    return false;
+                }
+            }
+           
+           
+        }
+    }
+
     return true;
 }
 
