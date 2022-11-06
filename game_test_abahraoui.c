@@ -82,7 +82,19 @@ bool test_game_has_error(){
   game_set_square(g, 0, 0, S_ONE);
   game_set_square(g, 0, 1, S_ONE);
   game_set_square(g, 0, 2, S_ONE);
-  if(!game_has_error(g,0,0) && !game_has_error(g,0,1)&& !game_has_error(g,0,2) ){
+  game c = game_new_empty();
+  game_set_square(g, 2, 0, S_ONE);
+  game_set_square(g, 1, 0, S_ONE);
+  game_set_square(g, 0, 0, S_ONE);
+  game d = game_new_empty();
+  game_set_square(d, 0, 0, S_ZERO);
+  game_set_square(d, 0, 1, S_ZERO);
+  game_set_square(d, 0, 2, S_ZERO);
+  game e = game_new_empty();
+  game_set_square(e, 2, 0, S_ZERO);
+  game_set_square(e, 1, 0, S_ZERO);
+  game_set_square(e, 0, 0, S_ZERO);
+  if(!game_has_error(g,0,0) && !game_has_error(g,0,1)&& !game_has_error(g,0,2) && !game_has_error(c,0,0) && !game_has_error(c,2,0) && !game_has_error(c,1,0) && !game_has_error(d,0,0) && !game_has_error(d,0,1) && !game_has_error(d,0,2) && !game_has_error(e,2,0) && !game_has_error(e,1,0) && !game_has_error(e,0,0)){
     return 0;
   }
   else{
