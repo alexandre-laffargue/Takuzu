@@ -76,6 +76,60 @@ game_delete(g);
   return true;
 }
 
+
+bool test_game_has_error(){
+  game g = game_new_empty();
+  game_set_square(g, 0, 0, S_ONE);
+  game_set_square(g, 0, 1, S_ONE);
+  game_set_square(g, 0, 2, S_ONE);
+  if(!game_has_error(g,0,0) && !game_has_error(g,0,1)&& !game_has_error(g,0,2) ){
+    return 0;
+  }
+  else{
+    return 1;
+  }
+}
+
+bool test_game_restart(){
+  return true;
+}
+
+bool test_game_is_over(){
+  game over = game_default_solution();
+  game unmodified = game_default();
+  game error = game_default_solution();
+  game_play_move(error, 3, 4, S_ONE);
+  bool test = (!(game_is_over(unmodified)) && (game_is_over(over)) && !(game_is_over(error)));
+
+  game_delete(over);
+  game_delete(unmodified);
+  game_delete(error);
+  return test;
+}
+
+bool test_game_check_move() {
+  game g = game_new_empty();
+
+  
+
+  game_set_square(g, 0, 3, S_EMPTY);
+  bool empty = (!(game_check_move(g, 0, 3, S_EMPTY)) || (game_check_move(g, 0, 3, S_ONE)) || (game_check_move(g, 0, 3, S_ZERO)));
+
+  game_set_square(g, 0, 4, S_ZERO);
+  bool zero = (!(game_check_move(g, 0, 4, S_ONE)) || (game_check_move(g, 0, 4, S_ZERO)) || !(game_check_move(g, 0, 4, S_EMPTY)));
+
+  game_set_square(g, 0, 5, S_ONE);
+  bool one = ((game_check_move(g, 0, 5, S_ONE)) || !(game_check_move(g, 0, 5, S_ZERO)) || !(game_check_move(g, 0, 5, S_EMPTY)));
+
+  
+  bool outside_the_grid = (game_check_move(g, 0, 7, S_EMPTY));
+
+  game_delete(g);
+  return (empty || zero || one || outside_the_grid);
+}
+
+
+
 int main(int argc, char *argv[])
 {
   if (argc == 1)
@@ -88,6 +142,14 @@ int main(int argc, char *argv[])
     ok = test_game_is_empty();
   else if(strcmp("game_play_move", argv[1]) == 0)
     ok = test_game_play_move();
+  else if(strcmp("game_has_error", argv[1]) == 0)
+    ok = test_game_has_error();
+  else if(strcmp("game_restart", argv[1]) == 0)
+    ok = test_game_restart();
+     else if(strcmp("game_check_move", argv[1]) == 0)
+    ok = test_game_check_move();
+    else if(strcmp("game_is_over", argv[1]) == 0)
+    ok = test_game_is_over();
 
     else{
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
