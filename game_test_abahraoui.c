@@ -125,11 +125,11 @@ bool test_game_check_move() {
   
   game_set_square(g, 0, 3, S_IMMUTABLE_ONE);
   bool test_immutable = (!(game_check_move(g, 0, 3, S_EMPTY))  &&
-                     !(game_check_move(g, 0, 3, S_ONE)) && !(game_check_move(g, 0, 3, S_ZERO)));
+                     !(game_check_move(g, 0, 3, S_ONE)) && !(game_check_move(g, 0, 3, S_ZERO)) && (game_check_move(g,0,3, S_IMMUTABLE_ONE)) && !(game_check_move(g,0,3,S_IMMUTABLE_ZERO)));
 
   game_set_square(g, 0, 3, S_IMMUTABLE_ZERO);
   bool test_immutable0 = (!(game_check_move(g, 0, 3, S_EMPTY))  &&
-                     !(game_check_move(g, 0, 3, S_ONE)) && !(game_check_move(g, 0, 3, S_ZERO)));
+                     !(game_check_move(g, 0, 3, S_ONE)) && !(game_check_move(g, 0, 3, S_ZERO)) && !(game_check_move(g,0,3, S_IMMUTABLE_ONE)) && (game_check_move(g,0,3,S_IMMUTABLE_ZERO)));
 
   game_set_square(g, 0, 3, S_EMPTY);
   bool empty = (!(game_check_move(g, 0, 3, S_EMPTY)) || (game_check_move(g, 0, 3, S_ONE)) || (game_check_move(g, 0, 3, S_ZERO)));
