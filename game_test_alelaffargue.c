@@ -45,39 +45,132 @@ bool test_game_default_solution(){
 }
 
 bool test_game_get_square(){
-    game g=game_default();
-    game_set_square(g, 0, 0, S_ZERO);
-    if(game_get_square(g, 0, 0) == S_ZERO){
-        game_set_square(g, 0, 0, S_ONE);
-        if(game_get_square(g, 0, 0) == S_ONE){
-            game_set_square(g, 0, 0, S_EMPTY);
-            if(game_get_square(g, 0, 0) == S_EMPTY){
-                game_set_square(g, 0, 0, S_IMMUTABLE_ZERO);
-                if(game_get_square(g, 0, 0) == S_IMMUTABLE_ZERO){
-                    game_set_square(g, 0, 1, S_IMMUTABLE_ONE);
-                    if(game_get_square(g, 0, 1) == S_IMMUTABLE_ONE){
-                        return true;
-                    }else{return false;}
-                }else{return false;}
-            }else{return false;}
-        }else{return false;}
-    }else{return false;}
+    square *square_array = malloc(sizeof(square)*(DEFAULT_SIZE*DEFAULT_SIZE));
+    
+    for(int i = 0; i < 36; i++){
+        square_array[i] = S_EMPTY;
+    }
+    square_array[0] = S_ZERO;
+    square_array[1] = S_ONE;
+    square_array[2] = S_IMMUTABLE_ONE;
+    square_array[3] = S_IMMUTABLE_ZERO;
+    game g = game_new(square_array);
+    if(game_get_square(g, 0, 0) != S_ZERO){return false;}
+    else if(game_get_square(g, 0, 1) != S_ONE){return false;}
+    else if(game_get_square(g, 0, 2) != S_IMMUTABLE_ONE){return false;}
+    else if(game_get_square(g, 0, 3) != S_IMMUTABLE_ZERO){return false;}
+    else if(game_get_square(g, 0, 4) != S_EMPTY){return false;}
+    else{
+        return true;
+    }
+
 }
 
 bool test_game_get_number(){
-    return true;
+    square *square_array = malloc(sizeof(square)*(DEFAULT_SIZE*DEFAULT_SIZE));
+    
+    for(int i = 0; i < 36; i++){
+        square_array[i] = S_EMPTY;
+    }
+    square_array[0] = S_ZERO;
+    square_array[1] = S_ONE;
+    square_array[2] = S_IMMUTABLE_ONE;
+    square_array[3] = S_IMMUTABLE_ZERO;
+    game g = game_new(square_array);
+    if(game_get_number(g, 0, 0) != 0){return false;}
+    else if(game_get_number(g, 0, 1) != 1){return false;}
+    else if(game_get_number(g, 0, 2) != 1){return false;}
+    else if(game_get_number(g, 0, 3) != 0){return false;}
+    else if(game_get_number(g, 0, 4) != -1){return false;}
+    else{
+        return true;
+    }
+
 }
 
 bool test_game_get_next_square(){
-    return true;
+    square *square_array = malloc(sizeof(square)*(DEFAULT_SIZE*DEFAULT_SIZE));
+    for(int i = 0; i < 36; i++){
+        square_array[i] = S_EMPTY;
+    }
+    square_array[0] = S_ZERO;
+    square_array[1] = S_ONE;
+    square_array[2] = S_IMMUTABLE_ONE;
+    square_array[3] = S_IMMUTABLE_ZERO;
+    square_array[12] = S_ONE;
+    
+    game g = game_new(square_array);
+    if(game_get_next_square(g, 1, 0,  UP, 1) != S_ZERO){return false;}
+    else if(game_get_next_square(g, 1, 0,  DOWN, 1) != S_ONE){return false;}
+    else if(game_get_next_square(g, 0, 1,  LEFT, 1) != S_ZERO){return false;}
+    else if(game_get_next_square(g, 0, 1,  RIGHT, 1) != S_IMMUTABLE_ONE){return false;}
+    else if(game_get_next_square(g, 2, 0,  UP, 2) != S_ZERO){return false;}
+    else if(game_get_next_square(g, 0, 0,  DOWN, 2) != S_ONE){return false;}
+    else if(game_get_next_square(g, 0, 5,  LEFT, 2) != S_IMMUTABLE_ZERO){return false;}
+    else if(game_get_next_square(g, 2, 0,  RIGHT, 2) != S_EMPTY){return false;}
+    else{
+        return true;
+    }
 }
 
 bool test_game_get_next_number(){
-    return true;
+    square *square_array = malloc(sizeof(square)*(DEFAULT_SIZE*DEFAULT_SIZE));
+    for(int i = 0; i < 36; i++){
+        square_array[i] = S_EMPTY;
+    }
+    square_array[0] = S_ZERO;
+    square_array[1] = S_ONE;
+    square_array[2] = S_IMMUTABLE_ONE;
+    square_array[3] = S_IMMUTABLE_ZERO;
+    square_array[12] = S_ONE;
+    
+    game g = game_new(square_array);
+    if(game_get_next_number(g, 1, 0,  UP, 1) != 0){return false;}
+    else if(game_get_next_number(g, 1, 0,  DOWN, 1) != 1){return false;}
+    else if(game_get_next_number(g, 0, 1,  LEFT, 1) != 0){return false;}
+    else if(game_get_next_number(g, 0, 1,  RIGHT, 1) != 1){return false;}
+    else if(game_get_next_number(g, 2, 0,  UP, 2) != 0){return false;}
+    else if(game_get_next_number(g, 0, 0,  DOWN, 2) != 1){return false;}
+    else if(game_get_next_number(g, 0, 5,  LEFT, 2) != 0){return false;}
+    else if(game_get_next_number(g, 2, 0,  RIGHT, 2) != -1){return false;}
+    else{
+        return true;
+    }
 }
 
 bool test_game_is_immutable(){
-    return true;
+    square *square_array = malloc(sizeof(square)*(DEFAULT_SIZE*DEFAULT_SIZE));
+    
+    for(int i = 0; i < 36; i++){
+        square_array[i] = S_EMPTY;
+    }
+    square_array[0] = S_ZERO;
+    square_array[1] = S_ONE;
+    square_array[2] = S_IMMUTABLE_ONE;
+    square_array[3] = S_IMMUTABLE_ZERO;
+    square_array[6] = S_IMMUTABLE_ONE;
+    game g = game_new(square_array);
+    if(!game_is_immutable( g, 0, 2)){
+        return false;
+    }
+    else if(!game_is_immutable( g, 0, 3)){
+        return false;
+    }
+    else if(!game_is_immutable( g, 1, 0)){
+        return false;
+    }
+    else if(game_is_immutable( g, 0, 0)){
+        return false;
+    }
+    else if(game_is_immutable( g, 0, 1)){
+        return false;
+    }
+    else if(game_is_immutable( g, 0, 4)){
+        return false;
+    }
+    else {
+        return true;
+    }
 }
 
 
@@ -117,6 +210,9 @@ int main(int argc, char *argv[])
 
     else if (strcmp("game_get_number", argv[1]) == 0){
       ok = test_game_get_number();
+    }
+    else if (strcmp("game_get_next_square", argv[1]) == 0){
+      ok = test_game_get_next_square();
     }
     else if (strcmp("game_get_next_number", argv[1]) == 0){
       ok = test_game_get_next_number();

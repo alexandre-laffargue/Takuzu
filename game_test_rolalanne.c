@@ -21,17 +21,17 @@ bool test_game_print(){
     return true;
 }
 bool test_game_new(){
-    /*game g = game_new(S_EMPTY);
-    for(int i = 0; i <= 5; i++){
-        for(int j = 0; j <= 5; j++){
-            if(game_has_error(g,i,j) != 0){
-                return false;
-            }
+     square *square_array = malloc(sizeof(square)*(DEFAULT_SIZE*DEFAULT_SIZE));
+    
+    for(int i = 0; i < 36; i++){
+        square_array[i] = S_EMPTY;
+    }
+    game g = game_new(square_array);
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; i < 6; i++){
+            if(game_get_square(g, i, j) != S_ZERO && game_get_square(g, i, j) != S_EMPTY && game_get_square(g, i, j) != S_IMMUTABLE_ONE && game_get_square(g, i, j) != S_IMMUTABLE_ZERO && game_get_square(g, i, j) != S_ONE ){return false;}
         }
-    }*/
-
-
-
+    }
     return true;
 }
 bool test_game_new_empty(){

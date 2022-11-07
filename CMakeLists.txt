@@ -35,6 +35,7 @@ add_test(test_alelaffargue_game_set_square ./game_test_alelaffargue game_set_squ
 add_test(test_alelaffargue_game_default_solution ./game_test_alelaffargue game_default_solution)
 add_test(test_alelaffargue_game_get_square ./game_test_alelaffargue game_get_square)
 add_test(test_alelaffargue_game_get_number ./game_test_alelaffargue game_get_number)
+add_test(test_alelaffargue_game_get_next_square ./game_test_alelaffargue game_get_next_square)
 add_test(test_alelaffargue_game_get_next_number ./game_test_alelaffargue game_get_next_number)
 add_test(test_alelaffargue_game_game_is_immutable ./game_test_alelaffargue game_game_is_immutable)
 
