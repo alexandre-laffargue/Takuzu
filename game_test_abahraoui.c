@@ -45,7 +45,7 @@ bool test_game_play_move(){
   }
   for(uint i = 0; i < DEFAULT_SIZE; i++){
     for(uint j = 0; j < DEFAULT_SIZE; j++){
-      if(  game_get_square(g,i,j)!=S_ONE)
+      if(  game_get_square(g,i,j)!=S_ONE && (game_get_square(g,i,j)==S_IMMUTABLE_ONE || game_get_square(g,i,j)==S_IMMUTABLE_ZERO))
        return false;
     }
     }
@@ -56,7 +56,7 @@ bool test_game_play_move(){
   }
   for(uint i = 0; i < DEFAULT_SIZE; i++){
     for(uint j = 0; j < DEFAULT_SIZE; j++){
-      if(  game_get_square(g,i,j)!=S_EMPTY)
+      if(  game_get_square(g,i,j)!=S_EMPTY && (game_get_square(g,i,j)==S_IMMUTABLE_ONE || game_get_square(g,i,j)==S_IMMUTABLE_ZERO))
        return false;
     }
     }
@@ -67,7 +67,7 @@ bool test_game_play_move(){
   }
   for(uint i = 0; i < DEFAULT_SIZE; i++){
     for(uint j = 0; j < DEFAULT_SIZE; j++){
-      if(game_get_square(g,i,j)!=S_ZERO)
+      if(game_get_square(g,i,j)!=S_ZERO && (game_get_square(g,i,j)==S_IMMUTABLE_ONE || game_get_square(g,i,j)==S_IMMUTABLE_ZERO)) 
        return false;
     }
   }
