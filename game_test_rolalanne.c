@@ -61,7 +61,8 @@ bool test_game_equal(){
         for(int i = 0; i <= 5; i++){
             for(int j = 0; j <= 5; j++){
                 if(game_get_square(g,i,j) != game_get_square(copy,i,j) ||
-                 game_get_number(g,i,j) != game_get_number(copy,i,j)){
+                 game_get_number(g,i,j) != game_get_number(copy,i,j) ||
+                 game_is_immutable(g,i,j) != game_is_immutable(copy,i,j)){
                     return false;
                 }
             }
@@ -70,7 +71,8 @@ bool test_game_equal(){
         for(int i = 0; i <= 5; i++){
             for(int j = 0; j <= 5; j++){
                 if(game_get_square(g,i,j) != game_get_square(copy,i,j)||
-                 game_get_number(g,i,j) != game_get_number(copy,i,j)){
+                 game_get_number(g,i,j) != game_get_number(copy,i,j)||
+                 game_is_immutable(g,i,j) != game_is_immutable(copy,i,j)){
                     return true;
                 }
             }
