@@ -56,15 +56,26 @@ bool test_game_copy(){
 bool test_game_equal(){
     game g = game_default();
     game copy = game_copy(g);
-    game empty = game_new_empty();
-    game solution = game_default_solution();
-    if(game_equal(g,copy) == true && game_equal(g,empty) == false && 
-    game_equal(copy,solution) == false && game_equal(copy,g) == true &&
-     game_equal(solution,copy) == false){
-        return true;
-     }
-     return false;
-    
+    bool test = game_equal(g,copy);
+    if(test == true){
+        for(int i = 0; i <= 5; i++){
+            for(int j = 0; j <= 5; j++){
+                if(game_get_square(g,i,j) != game_get_square(copy,i,j)){
+                    return false;
+                }
+            }
+        }
+    }else{
+        for(int i = 0; i <= 5; i++){
+            for(int j = 0; j <= 5; j++){
+                if(game_get_square(g,i,j) != game_get_square(copy,i,j)){
+                    return true;
+                }
+            }
+        }
+        
+    }
+    return true;
 }
 bool test_game_delete(){
     game g = game_default();
