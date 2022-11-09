@@ -55,12 +55,12 @@ bool test_game_copy(){
 }
 bool test_game_equal(){
     game g = game_default();
-    game copy = game_copy(g);
+    game copy = game_new_empty();
     bool test = game_equal(g,copy);
     if(test == true){
         for(int i = 0; i <= 5; i++){
             for(int j = 0; j <= 5; j++){
-                if(game_get_square(g,i,j) != game_get_square(copy,i,j) &&
+                if(game_get_square(g,i,j) != game_get_square(copy,i,j) ||
                  game_get_number(g,i,j) != game_get_number(copy,i,j)){
                     return false;
                 }
@@ -69,7 +69,7 @@ bool test_game_equal(){
     }else{
         for(int i = 0; i <= 5; i++){
             for(int j = 0; j <= 5; j++){
-                if(game_get_square(g,i,j) != game_get_square(copy,i,j)&&
+                if(game_get_square(g,i,j) != game_get_square(copy,i,j)||
                  game_get_number(g,i,j) != game_get_number(copy,i,j)){
                     return true;
                 }
