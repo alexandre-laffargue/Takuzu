@@ -21,8 +21,13 @@ void usage(int argc, char *argv[])
 
 bool test_game_is_empty(){
   game g = game_new_empty();
-  game_set_square(g, 0,0,S_EMPTY);
-  if(game_is_empty(g,0,0)==true){
+  game_set_square(g,0,0,S_EMPTY);
+  game_set_square(g,1,1,S_ZERO);
+  game_set_square(g,3,4,S_ONE);
+  game_set_square(g,2,1,S_IMMUTABLE_ONE);
+  game_set_square(g,2,2,S_IMMUTABLE_ZERO);
+  if (game_is_empty(g,1,1)==false && game_is_empty(g,3,4)==false && game_is_empty(g,2,1)==false && game_is_empty(g,2,2)==false && game_is_empty(g,0,0)==true)
+  {
     game_delete(g);
     return true;
   }
@@ -31,6 +36,7 @@ bool test_game_is_empty(){
     return false;
   }
 }
+
 
 
 bool test_game_play_move(){
