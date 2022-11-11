@@ -35,6 +35,7 @@ bool test_game_is_empty(){
     game_delete(g);
     return false;
   }
+  
 }
 
 
