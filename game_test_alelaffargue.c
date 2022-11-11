@@ -54,6 +54,7 @@ bool test_game_get_square(){
     square_array[2] = S_IMMUTABLE_ONE;
     square_array[3] = S_IMMUTABLE_ZERO;
     game g = game_new(square_array);
+    free(square_array);
     if(game_get_square(g, 0, 0) != S_ZERO){return false;}
     else if(game_get_square(g, 0, 1) != S_ONE){return false;}
     else if(game_get_square(g, 0, 2) != S_IMMUTABLE_ONE){return false;}
@@ -62,7 +63,6 @@ bool test_game_get_square(){
     else{
         return true;
     }
-
 }
 
 bool test_game_get_number(){
@@ -76,6 +76,7 @@ bool test_game_get_number(){
     square_array[2] = S_IMMUTABLE_ONE;
     square_array[3] = S_IMMUTABLE_ZERO;
     game g = game_new(square_array);
+    free(square_array);
     if(game_get_number(g, 0, 0) != 0){return false;}
     else if(game_get_number(g, 0, 1) != 1){return false;}
     else if(game_get_number(g, 0, 2) != 1){return false;}
@@ -99,6 +100,7 @@ bool test_game_get_next_square(){
     square_array[12] = S_ONE;
     
     game g = game_new(square_array);
+    free(square_array);
     if(game_get_next_square(g, 1, 0,  UP, 1) != S_ZERO){return false;}
     else if(game_get_next_square(g, 1, 0,  DOWN, 1) != S_ONE){return false;}
     else if(game_get_next_square(g, 0, 1,  LEFT, 1) != S_ZERO){return false;}
@@ -124,14 +126,15 @@ bool test_game_get_next_number(){
     square_array[12] = S_ONE;
     
     game g = game_new(square_array);
-    if(game_get_next_number(g, 1, 0,  UP, 1) != 0){return false;}
-    else if(game_get_next_number(g, 1, 0,  DOWN, 1) != 1){return false;}
-    else if(game_get_next_number(g, 0, 1,  LEFT, 1) != 0){return false;}
-    else if(game_get_next_number(g, 0, 1,  RIGHT, 1) != 1){return false;}
-    else if(game_get_next_number(g, 2, 0,  UP, 2) != 0){return false;}
-    else if(game_get_next_number(g, 0, 0,  DOWN, 2) != 1){return false;}
-    else if(game_get_next_number(g, 0, 5,  LEFT, 2) != 0){return false;}
-    else if(game_get_next_number(g, 2, 0,  RIGHT, 2) != -1){return false;}
+    free(square_array);
+    if(game_get_next_number(g, 1, 0,  UP, 1) != 0){return false;} //case valant S_ZERO
+    else if(game_get_next_number(g, 1, 0,  DOWN, 1) != 1){return false;} //case valant S_ONE
+    else if(game_get_next_number(g, 0, 1,  LEFT, 1) != 0){return false;} //case valant S_ZERO
+    else if(game_get_next_number(g, 0, 1,  RIGHT, 1) != 1){return false;} //case valant S_IMMUTABLE_ONE
+    else if(game_get_next_number(g, 2, 0,  UP, 2) != 0){return false;} //case valant S_ZERO
+    else if(game_get_next_number(g, 0, 0,  DOWN, 2) != 1){return false;} //case valant S_ONE
+    else if(game_get_next_number(g, 0, 5,  LEFT, 2) != 0){return false;} //case valant S_IMMUTABLE_ZERO
+    else if(game_get_next_number(g, 2, 0,  RIGHT, 2) != -1){return false;} //case valant S_EMPTY
     else{
         return true;
     }
@@ -149,24 +152,13 @@ bool test_game_is_immutable(){
     square_array[3] = S_IMMUTABLE_ZERO;
     square_array[6] = S_IMMUTABLE_ONE;
     game g = game_new(square_array);
-    if(!game_is_immutable( g, 0, 2)){
-        return false;
-    }
-    else if(!game_is_immutable( g, 0, 3)){
-        return false;
-    }
-    else if(!game_is_immutable( g, 1, 0)){
-        return false;
-    }
-    else if(game_is_immutable( g, 0, 0)){
-        return false;
-    }
-    else if(game_is_immutable( g, 0, 1)){
-        return false;
-    }
-    else if(game_is_immutable( g, 0, 4)){
-        return false;
-    }
+    free(square_array);
+    if(!game_is_immutable( g, 0, 2)){return false;} // case valant S_IMMUTABLE_ONE
+    else if(!game_is_immutable( g, 0, 3)){return false;} // case valant S_IMMUTABLE_ZERO
+    else if(!game_is_immutable( g, 1, 0)){return false;} // case valant S_IMMUTABLE_ONE
+    else if(game_is_immutable( g, 0, 0)){return false;} // case valant S_ZERO
+    else if(game_is_immutable( g, 0, 1)){return false;} // case valant S_ONE
+    else if(game_is_immutable( g, 0, 4)){return false;} // case valant S_EMPTY
     else {
         return true;
     }
