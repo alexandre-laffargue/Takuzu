@@ -21,8 +21,8 @@ void usage(int argc, char *argv[])
 
 bool test_game_is_empty(){
   game g = game_new_empty();
-  game_set_square(g, 0,0,S_ONE);
-  if(game_is_empty(g,0,0)==false){
+  game_set_square(g, 0,0,S_EMPTY);
+  if(game_is_empty(g,0,0)==true){
     game_delete(g);
     return true;
   }
