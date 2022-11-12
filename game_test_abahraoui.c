@@ -91,15 +91,58 @@ bool test_game_restart(){
 }
 
 bool test_game_is_over(){
+  game g3 = game_new_empty();
+game_set_square(g3, 0, 0, S_ZERO);
+game_set_square(g3, 0, 1, S_ZERO);
+game_set_square(g3, 0, 2, S_ZERO);
+game_set_square(g3, 0, 3, S_ONE);
+game_set_square(g3, 0, 4, S_ONE);
+game_set_square(g3, 0, 5, S_ONE);
+
+game_set_square(g3, 1, 0, S_ONE);
+game_set_square(g3, 1, 1, S_ZERO);
+game_set_square(g3, 1, 2, S_ZERO);
+game_set_square(g3, 1, 3, S_ZERO);
+game_set_square(g3, 1, 4, S_ONE);
+game_set_square(g3, 1, 5, S_ONE);
+
+game_set_square(g3, 2, 0, S_ONE);
+game_set_square(g3, 2, 1, S_ONE);
+game_set_square(g3, 2, 2, S_ZERO);
+game_set_square(g3, 2, 3, S_ZERO);
+game_set_square(g3, 2, 4, S_ZERO);
+game_set_square(g3, 2, 5, S_ONE);
+
+game_set_square(g3, 3, 0, S_ONE);
+game_set_square(g3, 3, 1, S_ONE);
+game_set_square(g3, 3, 2, S_ONE);
+game_set_square(g3, 3, 3, S_ZERO);
+game_set_square(g3, 3, 4, S_ZERO);
+game_set_square(g3, 3, 5, S_ZERO);
+
+game_set_square(g3, 4, 0, S_ZERO);
+game_set_square(g3, 4, 1, S_ONE);
+game_set_square(g3, 4, 2, S_ONE);
+game_set_square(g3, 4, 3, S_ONE);
+game_set_square(g3, 4, 4, S_ZERO);
+game_set_square(g3, 4, 5, S_ZERO);
+
+game_set_square(g3, 5, 0, S_ZERO);
+game_set_square(g3, 5, 1, S_ZERO);
+game_set_square(g3, 5, 2, S_ONE);
+game_set_square(g3, 5, 3, S_ONE);
+game_set_square(g3, 5, 4, S_ONE);
+game_set_square(g3, 5, 5, S_ZERO);
   game over = game_default_solution();
   game unmodified = game_default();
   game error = game_default_solution();
   game_play_move(error, 3, 4, S_ONE);
-  bool test = (!(game_is_over(unmodified)) && (game_is_over(over)) && !(game_is_over(error)));
+  bool test = (!(game_is_over(unmodified)) && (game_is_over(over)) && !(game_is_over(error)) && !(game_is_over(g3)));
 
   game_delete(over);
   game_delete(unmodified);
   game_delete(error);
+  game_delete(g3);
   return test;
 }
 
