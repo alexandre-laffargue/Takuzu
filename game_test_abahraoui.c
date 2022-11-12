@@ -104,7 +104,31 @@ bool test_game_is_over(){
 }
 
 bool test_game_check_move() {
-  return true;
+  game g = game_new_empty();
+
+  game_set_square(g, 0, 3, S_IMMUTABLE_ONE);
+  bool test_immutable = (!(game_check_move(g, 0, 3, S_EMPTY))  &&
+                     !(game_check_move(g, 0, 3, S_ONE)) && !(game_check_move(g, 0, 3, S_ZERO)));
+
+  game_set_square(g, 0, 3, S_IMMUTABLE_ZERO);
+  bool test_immutable0 = (!(game_check_move(g, 0, 3, S_EMPTY))  &&
+                     !(game_check_move(g, 0, 3, S_ONE)) && !(game_check_move(g, 0, 3, S_ZERO)));
+
+  game_set_square(g, 0, 3, S_EMPTY);
+  bool empty = ((game_check_move(g, 0, 3, S_EMPTY)) && (game_check_move(g, 0, 3, S_ONE)) && (game_check_move(g, 0, 3, S_ZERO)));
+
+  game_set_square(g, 0, 4, S_ZERO);
+  bool zero = ((game_check_move(g, 0, 4, S_ONE)) && (game_check_move(g, 0, 4, S_ZERO)) && (game_check_move(g, 0, 4, S_EMPTY)));
+
+  game_set_square(g, 0, 5, S_ONE);
+  bool one = ((game_check_move(g, 0, 5, S_ONE)) && (game_check_move(g, 0, 5, S_ZERO)) && (game_check_move(g, 0, 5, S_EMPTY)));
+
+  
+  
+
+  game_delete(g);
+  return (test_immutable && test_immutable0 && empty && zero && one);
+  
 }
 
 
