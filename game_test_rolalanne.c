@@ -61,32 +61,24 @@ bool test_game_copy(){
     
     
 }
+
 bool test_game_equal(){
-    game g = game_default();
-    game copy = game_new_empty();
-    bool test = game_equal(g,copy);
-    if(test == true){
-        for(int i = 0; i <= DEFAULT_SIZE; i++){
-            for(int j = 0; j <= DEFAULT_SIZE; j++){
-                if(game_get_square(g,i,j) != game_get_square(copy,i,j) ||
-                 game_get_number(g,i,j) != game_get_number(copy,i,j) ||
-                 game_is_immutable(g,i,j) != game_is_immutable(copy,i,j)){
-                    return false;
-                }
-            }
-        }
-    }else{
-        for(int i = 0; i <= DEFAULT_SIZE; i++){
-            for(int j = 0; j <= DEFAULT_SIZE; j++){
-                if(game_get_square(g,i,j) != game_get_square(copy,i,j)||
-                 game_get_number(g,i,j) != game_get_number(copy,i,j)||
-                 game_is_immutable(g,i,j) != game_is_immutable(copy,i,j)){
-                    return true;
-                }
-            }
-        }
-        
-    }
+    game g = game_new_empty();
+    game dif = game_new_empty();
+    game_set_square(g,0,0,S_EMPTY);
+    game_set_square(g,1,1,S_ZERO);
+    game_set_square(g,3,4,S_ONE);
+    game_set_square(g,2,1,S_IMMUTABLE_ONE);
+    game_set_square(g,2,2,S_IMMUTABLE_ZERO);
+    game copy = game_copy(g);
+    game difstate = game_copy(g);
+    game_set_square(difstate,1,1,S_IMMUTABLE_ZERO);
+    game_set_square(difstate,3,4,S_IMMUTABLE_ONE);
+
+    if(game_equal(g,dif)){return false;}
+    else if(!game_equal(g,copy)){return false;}
+    else if(game_equal(g,difstate)){return false;}
+
     return true;
 }
 bool test_game_delete(){
