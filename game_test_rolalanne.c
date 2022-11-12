@@ -49,10 +49,15 @@ bool test_game_new_empty(){
 bool test_game_copy(){
     game g = game_default();
     game copy = game_copy(g);
-    if(&g != &copy){
-    return game_equal(g,copy);
+    if(game_equal(g,copy) == false){
+        return false;
     }
-    return false;
+    game_play_move(g,0,0,S_ZERO);
+    if(game_get_square(copy,0,0) == S_ZERO){
+        return false;
+    }
+    return true;
+
     
     
 }
