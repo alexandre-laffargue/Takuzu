@@ -17,18 +17,19 @@ bool test_game_set_square(){
     game g=game_default();
     game_set_square(g, 1, 0, S_ONE);
     if(game_get_square(g, 1, 0) != S_ONE 
-    && game_get_square(g, 0, 1) != S_EMPTY){return false;}
+    && game_get_square(g, 0, 1) != S_EMPTY){game_delete(g);return false;}
 
     game_set_square(g, 0, 0, S_ZERO);
-    if(game_get_square(g, 0, 0) != S_ZERO){return false;}
+    if(game_get_square(g, 0, 0) != S_ZERO){game_delete(g);return false;}
     game_set_square(g, 0, 0, S_ONE);
-    if(game_get_square(g, 0, 0) != S_ONE){return false;}
+    if(game_get_square(g, 0, 0) != S_ONE){game_delete(g);return false;}
     game_set_square(g, 0, 0, S_EMPTY);
-    if(game_get_square(g, 0, 0) != S_EMPTY){return false;}
+    if(game_get_square(g, 0, 0) != S_EMPTY){game_delete(g);return false;}
     game_set_square(g, 0, 0, S_IMMUTABLE_ZERO);
-    if(game_get_square(g, 0, 0) != S_IMMUTABLE_ZERO){return false;}
+    if(game_get_square(g, 0, 0) != S_IMMUTABLE_ZERO){game_delete(g);return false;}
     game_set_square(g, 0, 1, S_IMMUTABLE_ONE);
-    if(game_get_square(g, 0, 1) != S_IMMUTABLE_ONE){return false;}
+    if(game_get_square(g, 0, 1) != S_IMMUTABLE_ONE){game_delete(g);return false;}
+    game_delete(g);
     return true;
 }
 
@@ -36,9 +37,11 @@ bool test_game_default_solution(){
     
     game g = game_default_solution();
     if(game_is_over(g)){
+        game_delete(g);
         return true;
     }
     else{
+        game_delete(g);
         return false;
     }
 }
@@ -55,12 +58,13 @@ bool test_game_get_square(){
     square_array[3] = S_IMMUTABLE_ZERO;
     game g = game_new(square_array);
     free(square_array);
-    if(game_get_square(g, 0, 0) != S_ZERO){return false;}
-    else if(game_get_square(g, 0, 1) != S_ONE){return false;}
-    else if(game_get_square(g, 0, 2) != S_IMMUTABLE_ONE){return false;}
-    else if(game_get_square(g, 0, 3) != S_IMMUTABLE_ZERO){return false;}
-    else if(game_get_square(g, 0, 4) != S_EMPTY){return false;}
+    if(game_get_square(g, 0, 0) != S_ZERO){game_delete(g);return false;}
+    else if(game_get_square(g, 0, 1) != S_ONE){game_delete(g);return false;}
+    else if(game_get_square(g, 0, 2) != S_IMMUTABLE_ONE){game_delete(g);return false;}
+    else if(game_get_square(g, 0, 3) != S_IMMUTABLE_ZERO){game_delete(g);return false;}
+    else if(game_get_square(g, 0, 4) != S_EMPTY){game_delete(g);return false;}
     else{
+        game_delete(g);
         return true;
     }
 }
@@ -77,12 +81,13 @@ bool test_game_get_number(){
     square_array[3] = S_IMMUTABLE_ZERO;
     game g = game_new(square_array);
     free(square_array);
-    if(game_get_number(g, 0, 0) != 0){return false;}
-    else if(game_get_number(g, 0, 1) != 1){return false;}
-    else if(game_get_number(g, 0, 2) != 1){return false;}
-    else if(game_get_number(g, 0, 3) != 0){return false;}
-    else if(game_get_number(g, 0, 4) != -1){return false;}
+    if(game_get_number(g, 0, 0) != 0){game_delete(g);return false;}
+    else if(game_get_number(g, 0, 1) != 1){game_delete(g);return false;}
+    else if(game_get_number(g, 0, 2) != 1){game_delete(g);return false;}
+    else if(game_get_number(g, 0, 3) != 0){game_delete(g);return false;}
+    else if(game_get_number(g, 0, 4) != -1){game_delete(g);return false;}
     else{
+        game_delete(g);
         return true;
     }
 
@@ -101,15 +106,16 @@ bool test_game_get_next_square(){
     
     game g = game_new(square_array);
     free(square_array);
-    if(game_get_next_square(g, 1, 0,  UP, 1) != S_ZERO){return false;}
-    else if(game_get_next_square(g, 1, 0,  DOWN, 1) != S_ONE){return false;}
-    else if(game_get_next_square(g, 0, 1,  LEFT, 1) != S_ZERO){return false;}
-    else if(game_get_next_square(g, 0, 1,  RIGHT, 1) != S_IMMUTABLE_ONE){return false;}
-    else if(game_get_next_square(g, 2, 0,  UP, 2) != S_ZERO){return false;}
-    else if(game_get_next_square(g, 0, 0,  DOWN, 2) != S_ONE){return false;}
-    else if(game_get_next_square(g, 0, 5,  LEFT, 2) != S_IMMUTABLE_ZERO){return false;}
-    else if(game_get_next_square(g, 2, 0,  RIGHT, 2) != S_EMPTY){return false;}
+    if(game_get_next_square(g, 1, 0,  UP, 1) != S_ZERO){game_delete(g);return false;}
+    else if(game_get_next_square(g, 1, 0,  DOWN, 1) != S_ONE){game_delete(g);return false;}
+    else if(game_get_next_square(g, 0, 1,  LEFT, 1) != S_ZERO){game_delete(g);return false;}
+    else if(game_get_next_square(g, 0, 1,  RIGHT, 1) != S_IMMUTABLE_ONE){game_delete(g);return false;}
+    else if(game_get_next_square(g, 2, 0,  UP, 2) != S_ZERO){game_delete(g);return false;}
+    else if(game_get_next_square(g, 0, 0,  DOWN, 2) != S_ONE){game_delete(g);return false;}
+    else if(game_get_next_square(g, 0, 5,  LEFT, 2) != S_IMMUTABLE_ZERO){game_delete(g);return false;}
+    else if(game_get_next_square(g, 2, 0,  RIGHT, 2) != S_EMPTY){game_delete(g);return false;}
     else{
+        game_delete(g);
         return true;
     }
 }
@@ -127,15 +133,16 @@ bool test_game_get_next_number(){
     
     game g = game_new(square_array);
     free(square_array);
-    if(game_get_next_number(g, 1, 0,  UP, 1) != 0){return false;} //case valant S_ZERO
-    else if(game_get_next_number(g, 1, 0,  DOWN, 1) != 1){return false;} //case valant S_ONE
-    else if(game_get_next_number(g, 0, 1,  LEFT, 1) != 0){return false;} //case valant S_ZERO
-    else if(game_get_next_number(g, 0, 1,  RIGHT, 1) != 1){return false;} //case valant S_IMMUTABLE_ONE
-    else if(game_get_next_number(g, 2, 0,  UP, 2) != 0){return false;} //case valant S_ZERO
-    else if(game_get_next_number(g, 0, 0,  DOWN, 2) != 1){return false;} //case valant S_ONE
-    else if(game_get_next_number(g, 0, 5,  LEFT, 2) != 0){return false;} //case valant S_IMMUTABLE_ZERO
-    else if(game_get_next_number(g, 2, 0,  RIGHT, 2) != -1){return false;} //case valant S_EMPTY
+    if(game_get_next_number(g, 1, 0,  UP, 1) != 0){game_delete(g);return false;} //case valant S_ZERO
+    else if(game_get_next_number(g, 1, 0,  DOWN, 1) != 1){game_delete(g);return false;} //case valant S_ONE
+    else if(game_get_next_number(g, 0, 1,  LEFT, 1) != 0){game_delete(g);return false;} //case valant S_ZERO
+    else if(game_get_next_number(g, 0, 1,  RIGHT, 1) != 1){game_delete(g);return false;} //case valant S_IMMUTABLE_ONE
+    else if(game_get_next_number(g, 2, 0,  UP, 2) != 0){game_delete(g);return false;} //case valant S_ZERO
+    else if(game_get_next_number(g, 0, 0,  DOWN, 2) != 1){game_delete(g);return false;} //case valant S_ONE
+    else if(game_get_next_number(g, 0, 5,  LEFT, 2) != 0){game_delete(g);return false;} //case valant S_IMMUTABLE_ZERO
+    else if(game_get_next_number(g, 2, 0,  RIGHT, 2) != -1){game_delete(g);return false;} //case valant S_EMPTY
     else{
+        game_delete(g);
         return true;
     }
 }
@@ -153,13 +160,14 @@ bool test_game_is_immutable(){
     square_array[6] = S_IMMUTABLE_ONE;
     game g = game_new(square_array);
     free(square_array);
-    if(!game_is_immutable( g, 0, 2)){return false;} // case valant S_IMMUTABLE_ONE
-    else if(!game_is_immutable( g, 0, 3)){return false;} // case valant S_IMMUTABLE_ZERO
-    else if(!game_is_immutable( g, 1, 0)){return false;} // case valant S_IMMUTABLE_ONE
-    else if(game_is_immutable( g, 0, 0)){return false;} // case valant S_ZERO
-    else if(game_is_immutable( g, 0, 1)){return false;} // case valant S_ONE
-    else if(game_is_immutable( g, 0, 4)){return false;} // case valant S_EMPTY
+    if(!game_is_immutable( g, 0, 2)){game_delete(g);return false;} // case valant S_IMMUTABLE_ONE
+    else if(!game_is_immutable( g, 0, 3)){game_delete(g);return false;} // case valant S_IMMUTABLE_ZERO
+    else if(!game_is_immutable( g, 1, 0)){game_delete(g);return false;} // case valant S_IMMUTABLE_ONE
+    else if(game_is_immutable( g, 0, 0)){game_delete(g);return false;} // case valant S_ZERO
+    else if(game_is_immutable( g, 0, 1)){game_delete(g);return false;} // case valant S_ONE
+    else if(game_is_immutable( g, 0, 4)){game_delete(g);return false;} // case valant S_EMPTY
     else {
+        game_delete(g);
         return true;
     }
 }

@@ -18,6 +18,7 @@ bool test_dummy(){
 bool test_game_print(){
     game g = game_default();
     game_print(g);
+    game_delete(g);
     return true;
 }
 bool test_game_new(){
@@ -32,6 +33,7 @@ bool test_game_new(){
             if(game_get_square(g, i, j) != S_ZERO && game_get_square(g, i, j) != S_EMPTY && game_get_square(g, i, j) != S_IMMUTABLE_ONE && game_get_square(g, i, j) != S_IMMUTABLE_ZERO && game_get_square(g, i, j) != S_ONE ){return false;}
         }
     }
+    game_delete(g);
     return true;
 }
 bool test_game_new_empty(){
@@ -40,22 +42,30 @@ bool test_game_new_empty(){
         for(int j = 0; j <= 5; j++){
             square tmp = game_get_square(g,i,j);
             if(tmp != S_EMPTY){
+                game_delete(g);
                 return false;
             }
         }
     }
+    game_delete(g);
     return true;
 }
 bool test_game_copy(){
     game g = game_default();
     game copy = game_copy(g);
     if(game_equal(g,copy) == false){
+        game_delete(g);
+        game_delete(copy);
         return false;
     }
     game_play_move(g,0,0,S_ZERO);
     if(game_get_square(copy,0,0) == S_ZERO){
+        game_delete(g);
+        game_delete(copy);
         return false;
     }
+    game_delete(g);
+    game_delete(copy);
     return true;
 
     
@@ -75,10 +85,29 @@ bool test_game_equal(){
     game_set_square(difstate,1,1,S_IMMUTABLE_ZERO);
     game_set_square(difstate,3,4,S_IMMUTABLE_ONE);
 
-    if(game_equal(g,dif)){return false;}
-    else if(!game_equal(g,copy)){return false;}
-    else if(game_equal(g,difstate)){return false;}
+    if(game_equal(g,dif)){
+        game_delete(g);
+        game_delete(dif);
+        game_delete(copy);
+        game_delete(difstate);
+        return false;}
+    else if(!game_equal(g,copy)){
+        game_delete(g);
+        game_delete(dif);
+        game_delete(copy);
+        game_delete(difstate);
+        return false;}
+    else if(game_equal(g,difstate)){
+        game_delete(g);
+        game_delete(dif);
+        game_delete(copy);
+        game_delete(difstate);
+        return false;}
 
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
     return true;
 }
 bool test_game_delete(){
@@ -94,6 +123,7 @@ bool test_game_default(){
            if((i == 0 && j == 1) || (i == 3 && j == 2) || (i == 4 && j == 2))
                 {
                     if(game_get_square(g,i,j) != S_IMMUTABLE_ONE){
+                        game_delete(g);
                         return false;
                     }
                 }
@@ -101,11 +131,13 @@ bool test_game_default(){
             || (i == 4 && j == 5) || (i == 5 && j == 5))
                 {
                     if(game_get_square(g,i,j) != S_IMMUTABLE_ZERO){
+                        game_delete(g);
                         return false;
                     }
                 }
             else{
                 if(game_get_square(g,i,j) != S_EMPTY){
+                    game_delete(g);
                     return false;
                 }
             }
@@ -113,6 +145,7 @@ bool test_game_default(){
            
         }
     }
+    game_delete(g);
 
     return true;
 }
