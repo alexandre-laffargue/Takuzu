@@ -41,7 +41,8 @@ bool test_game_is_empty(){
 
 
 bool test_game_play_move(){
-  game g = game_new_empty();
+ game g = game_new_empty();
+  game g2 = game_default();
 
   game_set_square(g,0,0,S_EMPTY);
   game_set_square(g,1,1,S_ZERO);
@@ -53,16 +54,19 @@ bool test_game_play_move(){
   game_play_move(g,0,0,S_ONE);
   game_play_move(g,1,1,S_ONE);
   game_play_move(g,3,3,S_EMPTY);
+  game_play_move(g2,0,0,S_ONE);
   //game_play_move(g,1,2,S_EMPTY);
   //game_play_move(g,1,3,S_EMPTY);
 
 
-  if(game_get_square(g,0,0)!=S_ONE){game_delete(g);;return false;} 
-  else if(game_get_square(g,1,1)!=S_ONE){game_delete(g);return false;} 
-  else if(game_get_square(g,3,3)!=S_EMPTY){game_delete(g);return false;} 
+  if(game_get_square(g,0,0)!=S_ONE){game_delete(g2);game_delete(g);return false;} 
+  else if(game_get_square(g,1,1)!=S_ONE){game_delete(g2);game_delete(g);return false;} 
+  else if(game_get_square(g,3,3)!=S_EMPTY){game_delete(g2);game_delete(g);return false;}
+  else if(game_get_square(g2,0,0)!=S_ONE){game_delete(g2);game_delete(g);return false;}
   //else if(game_get_square(g,1,2)!=S_IMMUTABLE_ONE){game_delete(g);return false;} 
   //else if(game_get_square(g,1,3)!=S_IMMUTABLE_ZERO){game_delete(g);return false;}
   game_delete(g);
+  game_delete(g2);
   return true;
 
   
