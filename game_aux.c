@@ -10,11 +10,9 @@
 void game_print(cgame g) {}
 
 game game_default(void) {
-  game a;
-  return a;
+  return NULL;
 }
 
 game game_default_solution(void) {
-  game a;
-  return a;
+  return NULL;
 }

@@ -25,8 +25,7 @@ void game_delete(game g) {}
 void game_set_square(game g, uint i, uint j, square s) {}
 
 square game_get_square(cgame g, uint i, uint j) {
-  square a = S_ZERO;
-  return a;
+  return S_EMPTY;
 }
 
 int game_get_number(cgame g, uint i, uint j) { return -1; }
