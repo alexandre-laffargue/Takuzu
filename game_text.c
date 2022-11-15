@@ -46,22 +46,18 @@ int main() {
       if (game_check_move(g, i, j, S_ZERO)) {
         game_play_move(g, i, j, S_ZERO);
       }
+    } else if (c == 'b') {
+      if (game_check_move(g, i, j, S_ONE)) {
+        game_play_move(g, i, j, S_ONE);
+      }
+    } else if (c == 'e') {
+      if (game_check_move(g, i, j, S_EMPTY)) {
+        game_play_move(g, i, j, S_EMPTY);
+      }
     }
   }
-}
-else if (c == 'b') {
-  if (game_check_move(g, i, j, S_ONE)) {
-    game_play_move(g, i, j, S_ONE);
-  }
-}
-else if (c == 'e') {
-  if (game_check_move(g, i, j, S_EMPTY)) {
-    game_play_move(g, i, j, S_EMPTY);
-  }
-}
-}
-game_print(g);
-printf("congratulation\n");
-game_delete(g);
-return EXIT_SUCCESS;
+  game_print(g);
+  printf("congratulation\n");
+  game_delete(g);
+  return EXIT_SUCCESS;
 }
