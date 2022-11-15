@@ -8,20 +8,20 @@ enable_testing()
 
 set(CMAKE_C_FLAGS "-std=c99 -g -Wall")
 link_directories(${CMAKE_SOURCE_DIR})
-add_library(libgame game_text.c)
+add_library(game game.c game_aux.c)
 add_executable(game_text game_text.c)
-target_link_libraries(game_text game libgame)
+target_link_libraries(game_text game )
 
 
 
 add_executable(game_test_abahraoui game_test_abahraoui.c)
-target_link_libraries(game_test_abahraoui game libgame)
+target_link_libraries(game_test_abahraoui game )
 
 add_executable(game_test_alelaffargue game_test_alelaffargue.c)
-target_link_libraries(game_test_alelaffargue game libgame)
+target_link_libraries(game_test_alelaffargue game )
 
 add_executable(game_test_rolalanne game_test_rolalanne.c)
-target_link_libraries(game_test_rolalanne game libgame)
+target_link_libraries(game_test_rolalanne game )
 
 add_test(test_abahraoui_game_is_empty ./game_test_abahraoui game_is_empty)
 add_test(test_abahraoui_game_play_move ./game_test_abahraoui game_play_move)
