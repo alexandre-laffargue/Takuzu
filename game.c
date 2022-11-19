@@ -128,7 +128,15 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
 
 bool game_is_empty(cgame g, uint i, uint j) { return NULL; }
 
-bool game_is_immutable(cgame g, uint i, uint j) { return NULL; }
+bool game_is_immutable(cgame g, uint i, uint j) {
+  if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+    exit(EXIT_FAILURE);
+  }
+  square sq = game_get_square(g, i, j);
+  if(sq == S_IMMUTABLE_ONE || sq == S_IMMUTABLE_ZERO) {
+    return true;
+  } else { return false; }
+}
 
 int game_has_error(cgame g, uint i, uint j) { return -1; }
 
