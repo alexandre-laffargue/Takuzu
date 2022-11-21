@@ -30,9 +30,36 @@ game game_new(square* squares) { return NULL; }
 
 game game_new_empty(void) { return NULL; }
 
-game game_copy(cgame g) { return NULL; }
+game game_copy(cgame g) {
+  if( g == NULL){
+    exit(EXIT_FAILURE);
+  }
+  game copy;
+  copy = malloc(sizeof(game));
+  if(copy == NULL){
+    exit(EXIT_FAILURE);
+  }
+  copy->size = g->size;
+  copy->square_array = g->square_array;
 
-bool game_equal(cgame g1, cgame g2) { return NULL; }
+  return copy;
+
+
+}
+
+bool game_equal(cgame g1, cgame g2) {
+   if(g1 == NULL || g2 == NULL ){
+    exit(EXIT_FAILURE);
+  }
+  for(int i = 0; i < DEFAULT_SIZE; i++){
+    for( int j = 0; j < DEFAULT_SIZE ; i++){
+      if(game_get_square(g1,i,j) != game_get_square(g2,i,j)){
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 void game_delete(game g) {}
 
