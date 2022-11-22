@@ -27,6 +27,9 @@ void *memory_alloc(uint size)
 }
 
 game game_new(square* squares) {
+  if(squares == NULL ){
+    exit(EXIT_FAILURE);
+  }
   game new;
   new = memory_alloc(sizeof(game));
   new->square_array = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE) * sizeof(square));
@@ -46,7 +49,7 @@ game game_new_empty(void) {
   g->square_array = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE) * sizeof(square));
 
 
-  square sq[DEFAULT_SIZE*DEFAULT_SIZE];
+
 
   for(int i = 0; i< DEFAULT_SIZE*DEFAULT_SIZE ; i++){
     g->square_array[i] = S_EMPTY;
@@ -65,13 +68,15 @@ game game_copy(cgame g) {
   }
   game copy;
   copy = memory_alloc(sizeof(game));
-  copy->square_array = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE-1) * sizeof(square));
+  copy->square_array = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE) * sizeof(square));
   if(copy == NULL){
     exit(EXIT_FAILURE);
   }
   copy->size = g->size;
-  for(int i = 0; i<(DEFAULT_SIZE*DEFAULT_SIZE); i++){
-    copy->square_array[i] = g->square_array[i];
+  for(int i = 0; i<DEFAULT_SIZE; i++){
+    for(int j = 0; j<DEFAULT_SIZE; j++){
+    copy->square_array[(2*i)+j] = game_get_square(g,i,j);
+    }
 
   }
   
@@ -96,7 +101,11 @@ bool game_equal(cgame g1, cgame g2) {
 
 void game_delete(game g) {
   if(g != NULL){
-    
+    if(g->square_array != NULL){
+      
+        free(g->square_array);
+      
+    }
   free(g);
   }
 
