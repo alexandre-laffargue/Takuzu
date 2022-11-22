@@ -86,7 +86,12 @@ bool game_equal(cgame g1, cgame g2) {
   return true;
 }
 
-void game_delete(game g) {}
+void game_delete(game g) {
+  if(g != NULL){
+    
+  free(g);
+  }
+}
 
 void game_set_square(game g, uint i, uint j, square s) {
   if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE || (s != S_EMPTY && s!= S_IMMUTABLE_ONE && s!= S_IMMUTABLE_ZERO && s != S_ONE && s != S_ZERO)){
@@ -190,7 +195,7 @@ bool game_is_immutable(cgame g, uint i, uint j) {
   } else { return false; }
 }
 
-int game_has_error(cgame g, uint i, uint j) { return -1; }
+int game_has_error(cgame g, uint i, uint j) { return 0; }
 
 bool game_check_move(cgame g, uint i, uint j, square s) { return NULL; }
 
