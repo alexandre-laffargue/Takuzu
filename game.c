@@ -34,8 +34,11 @@ game game_new(square* squares) {
   new = memory_alloc(sizeof(game));
   new->square_array = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE) * sizeof(square));
 
+  for(int i = 0; i<(DEFAULT_SIZE*DEFAULT_SIZE); i++){
+    square tmp = squares[i];
+    new->square_array[i] = tmp;
+  }
   
-  new->square_array = squares;
   new->size = DEFAULT_SIZE;
 
   return new;
@@ -75,7 +78,7 @@ game game_copy(cgame g) {
   copy->size = g->size;
   for(int i = 0; i<DEFAULT_SIZE; i++){
     for(int j = 0; j<DEFAULT_SIZE; j++){
-    game_set_square(copy,i,j) = game_get_square(g,i,j);
+    game_set_square(copy,i,j,game_get_square(g,i,j)) ;
     }
 
   }
