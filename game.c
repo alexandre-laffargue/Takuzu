@@ -75,7 +75,7 @@ game game_copy(cgame g) {
   copy->size = g->size;
   for(int i = 0; i<DEFAULT_SIZE; i++){
     for(int j = 0; j<DEFAULT_SIZE; j++){
-    copy->square_array[(2*i)+j] = game_get_square(g,i,j);
+    game_set_square(copy,i,j) = game_get_square(g,i,j);
     }
 
   }
