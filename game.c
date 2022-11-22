@@ -26,16 +26,42 @@ void *memory_alloc(uint size)
     }
 }
 
-game game_new(square* squares) { return NULL; }
+game game_new(square* squares) {
+  game new;
+  new = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE)* sizeof(square) + sizeof(int));
+  
+  new->square_array = squares;
+  new->size = DEFAULT_SIZE;
 
-game game_new_empty(void) { return NULL; }
+  return new;
+
+
+}
+
+game game_new_empty(void) {
+  game g;
+  g = memory_alloc((DEFAULT_SIZE*DEFAULT_SIZE)* sizeof(square) + sizeof(int));
+
+
+  square sq[DEFAULT_SIZE*DEFAULT_SIZE];
+
+  for(int i = 0; i< DEFAULT_SIZE*DEFAULT_SIZE ; i++){
+    sq[i] = S_EMPTY;
+  }
+  g->square_array = sq;
+  g->size = DEFAULT_SIZE;
+
+  return g;
+
+
+}
 
 game game_copy(cgame g) {
   if( g == NULL){
     exit(EXIT_FAILURE);
   }
   game copy;
-  copy = malloc(sizeof(game));
+  copy = malloc((DEFAULT_SIZE*DEFAULT_SIZE)* sizeof(square) + sizeof(int));
   if(copy == NULL){
     exit(EXIT_FAILURE);
   }

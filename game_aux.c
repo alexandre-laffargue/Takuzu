@@ -10,7 +10,25 @@
 void game_print(cgame g) {}
 
 game game_default(void) {
-  return NULL;
+  square sq[DEFAULT_SIZE*DEFAULT_SIZE];
+
+  for(int i = 0; i< DEFAULT_SIZE*DEFAULT_SIZE ; i++){
+    sq[i] = S_EMPTY;
+  }
+  sq[1] = S_IMMUTABLE_ONE;
+  sq[2] = S_IMMUTABLE_ZERO;
+  sq[13] = S_IMMUTABLE_ZERO;
+  sq[16] = S_IMMUTABLE_ZERO;
+  sq[19] = S_IMMUTABLE_ZERO;
+  sq[20] = S_IMMUTABLE_ONE;
+  sq[26] = S_IMMUTABLE_ONE;
+  sq[29] = S_IMMUTABLE_ZERO;
+  sq[35] = S_IMMUTABLE_ZERO;
+  game def = game_new(sq);
+  return def;
+  
+
+
 }
 
 game game_default_solution(void) {
