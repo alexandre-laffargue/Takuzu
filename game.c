@@ -77,12 +77,11 @@ bool game_equal(cgame g1, cgame g2) {
    if(g1 == NULL || g2 == NULL ){
     exit(EXIT_FAILURE);
   }
-  for(int i = 0; i < DEFAULT_SIZE; i++){
-    for( int j = 0; j < DEFAULT_SIZE ; i++){
-      if(game_get_square(g1,i,j) != game_get_square(g2,i,j)){
-        return false;
-      }
+  for(int i = 0; i < DEFAULT_SIZE*DEFAULT_SIZE; i++){
+    if(g1->square_array[i] != g2->square_array[i]){
+      return false;
     }
+    
   }
   return true;
 }
