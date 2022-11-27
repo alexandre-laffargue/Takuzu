@@ -204,7 +204,19 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
     return -1; 
 }
 
-bool game_is_empty(cgame g, uint i, uint j) { return NULL; }
+bool game_is_empty(cgame g, uint i, uint j) { 
+  if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE){
+    exit(EXIT_FAILURE);
+  }
+  for(uint i = 0; i<DEFAULT_SIZE;i++){
+    for(uint j=0; j<DEFAULT_SIZE;j++){
+      if(game_get_square(g,i,j)!=S_EMPTY){
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 bool game_is_immutable(cgame g, uint i, uint j) {
   if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
