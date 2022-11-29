@@ -99,7 +99,7 @@ void game_delete(game g) {
 }
 
 void game_set_square(game g, uint i, uint j, square s) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE ||
+  if (g == NULL || i >= g->size || j >= g->size ||
       (s != S_EMPTY && s != S_IMMUTABLE_ONE && s != S_IMMUTABLE_ZERO &&
        s != S_ONE && s != S_ZERO)) {
     exit(EXIT_FAILURE);
@@ -109,7 +109,7 @@ void game_set_square(game g, uint i, uint j, square s) {
 }
 
 square game_get_square(cgame g, uint i, uint j) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   uint index = (i * g->size) + j;
@@ -117,7 +117,7 @@ square game_get_square(cgame g, uint i, uint j) {
 }
 
 int game_get_number(cgame g, uint i, uint j) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   uint index = (i * g->size) + j;
@@ -131,7 +131,7 @@ int game_get_number(cgame g, uint i, uint j) {
 }
 
 int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE || dist > 2) {
+  if (g == NULL || i >= g->size || j >= g->size || dist > 2) {
     exit(EXIT_FAILURE);
   }
   uint index = (i * g->size) + j;
@@ -176,7 +176,7 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE || dist > 2) {
+  if (g == NULL || i >= g->size || j >= g->size || dist > 2) {
     exit(EXIT_FAILURE);
   }
   int sq = game_get_next_square(g, i, j, dir, dist);
@@ -192,7 +192,7 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 bool game_is_empty(cgame g, uint i, uint j) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   if (game_get_square(g, i, j) != S_EMPTY) {
@@ -202,7 +202,7 @@ bool game_is_empty(cgame g, uint i, uint j) {
 }
 
 bool game_is_immutable(cgame g, uint i, uint j) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   square sq = game_get_square(g, i, j);
@@ -214,7 +214,7 @@ bool game_is_immutable(cgame g, uint i, uint j) {
 }
 
 int game_has_error(cgame g, uint i, uint j) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   if (game_get_square(g, i, j) == S_EMPTY) {
@@ -282,7 +282,7 @@ bool game_check_move(cgame g, uint i, uint j, square s) {
 }
 
 void game_play_move(game g, uint i, uint j, square s) {
-  if (g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   if (s == S_IMMUTABLE_ONE && s == S_IMMUTABLE_ONE) {
@@ -315,8 +315,8 @@ void game_restart(game g) {
   if (g == NULL) {
     exit(EXIT_FAILURE);
   }
-  for (uint i = 0; i < DEFAULT_SIZE; i++) {
-    for (uint j = 0; j < DEFAULT_SIZE; j++) {
+  for (uint i = 0; i < g->size; i++) {
+    for (uint j = 0; j < g->size; j++) {
       if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
           game_get_square(g, i, j) != S_IMMUTABLE_ZERO) {
         game_set_square(g, i, j, S_EMPTY);
