@@ -8,50 +8,50 @@
 #include "game.h"
 
 void game_print(cgame g) {
-  if(g == NULL){
+  if (g == NULL) {
     exit(EXIT_FAILURE);
   }
   printf("   ");
-  for(int i = 0; i<DEFAULT_SIZE; i++){
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
     printf("%d", i);
   }
   printf("\n   ");
-  for(int j = 0; j<DEFAULT_SIZE; j++){
+  for (int j = 0; j < DEFAULT_SIZE; j++) {
     printf("-");
   }
   printf("\n");
-  for(int i = 0; i<DEFAULT_SIZE; i++){
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
     printf("%d |", i);
-    for(int j =0; j<DEFAULT_SIZE; j++){
-      if(game_get_square(g,i,j)==S_EMPTY){
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == S_EMPTY) {
         printf(" ");
       }
-      if(game_get_square(g,i,j)==S_ZERO){
+      if (game_get_square(g, i, j) == S_ZERO) {
         printf("w");
       }
-      if(game_get_square(g,i,j)==S_ONE){
+      if (game_get_square(g, i, j) == S_ONE) {
         printf("b");
       }
-      if(game_get_square(g,i,j)==S_IMMUTABLE_ZERO){
+      if (game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
         printf("W");
       }
-      if(game_get_square(g,i,j)==S_IMMUTABLE_ONE){
+      if (game_get_square(g, i, j) == S_IMMUTABLE_ONE) {
         printf("B");
       }
     }
     printf("|\n");
   }
   printf("   ");
-  for(int j = 0; j<DEFAULT_SIZE; j++){
+  for (int j = 0; j < DEFAULT_SIZE; j++) {
     printf("-");
   }
   printf("\n");
 }
 
 game game_default(void) {
-  square sq[DEFAULT_SIZE*DEFAULT_SIZE];
+  square sq[DEFAULT_SIZE * DEFAULT_SIZE];
 
-  for(int i = 0; i< DEFAULT_SIZE*DEFAULT_SIZE ; i++){
+  for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     sq[i] = S_EMPTY;
   }
   sq[1] = S_IMMUTABLE_ONE;
@@ -65,9 +65,6 @@ game game_default(void) {
   sq[35] = S_IMMUTABLE_ZERO;
   game def = game_new(sq);
   return def;
-  
-
-
 }
 
 game game_default_solution(void) {
