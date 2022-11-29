@@ -208,12 +208,8 @@ bool game_is_empty(cgame g, uint i, uint j) {
   if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE){
     exit(EXIT_FAILURE);
   }
-  for(uint i = 0; i<DEFAULT_SIZE;i++){
-    for(uint j=0; j<DEFAULT_SIZE;j++){
-      if(game_get_square(g,i,j)!=S_EMPTY){
-        return false;
-      }
-    }
+  if(game_get_square(g,i,j)!=S_EMPTY){
+    return false;
   }
   return true;
 }
@@ -228,12 +224,83 @@ bool game_is_immutable(cgame g, uint i, uint j) {
   } else { return false; }
 }
 
-int game_has_error(cgame g, uint i, uint j) { return 0; }
+int game_has_error(cgame g, uint i, uint j) {
+  if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE){
+    exit(EXIT_FAILURE);
+   }
+   int cpt_ver = 1, cpt_hor = 1;
+   if(game_get_number(g,i,j)==game_get_next_number(g,i,j, RIGHT, 1)){
+    cpt_hor++;
+    if(game_get_number(g,i,j)==game_get_next_number(g,i,j, RIGHT, 2)){
+      return -1;
+    }
+   }
+   if(game_get_number(g,i,j)==game_get_next_number(g,i,j, LEFT, 1)){
+    cpt_hor++;
+    if(cpt_hor>2){
+      return -1;
+    }
+    if(game_get_number(g,i,j)==game_get_next_number(g,i,j, LEFT, 2)){
+      return -1;
+    }
+   }
+   /* vertical*/
+   if(game_get_number(g,i,j)==game_get_next_number(g,i,j, UP, 1)){
+    cpt_ver++;
+    if(game_get_number(g,i,j)==game_get_next_number(g,i,j, UP, 2)){
+      return -1;
+    }
+   }
+   if(game_get_number(g,i,j)==game_get_next_number(g,i,j, DOWN, 1)){
+    cpt_ver++;
+    if(cpt_ver>2){
+      return -1;
+    }
+    if(game_get_number(g,i,j)==game_get_next_number(g,i,j, DOWN, 2)){
+      return -1;
+    }
+   }
+   int cpt_ver0 = 0, cpt_hor0 = 0, cpt_ver1 = 0, cpt_hor1 = 0;
+   for(uint k=0; k<g->size; k++){
+    if(game_get_number(g,k,j)==0){
+      cpt_hor0++;
+    }
+    if(game_get_number(g,i,k)==0){
+      cpt_ver0++;
+    }
+    if(game_get_number(g,k,j)==1){
+      cpt_hor1++;
+    }
+    if(game_get_number(g,i,k)==1){
+      cpt_ver1++;
+    }
+   }
+   if(cpt_hor0 > (g->size/2) || cpt_ver0 > (g->size/2) || cpt_ver1 > (g->size/2) || cpt_hor1 > (g->size/2)){
+    return -1;
+   }
+   else{
+    return 0;
+   }
+   
+}
 
 bool game_check_move(cgame g, uint i, uint j, square s) { return NULL; }
 
 void game_play_move(game g, uint i, uint j, square s) {}
 
-bool game_is_over(cgame g) { return NULL; }
+bool game_is_over(cgame g) {
+   return NULL; 
+}
 
-void game_restart(game g) {}
+void game_restart(game g) {
+ if(g == NULL){
+  exit(EXIT_FAILURE);
+ }
+ for(uint i = 0; i<DEFAULT_SIZE; i++){
+  for(uint j = 0; j<DEFAULT_SIZE; j++){
+    if(game_get_square(g,i,j)!=S_IMMUTABLE_ONE && game_get_square(g,i,j)!=S_IMMUTABLE_ZERO){
+      game_set_square(g,i,j,S_EMPTY);
+    }
+  }
+ }
+}
