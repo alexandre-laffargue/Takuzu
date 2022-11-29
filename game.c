@@ -284,12 +284,42 @@ int game_has_error(cgame g, uint i, uint j) {
    
 }
 
-bool game_check_move(cgame g, uint i, uint j, square s) { return NULL; }
+bool game_check_move(cgame g, uint i, uint j, square s) {
+  if(g == NULL){
+    exit(EXIT_FAILURE);
+  }
+  if(game_get_square(g,i,j)!=S_IMMUTABLE_ONE && game_get_square(g,i,j)!=S_IMMUTABLE_ZERO && i<g->size && j<g->size){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
-void game_play_move(game g, uint i, uint j, square s) {}
+void game_play_move(game g, uint i, uint j, square s) {
+  if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE){
+    exit(EXIT_FAILURE);
+  }
+  if(s==S_IMMUTABLE_ONE && s==S_IMMUTABLE_ONE){
+    exit(EXIT_FAILURE);
+  }
+  if(game_get_square(g,i,j)!=S_IMMUTABLE_ONE && game_get_square(g,i,j)!=S_IMMUTABLE_ZERO){
+    game_set_square(g,i,j,s);
+  }
+}
 
 bool game_is_over(cgame g) {
-   return NULL; 
+  if(g == NULL){
+    exit(EXIT_FAILURE);
+  }
+  for(uint k = 0 ; k<g->size; k++){
+    for(uint l = 0; l<g->size; l++){
+      if(game_has_error(g,k,l) != 0){
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 void game_restart(game g) {
