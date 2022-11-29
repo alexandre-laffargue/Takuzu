@@ -7,7 +7,46 @@
 
 #include "game.h"
 
-void game_print(cgame g) {}
+void game_print(cgame g) {
+  if(g == NULL){
+    exit(EXIT_FAILURE);
+  }
+  printf("   ");
+  for(int i = 0; i<DEFAULT_SIZE; i++){
+    printf("%d", i);
+  }
+  printf("\n   ");
+  for(int j = 0; j<DEFAULT_SIZE; j++){
+    printf("-");
+  }
+  printf("\n");
+  for(int i = 0; i<DEFAULT_SIZE; i++){
+    printf("%d |", i);
+    for(int j =0; j<DEFAULT_SIZE; j++){
+      if(game_get_square(g,i,j)==S_EMPTY){
+        printf(" ");
+      }
+      if(game_get_square(g,i,j)==S_ZERO){
+        printf("w");
+      }
+      if(game_get_square(g,i,j)==S_ONE){
+        printf("b");
+      }
+      if(game_get_square(g,i,j)==S_IMMUTABLE_ZERO){
+        printf("W");
+      }
+      if(game_get_square(g,i,j)==S_IMMUTABLE_ONE){
+        printf("B");
+      }
+    }
+    printf("|\n");
+  }
+  printf("   ");
+  for(int j = 0; j<DEFAULT_SIZE; j++){
+    printf("-");
+  }
+  printf("\n");
+}
 
 game game_default(void) {
   square sq[DEFAULT_SIZE*DEFAULT_SIZE];
