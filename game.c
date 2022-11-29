@@ -263,22 +263,16 @@ int game_has_error(cgame g, uint i, uint j) {
       return -1;
     }
    }
-   int cpt_ver0 = 0, cpt_hor0 = 0, cpt_ver1 = 0, cpt_hor1 = 0;
+   int cpt_hor1 = 0, cpt_ver1 = 0;
    for(uint k=0; k<g->size; k++){
-    if(game_get_number(g,k,j)==0){
-      cpt_hor0++;
-    }
-    if(game_get_number(g,i,k)==0){
-      cpt_ver0++;
-    }
-    if(game_get_number(g,k,j)==1){
+    if(game_get_number(g,k,j)==game_get_number(g,i,j)){
       cpt_hor1++;
     }
-    if(game_get_number(g,i,k)==1){
+    if(game_get_number(g,i,k)==game_get_number(g,i,j)){
       cpt_ver1++;
     }
    }
-   if(cpt_hor0 > (g->size/2) || cpt_ver0 > (g->size/2) || cpt_ver1 > (g->size/2) || cpt_hor1 > (g->size/2)){
+   if(cpt_hor1 > (g->size/2) || cpt_ver1 > (g->size/2)){
     return -1;
    }
    else{
