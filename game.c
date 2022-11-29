@@ -228,6 +228,9 @@ int game_has_error(cgame g, uint i, uint j) {
   if(g == NULL || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE){
     exit(EXIT_FAILURE);
    }
+   if(game_get_square(g,i,j)==S_EMPTY){
+    return 0;
+   }
    int cpt_ver = 1, cpt_hor = 1;
    if(game_get_number(g,i,j)==game_get_next_number(g,i,j, RIGHT, 1)){
     cpt_hor++;
@@ -315,6 +318,9 @@ bool game_is_over(cgame g) {
   for(uint k = 0 ; k<g->size; k++){
     for(uint l = 0; l<g->size; l++){
       if(game_has_error(g,k,l) != 0){
+        return false;
+      }
+      if(game_get_square(g,k,l)==S_EMPTY){
         return false;
       }
     }
