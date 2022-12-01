@@ -49,7 +49,8 @@ void game_print(cgame g) {
 }
 
 game game_default(void) {
-  square sq[DEFAULT_SIZE * DEFAULT_SIZE];
+  
+  square* sq = malloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));;
 
   for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     sq[i] = S_EMPTY;
@@ -64,6 +65,7 @@ game game_default(void) {
   sq[29] = S_IMMUTABLE_ZERO;
   sq[35] = S_IMMUTABLE_ZERO;
   game def = game_new(sq);
+  free(sq);
   return def;
 }
 
