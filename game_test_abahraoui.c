@@ -94,8 +94,16 @@ bool test_game_has_error() {
       !game_has_error(d, 0, 0) && !game_has_error(d, 0, 1) &&
       !game_has_error(d, 0, 2) && !game_has_error(e, 2, 0) &&
       !game_has_error(e, 1, 0) && !game_has_error(e, 0, 0)) {
+    game_delete(g);
+    game_delete(c);
+    game_delete(d);
+    game_delete(e);
     return 0;
   } else {
+    game_delete(g);
+    game_delete(c);
+    game_delete(d);
+    game_delete(e);
     return 1;
   }
 }
