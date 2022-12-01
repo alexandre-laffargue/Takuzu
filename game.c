@@ -29,12 +29,13 @@ game game_new(square* squares) {
   game new;
   new = memory_alloc(sizeof(game));
   new->size = DEFAULT_SIZE;
-  new->square_array = memory_alloc((new->size* new->size) * sizeof(square));
+  square* array = memory_alloc((new->size* new->size) * sizeof(square));
 
   for (int i = 0; i < (new->size* new->size); i++) {
     square tmp = squares[i];
-    new->square_array[i] = tmp;
+    array[i] = tmp;
   }
+  new->square_array = array;
   return new;
 }
 
@@ -42,11 +43,12 @@ game game_new_empty(void) {
   game g;
   g = memory_alloc(sizeof(game));
   g->size = DEFAULT_SIZE;
-  g->square_array = memory_alloc((g->size * g->size) * sizeof(square));
+  square* array  = memory_alloc((g->size * g->size) * sizeof(square));
 
   for (int i = 0; i < g->size * g->size; i++) {
-    g->square_array[i] = S_EMPTY;
+    array[i] = S_EMPTY;
   }
+  g->square_array = array;
   return g;
 }
 
