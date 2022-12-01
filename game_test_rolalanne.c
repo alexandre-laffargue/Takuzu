@@ -33,11 +33,14 @@ bool test_game_new() {
           game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
           game_get_square(g, i, j) != S_IMMUTABLE_ZERO &&
           game_get_square(g, i, j) != S_ONE) {
+        game_delete(g);
+        free(square_array);    
         return false;
       }
     }
   }
   game_delete(g);
+  free(square_array);
   return true;
 }
 bool test_game_new_empty() {
