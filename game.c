@@ -26,8 +26,7 @@ game game_new(square* squares) {
   if (squares == NULL) {
     exit(EXIT_FAILURE);
   }
-  game new;
-  new = memory_alloc(sizeof(game));
+  game new = memory_alloc(sizeof(struct game_s));
   new->size = DEFAULT_SIZE;
   square* array = memory_alloc((new->size* new->size) * sizeof(square));
 
@@ -40,8 +39,7 @@ game game_new(square* squares) {
 }
 
 game game_new_empty(void) {
-  game g;
-  g = memory_alloc(sizeof(game));
+  game g = memory_alloc(sizeof(struct game_s));
   g->size = DEFAULT_SIZE;
   square* array  = memory_alloc((g->size * g->size) * sizeof(square));
 
@@ -56,13 +54,9 @@ game game_copy(cgame g) {
   if (g == NULL) {
     exit(EXIT_FAILURE);
   }
-  game copy;
-  copy = memory_alloc(sizeof(game));
+  game copy = memory_alloc(sizeof(struct game_s));
   copy->size = g->size;
   copy->square_array = memory_alloc((copy->size * copy->size) * sizeof(square));
-  if (copy == NULL) {
-    exit(EXIT_FAILURE);
-  }
   for (int i = 0; i < copy->size; i++) {
     for (int j = 0; j < copy->size; j++) {
       game_set_square(copy, i, j, game_get_square(g, i, j));
