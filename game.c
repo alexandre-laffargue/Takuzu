@@ -41,7 +41,7 @@ game game_new(square* squares) {
 game game_new_empty(void) {
   game g = memory_alloc(sizeof(struct game_s));
   g->size = DEFAULT_SIZE;
-  square* array  = memory_alloc((g->size * g->size) * sizeof(square));
+  square* array = memory_alloc((g->size * g->size) * sizeof(square));
 
   for (int i = 0; i < g->size * g->size; i++) {
     array[i] = S_EMPTY;

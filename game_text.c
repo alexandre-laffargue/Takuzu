@@ -14,7 +14,7 @@ void game_errors_print(game g) {
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++)
       if (game_has_error(g, i, j)) {
-        printf("Error at square (%d,%d)\n",i,j);
+        printf("Error at square (%d,%d)\n", i, j);
       }
   }
 }
