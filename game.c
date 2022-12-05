@@ -261,7 +261,7 @@ int game_has_error(cgame g, uint i, uint j) {
 }
 
 bool game_check_move(cgame g, uint i, uint j, square s) {
-  if (g == NULL) {
+  if (g == NULL || i >= g->size || j >= g->size) {
     exit(EXIT_FAILURE);
   }
   if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
