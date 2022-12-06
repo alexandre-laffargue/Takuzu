@@ -10,7 +10,6 @@
 
 struct game_s {
   square* square_array;
-  int size;
   bool wrapping;
   bool unique;
   uint nb_rows;
