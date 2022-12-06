@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "game_ext.h"
 
 void game_print(cgame g) {
   if (g == NULL) {
