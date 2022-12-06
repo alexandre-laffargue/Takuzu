@@ -288,7 +288,7 @@ void game_play_move(game g, uint i, uint j, square s) {
     exit(EXIT_FAILURE);
   }
   if (s == S_IMMUTABLE_ONE && s == S_IMMUTABLE_ONE) {
-    return false;
+    exit(EXIT_FAILURE);
   }
   if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
       game_get_square(g, i, j) != S_IMMUTABLE_ZERO) {
