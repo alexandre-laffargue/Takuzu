@@ -261,15 +261,15 @@ int game_has_error(cgame g, uint i, uint j) {
 }
 
 bool game_check_move(cgame g, uint i, uint j, square s) {
-  if (g == NULL || i >= g->size || j >= g->size) {
+  if (g == NULL) {
     exit(EXIT_FAILURE);
   }
-  if (s == S_IMMUTABLE_ONE || s == S_IMMUTABLE_ZERO) {
+  if (s == S_IMMUTABLE_ONE || s == S_IMMUTABLE_ZERO || i >= g->size ||
+      j >= g->size) {
     return false;
   }
-  if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
-      game_get_square(g, i, j) != S_IMMUTABLE_ZERO && i < g->size &&
-      j < g->size) {
+  square sq = game_get_square(g, i, j);
+  if (sq != S_IMMUTABLE_ONE && sq != S_IMMUTABLE_ZERO) {
     return true;
   } else {
     return false;
