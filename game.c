@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "game_aux.h"
+#include "game_ext.h"
 
 struct game_s {
   square* square_array;
