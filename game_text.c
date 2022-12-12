@@ -3,6 +3,8 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_ext.h"
+
 void game_help_print() {
   printf("- press 'w <i> <j>' to put a zero/white at square (i,j)\n");
   printf("- press 'b <i> <j>' to put a one/black at square (i,j)\n");
