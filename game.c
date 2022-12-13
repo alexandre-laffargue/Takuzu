@@ -9,7 +9,6 @@
 #include "game_ext.h"
 #include "game_struct.h"
 
-
 void* memory_alloc(uint size) {
   void* tmp = malloc(size);
   if (tmp == NULL) {
@@ -344,5 +343,3 @@ void game_restart(game g) {
     }
   }
 }
-
-
