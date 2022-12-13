@@ -353,30 +353,4 @@ void game_restart(game g) {
   }
 }
 
-bool game_is_unique(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
-  return g->unique;
-}
 
-bool game_is_wrapping(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
-  return g->wrapping;
-}
-
-uint game_nb_cols(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
-  return g->nb_cols;
-}
-
-uint game_nb_rows(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
-  return g->nb_rows;
-}
