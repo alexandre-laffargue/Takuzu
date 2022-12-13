@@ -10,8 +10,10 @@
 
 struct game_s {
   square* square_array;
-  bool wrapping;  // topologie "torique" la colonne la plus à droite est adjacente à la colonne plus à gauche et la ligne la plus haute est adjacente à la ligne la plus basse
-  bool unique; // règle du meme nbr de 0 et 1.
+  bool wrapping;  // topologie "torique" la colonne la plus à droite est
+                  // adjacente à la colonne plus à gauche et la ligne la plus
+                  // haute est adjacente à la ligne la plus basse
+  bool unique;    // règle du meme nbr de 0 et 1.
   uint nb_rows;
   uint nb_cols;
 };
@@ -69,7 +71,8 @@ game game_copy(cgame g) {
   copy->nb_cols = g->nb_cols;
   copy->unique = g->unique;
   copy->wrapping = g->wrapping;
-  copy->square_array = memory_alloc((copy->nb_rows * copy->nb_cols) * sizeof(square));
+  copy->square_array =
+      memory_alloc((copy->nb_rows * copy->nb_cols) * sizeof(square));
   for (int i = 0; i < copy->nb_rows; i++) {
     for (int j = 0; j < copy->nb_cols; j++) {
       game_set_square(copy, i, j, game_get_square(g, i, j));
@@ -82,7 +85,8 @@ bool game_equal(cgame g1, cgame g2) {
   if (g1 == NULL || g2 == NULL) {
     exit(EXIT_FAILURE);
   }
-  if ((g1->nb_rows != g2->nb_rows) || (g1->nb_cols != g2->nb_cols) || (g1->unique != g2->unique) || (g1->wrapping != g2->wrapping)) {
+  if ((g1->nb_rows != g2->nb_rows) || (g1->nb_cols != g2->nb_cols) ||
+      (g1->unique != g2->unique) || (g1->wrapping != g2->wrapping)) {
     return false;
   }
   for (int i = 0; i < g1->nb_rows * g1->nb_cols; i++) {
@@ -124,8 +128,7 @@ int game_get_number(cgame g, uint i, uint j) {
   if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
     exit(EXIT_FAILURE);
   }
-  uint index = (i * g->nb_rows) + j;
-  square sq = g->square_array[index];
+  square sq = game_get_square(g, i, j);
   if (sq == S_ZERO || sq == S_IMMUTABLE_ZERO) {
     return 0;
   } else if (sq == S_ONE || sq == S_IMMUTABLE_ONE) {
@@ -138,42 +141,57 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
   if (g == NULL || i >= g->nb_rows || j >= g->nb_cols || dist > 2) {
     exit(EXIT_FAILURE);
   }
-  uint index = (i * g->nb_rows) + j;
-  if (dir == UP) {
-    int coord = i - dist;
-    if (coord >= 0 && coord < g->nb_cols) {
-      uint indexf = index - (dist * g->nb_cols);
-      square sq = g->square_array[indexf];
-      return sq;
-    } else {
-      return -1;
+  if (!g->wrapping) {
+    if (dir == UP) {
+      int ni = i - dist;
+      if (ni >= 0 && ni < g->nb_cols) {
+        square sq = game_get_square(g, ni, j);
+        return sq;
+      } else {
+        return -1;
+      }
+    } else if (dir == DOWN) {
+      int ni = i + dist;
+      if (ni >= 0 && ni < g->nb_cols) {
+        square sq = game_get_square(g, ni, j);
+        return sq;
+      } else {
+        return -1;
+      }
+    } else if (dir == LEFT) {
+      int nj = j - dist;
+      if (nj >= 0 && nj < g->nb_rows) {
+        square sq = game_get_square(g, i, nj);
+        return sq;
+      } else {
+        return -1;
+      }
+    } else if (dir == RIGHT) {
+      int nj = j + dist;
+      if (nj >= 0 && nj < g->nb_rows) {
+        square sq = game_get_square(g, i, nj);
+        return sq;
+      } else {
+        return -1;
+      }
     }
-  } else if (dir == DOWN) {
-    int coord = i + dist;
-    if (coord >= 0 && coord < g->nb_cols) {
-      uint indexf = index + (dist * g->nb_cols);
-      square sq = g->square_array[indexf];
+  } else {
+    if (dir == UP) {
+      int ni = (i - dist) % g->nb_rows;
+      square sq = game_get_square(g, ni, j);
       return sq;
-    } else {
-      return -1;
-    }
-  } else if (dir == LEFT) {
-    int coord = j - dist;
-    if (coord >= 0 && coord < g->nb_rows) {
-      uint indexf = index - dist;
-      square sq = g->square_array[indexf];
+    } else if (dir == DOWN) {
+      int ni = (i + dist) % g->nb_rows;
+      square sq = game_get_square(g, ni, j);
       return sq;
-    } else {
-      return -1;
-    }
-  } else if (dir == RIGHT) {
-    int coord = j + dist;
-    if (coord >= 0 && coord < g->nb_rows) {
-      uint indexf = index + dist;
-      square sq = g->square_array[indexf];
+    } else if (dir == LEFT) {
+      int nj = (j - dist) % g->nb_cols;
+      square sq = game_get_square(g, nj, j);
       return sq;
-    } else {
-      return -1;
+    } else if (dir == RIGHT) {
+      int nj = (j + dist) % g->nb_cols;
+      square sq = game_get_square(g, nj, j);
+      return sq;
     }
   }
   exit(EXIT_FAILURE);
@@ -256,20 +274,23 @@ int game_has_error(cgame g, uint i, uint j) {
       return -1;
     }
   }
-  int cpt_hor1 = 0, cpt_ver1 = 0;
-  for (uint k = 0; k < g->nb_rows; k++) {
-    if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
-      cpt_hor1++;
+  if (g->unique) {
+    int cpt_hor1 = 0, cpt_ver1 = 0;
+    for (uint k = 0; k < g->nb_rows; k++) {
+      if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
+        cpt_hor1++;
+      }
+      if (game_get_number(g, i, k) == game_get_number(g, i, j)) {
+        cpt_ver1++;
+      }
     }
-    if (game_get_number(g, i, k) == game_get_number(g, i, j)) {
-      cpt_ver1++;
+    if (cpt_hor1 > (g->nb_rows / 2) || cpt_ver1 > (g->nb_cols / 2)) {
+      return -1;
+    } else {
+      return 0;
     }
   }
-  if (cpt_hor1 > (g->nb_rows / 2) || cpt_ver1 > (g->nb_cols / 2)) {
-    return -1;
-  } else {
-    return 0;
-  }
+  return 0;
 }
 
 bool game_check_move(cgame g, uint i, uint j, square s) {
@@ -332,31 +353,30 @@ void game_restart(game g) {
   }
 }
 
-
-bool game_is_unique(cgame g){
-  if(g == NULL){
+bool game_is_unique(cgame g) {
+  if (g == NULL) {
     exit(EXIT_FAILURE);
   }
   return g->unique;
-  }
-
-bool game_is_wrapping(cgame g){
-  if(g == NULL){
-    exit(EXIT_FAILURE);
-  }
-    return g->wrapping;
-  }
-
-uint game_nb_cols(cgame g){
-  if(g == NULL){
-    exit(EXIT_FAILURE);
-  }
-  return g->nb_cols; 
 }
 
-uint game_nb_rows(cgame g){
-  if(g == NULL){
+bool game_is_wrapping(cgame g) {
+  if (g == NULL) {
     exit(EXIT_FAILURE);
   }
-  return g->nb_rows; 
+  return g->wrapping;
+}
+
+uint game_nb_cols(cgame g) {
+  if (g == NULL) {
+    exit(EXIT_FAILURE);
+  }
+  return g->nb_cols;
+}
+
+uint game_nb_rows(cgame g) {
+  if (g == NULL) {
+    exit(EXIT_FAILURE);
+  }
+  return g->nb_rows;
 }
