@@ -1,0 +1,1 @@
+/usr/bin/cc -std=c99 -g -Wall -rdynamic CMakeFiles/game_test_abahraoui.dir/game_test_abahraoui.c.o -o game_test_abahraoui   -L/net/cremi/rolalanne/espaces/travail/takuzu-06b  -Wl,-rpath,/net/cremi/rolalanne/espaces/travail/takuzu-06b libgame.a 

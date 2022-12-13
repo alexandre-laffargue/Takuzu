@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20221213-1001-Experimental"
+	Name="nenjetepus"
+	Generator="ctest-3.18.4"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="lentix"
+	OSRelease="5.10.0-0.deb10.16-amd64"
+	OSVersion="#1 SMP Debian 5.10.127-2~bpo10+1 (2022-07-28)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="158"
+	ProcessorCacheSize="8192"
+	NumberOfLogicalCPU="8"
+	NumberOfPhysicalCPU="4"
+	TotalVirtualMemory="8133"
+	TotalPhysicalMemory="15941"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="3900.03"
+	>
+	<DynamicAnalysis Checker="Valgrind">
+		<StartDateTime>Dec 13 11:47 CET</StartDateTime>
+		<StartTestTime>1670928431</StartTestTime>
+		<TestList>
+			<Test>./test_abahraoui_game_is_empty</Test>
+			<Test>./test_abahraoui_game_play_move</Test>
+			<Test>./test_abahraoui_game_has_error</Test>
+			<Test>./test_abahraoui_game_restart</Test>
+			<Test>./test_abahraoui_game_check_move</Test>
+			<Test>./test_abahraoui_game_is_over</Test>
+			<Test>./test_alelaffargue_dummy</Test>
+			<Test>./test_alelaffargue_game_set_square</Test>
+			<Test>./test_alelaffargue_game_default_solution</Test>
+			<Test>./test_alelaffargue_game_get_square</Test>
+			<Test>./test_alelaffargue_game_get_number</Test>
+			<Test>./test_alelaffargue_game_get_next_square</Test>
+			<Test>./test_alelaffargue_game_get_next_number</Test>
+			<Test>./test_alelaffargue_game_game_is_immutable</Test>
+			<Test>./test_rolalanne_dummy</Test>
+			<Test>./test_rolalanne_game_print</Test>
+			<Test>./test_rolalanne_game_delete</Test>
+			<Test>./test_rolalanne_game_new</Test>
+			<Test>./test_rolalanne_game_new_empty</Test>
+			<Test>./test_rolalanne_game_copy</Test>
+			<Test>./test_rolalanne_game_equal</Test>
+			<Test>./test_rolalanne_game_default</Test>
+		</TestList>
+		<DefectList/>
+		<EndDateTime>Dec 13 11:47 CET</EndDateTime>
+		<EndTestTime>1670928443</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</DynamicAnalysis>
+</Site>

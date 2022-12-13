@@ -1,0 +1,25 @@
+test_abahraoui_game_is_empty 4 0.00186901
+test_abahraoui_game_play_move 4 0.000602394
+test_abahraoui_game_has_error 11 0.000249688
+test_abahraoui_game_restart 4 0.000599077
+test_abahraoui_game_check_move 4 0.000601889
+test_abahraoui_game_is_over 4 0.000622725
+test_alelaffargue_dummy 19 0.000418919
+test_alelaffargue_game_set_square 15 0.000160467
+test_alelaffargue_game_default_solution 4 0.000598054
+test_alelaffargue_game_get_square 5 0.000476965
+test_alelaffargue_game_get_number 5 0.000482427
+test_alelaffargue_game_get_next_square 5 0.000480247
+test_alelaffargue_game_get_next_number 5 0.00047135
+test_alelaffargue_game_game_is_immutable 5 0.000483626
+test_rolalanne_dummy 19 0.000424813
+test_rolalanne_game_print 16 0.000156137
+test_rolalanne_game_delete 16 0.000152529
+test_rolalanne_game_new 18 0.000133481
+test_rolalanne_game_new_empty 5 0.00048361
+test_rolalanne_game_copy 13 0.000238429
+test_rolalanne_game_equal 5 0.000491545
+test_rolalanne_game_default 5 0.000485585
+test_rolalanne_game_is_wrapping 0 0
+---
+test_rolalanne_game_is_wrapping

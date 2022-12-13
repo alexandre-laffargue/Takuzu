@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game.h
+stdbool.h
+-
+
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game_aux.h
+stdbool.h
+-
+game.h
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game.h
+
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game_ext.h
+stdbool.h
+-
+game.h
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game.h
+
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game_text.c
+stdio.h
+-
+stdlib.h
+-
+game.h
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game.h
+game_aux.h
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game_aux.h
+game_ext.h
+/net/cremi/rolalanne/espaces/travail/takuzu-06b/game_ext.h
+

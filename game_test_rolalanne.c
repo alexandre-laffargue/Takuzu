@@ -5,6 +5,8 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_ext.c"
+
 
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -149,6 +151,16 @@ bool test_game_default() {
   return true;
 }
 
+bool test_game_is_wrapping(){
+  game g = game_default();
+  bool tmp = g->wrapping;
+  bool tmp2 = game_is_wrapping(g);
+  if(tmp != tmp2){
+    return false;
+  }
+  return true;
+}
+
 int main(int argc, char *argv[]) {
   if (argc == 1) {
     usage(argc, argv);
@@ -183,7 +195,11 @@ int main(int argc, char *argv[]) {
   } else if (strcmp("game_default", argv[1]) == 0) {
     tmp = test_game_default();
 
-  } else {
+  }else if (strcmp("game_is_wrapping", argv[1]) == 0) {
+    tmp = test_game_is_wrapping();
+
+  }  
+  else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
     exit(EXIT_FAILURE);
   }
