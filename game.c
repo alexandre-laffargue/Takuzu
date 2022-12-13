@@ -10,8 +10,8 @@
 
 struct game_s {
   square* square_array;
-  bool wrapping;
-  bool unique;
+  bool wrapping;  // topologie "torique" la colonne la plus à droite est adjacente à la colonne plus à gauche et la ligne la plus haute est adjacente à la ligne la plus basse
+  bool unique; // règle du meme nbr de 0 et 1.
   uint nb_rows;
   uint nb_cols;
 };
@@ -33,6 +33,8 @@ game game_new(square* squares) {
   game new = memory_alloc(sizeof(struct game_s));
   new->nb_rows = DEFAULT_SIZE;
   new->nb_cols = DEFAULT_SIZE;
+  new->unique = false;
+  new->wrapping = false;
   square* array = memory_alloc((new->nb_rows* new->nb_cols) * sizeof(square));
 
   for (int i = 0; i < (new->nb_rows* new->nb_cols); i++) {
@@ -47,6 +49,8 @@ game game_new_empty(void) {
   game g = memory_alloc(sizeof(struct game_s));
   g->nb_rows = DEFAULT_SIZE;
   g->nb_cols = DEFAULT_SIZE;
+  g->unique = false;
+  g->wrapping = false;
   square* array = memory_alloc((g->nb_rows * g->nb_cols) * sizeof(square));
 
   for (int i = 0; i < g->nb_rows * g->nb_cols; i++) {
@@ -63,13 +67,14 @@ game game_copy(cgame g) {
   game copy = memory_alloc(sizeof(struct game_s));
   copy->nb_rows = g->nb_rows;
   copy->nb_cols = g->nb_cols;
+  copy->unique = g->unique;
+  copy->wrapping = g->wrapping;
   copy->square_array = memory_alloc((copy->nb_rows * copy->nb_cols) * sizeof(square));
   for (int i = 0; i < copy->nb_rows; i++) {
     for (int j = 0; j < copy->nb_cols; j++) {
       game_set_square(copy, i, j, game_get_square(g, i, j));
     }
   }
-
   return copy;
 }
 
@@ -77,7 +82,7 @@ bool game_equal(cgame g1, cgame g2) {
   if (g1 == NULL || g2 == NULL) {
     exit(EXIT_FAILURE);
   }
-  if ((g1->nb_rows != g2->nb_rows) || (g1->nb_cols != g2->nb_cols)) {
+  if ((g1->nb_rows != g2->nb_rows) || (g1->nb_cols != g2->nb_cols) || (g1->unique != g2->unique) || (g1->wrapping != g2->wrapping)) {
     return false;
   }
   for (int i = 0; i < g1->nb_rows * g1->nb_cols; i++) {
