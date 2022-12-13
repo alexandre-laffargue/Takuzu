@@ -1,5 +1,4 @@
 #include "game_aux.h"
-#include "game_struct.h"
 
 #include <stdbool.h>
 #include <stdio.h>
