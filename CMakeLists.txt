@@ -8,7 +8,7 @@ enable_testing()
 
 set(CMAKE_C_FLAGS "-std=c99 -g -Wall")
 link_directories(${CMAKE_SOURCE_DIR})
-add_library(game game.c game_aux.c)
+add_library(game game.c game_aux.c game_ext.c)
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game )
 
@@ -48,3 +48,4 @@ add_test(test_rolalanne_game_new_empty ./game_test_rolalanne game_new_empty)
 add_test(test_rolalanne_game_copy ./game_test_rolalanne game_copy)
 add_test(test_rolalanne_game_equal ./game_test_rolalanne game_equal)
 add_test(test_rolalanne_game_default ./game_test_rolalanne game_default)
+add_test(test_rolalanne_game_is_wrapping ./game_test_rolalanne game_is_wrapping)
