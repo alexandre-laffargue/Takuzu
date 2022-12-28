@@ -80,3 +80,14 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   new->square_array = array;
   return new;
 }
+
+void game_undo(game g){
+  if (g == NULL) {
+    exit(EXIT_FAILURE);
+  }
+  if (!queue_is_empty(g->historique)) {
+    int* tab = queue_pop_head(g->historique);
+    queue_push_head(g->annulation, tab);
+    game_set_square(g, tab[0], tab[1], S_EMPTY);
+  }
+}
