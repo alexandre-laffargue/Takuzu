@@ -23,13 +23,12 @@ void game_errors_print(game g) {
 
 int main() {
   char c;
-  int i, j;
   game g = game_default();
   while (!game_is_over(g)) {
     game_print(g);
     game_errors_print(g);
     printf("> ?[h for help]\n");
-    scanf("%c", &c);
+    scanf(" %c", &c);
     switch (c) {
       case 'h':
         printf("> action: help\n");
@@ -46,23 +45,26 @@ int main() {
         return EXIT_SUCCESS;
         break;
     }
-    scanf("%d %d", &i, &j);
-    if (c == 'w') {
-      printf("> action: play move 'w' into square (%d,%d)\n", i, j);
-      if (game_check_move(g, i, j, S_ZERO)) {
-        game_play_move(g, i, j, S_ZERO);
+    if ((c == 'w') || (c == 'b') || (c == 'e')) {
+      int i, j;
+      scanf(" %d %d", &i, &j);
+      if (c == 'w') {
+        printf("> action: play move 'w' into square (%d,%d)\n", i, j);
+        if (game_check_move(g, i, j, S_ZERO)) {
+          game_play_move(g, i, j, S_ZERO);
+        }
+      } else if (c == 'b') {
+        printf("> action: play move 'b' into square (%d,%d)\n", i, j);
+        if (game_check_move(g, i, j, S_ONE)) {
+          game_play_move(g, i, j, S_ONE);
+        }
+      } else if (c == 'e') {
+        printf("> action: play move 'e' into square (%d,%d)\n", i, j);
+        if (game_check_move(g, i, j, S_EMPTY)) {
+          game_play_move(g, i, j, S_EMPTY);
+        }
       }
-    } else if (c == 'b') {
-      printf("> action: play move 'b' into square (%d,%d)\n", i, j);
-      if (game_check_move(g, i, j, S_ONE)) {
-        game_play_move(g, i, j, S_ONE);
-      }
-    } else if (c == 'e') {
-      printf("> action: play move 'e' into square (%d,%d)\n", i, j);
-      if (game_check_move(g, i, j, S_EMPTY)) {
-        game_play_move(g, i, j, S_EMPTY);
-      }
-    }
+    } 
   }
   game_print(g);
   printf("congratulation\n");
