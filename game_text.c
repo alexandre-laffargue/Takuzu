@@ -44,6 +44,14 @@ int main() {
         printf("shame\n");
         return EXIT_SUCCESS;
         break;
+      case 'z':
+        printf("> action: undo\n");
+        game_undo(g);
+        break;
+      case 'y':
+        printf("> action: redo\n");
+        game_redo(g);
+        break;
     }
     if ((c == 'w') || (c == 'b') || (c == 'e')) {
       int i, j;
