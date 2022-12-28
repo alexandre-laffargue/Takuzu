@@ -91,3 +91,13 @@ void game_undo(game g){
     game_set_square(g, tab[0], tab[1], S_EMPTY);
   }
 }
+
+void game_redo(game g){
+  if (g == NULL) {
+    exit(EXIT_FAILURE);
+  }
+  if (!queue_is_empty(g->annulation)) {
+    int* tab = queue_pop_head(g->annulation);
+    game_set_square(g, tab[0], tab[1], tab[2]);
+  }
+}
