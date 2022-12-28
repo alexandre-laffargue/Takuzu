@@ -103,7 +103,6 @@ void game_delete(game g) {
     if (g->historique != NULL) {
       queue_clear(g->historique);
       queue_free(g->historique);
-
     }
     if (g->annulation != NULL) {
       queue_clear(g->annulation);
@@ -249,7 +248,8 @@ int game_has_error(cgame g, uint i, uint j) {
   if (game_get_square(g, i, j) == S_EMPTY) {
     return 0;
   }
-  int cpt_ver = 1, cpt_hor = 1;
+  int cpt_ver = 1, cpt_hor = 1;  // début des test du nbr de même case à coté
+  /* horizontal*/
   if (game_get_number(g, i, j) == game_get_next_number(g, i, j, RIGHT, 1)) {
     cpt_hor++;
     if (game_get_number(g, i, j) == game_get_next_number(g, i, j, RIGHT, 2)) {
@@ -281,20 +281,88 @@ int game_has_error(cgame g, uint i, uint j) {
       return -1;
     }
   }
-  if (g->unique) {
-    int cpt_hor1 = 0, cpt_ver1 = 0;
-    for (uint k = 0; k < g->nb_rows; k++) {
-      if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
-        cpt_hor1++;
-      }
-      if (game_get_number(g, i, k) == game_get_number(g, i, j)) {
-        cpt_ver1++;
+  int cpt_hor1 = 0, cpt_ver1 = 0;  // début du test de la moitié d'une couleur
+  for (uint k = 0; k < g->nb_rows; k++) {
+    if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
+      cpt_hor1++;
+    }
+  }
+  for (uint k = 0; k < g->nb_cols; k++) {
+    if (game_get_number(g, i, k) == game_get_number(g, i, j)) {
+      cpt_ver1++;
+    }
+  }
+  if (cpt_hor1 > (g->nb_rows / 2) || cpt_ver1 > (g->nb_cols / 2)) {
+    return -1;
+  } else {
+    return 0;
+  }
+  if (g->unique) {  // test de la condition unique
+    bool testligne = true;
+    bool testcolonne = true;
+    for (uint k = 0; k < g->nb_cols;
+         k++) {  // regarde si il y a une case vide dans la ligne
+      if (game_get_square(g, i, k) == S_EMPTY) {
+        testligne = false;
       }
     }
-    if (cpt_hor1 > (g->nb_rows / 2) || cpt_ver1 > (g->nb_cols / 2)) {
-      return -1;
-    } else {
-      return 0;
+    for (uint k = 0; k < g->nb_rows;
+         k++) {  // regarde si il y a une case vide dans la colonne
+      if (game_get_number(g, k, j) == S_EMPTY) {
+        testcolonne = false;
+      }
+    }
+    if (testligne) {
+      int tab[g->nb_cols];
+      for (uint k = 0; k < g->nb_cols;
+           k++) {  // parcours la ligne et met les valeurs dans un tableau
+        tab[k] = game_get_number(g, i, k);
+      }
+      int cptlmemenombre;
+      for (uint x = 0; x < g->nb_rows; x++) {  // parcours les lignes
+        cptlmemenombre = 0;
+        for (uint y = 0; y < g->nb_cols; y++) {  // parcours les colonnes
+          if (x == i) {  // si sur la meme ligne que la case testé on passe a la
+                         // suivante
+            break;
+          }
+          if (game_get_number(g, x, y) !=
+              tab[y]) {  // si la valeur de la case testé est differente de
+                         // celle du tableau
+            break;       // on passe a la ligne suivante
+          }
+          cptlmemenombre++;
+        }
+        if (cptlmemenombre == g->nb_cols) {
+          return -1;
+        }
+      }
+    }
+    if (testcolonne) {
+      int tab[g->nb_rows];
+      for (uint k = 0; k < g->nb_rows;
+           k++) {  // parcours la colonne et met les valeurs dans un tableau
+        tab[k] = game_get_number(g, k, j);
+      }
+      int cptcmemenombre;
+      for (uint x = 0; x < g->nb_cols; x++) {  // parcours les colonnes
+        cptcmemenombre = 0;
+        for (uint y = 0; y < g->nb_rows; y++) {  // parcours les lignes
+          if (y == j) {  // si sur la meme colonne que la case testé on passe a
+                         // la suivante
+            break;
+          }
+          if (game_get_number(g, y, x) !=
+              tab[y]) {  // si la valeur de la case testé est differente de
+                         // celle du tableau
+            break;       // on passe a la colonne suivante
+          }
+          cptcmemenombre++;
+        }
+        if (cptcmemenombre == g->nb_rows) {
+          return -1;
+        }
+      }
     }
   }
   return 0;
@@ -326,6 +394,9 @@ void game_play_move(game g, uint i, uint j, square s) {
   if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
       game_get_square(g, i, j) != S_IMMUTABLE_ZERO) {
     game_set_square(g, i, j, s);
+    int tab[3] = {i, j, s};
+    queue_push_head(g->historique, tab);
+    queue_clear(g->annulation);
   }
 }
 
