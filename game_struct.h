@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "queue.h"
 
 struct game_s {
   square* square_array;
@@ -11,4 +12,6 @@ struct game_s {
   bool unique;    // règle du meme nbr de 0 et 1.
   uint nb_rows;
   uint nb_cols;
+  queue* historique;
+  queue* annulation;
 };

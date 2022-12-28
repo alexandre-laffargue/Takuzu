@@ -8,6 +8,7 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
+#include "queue.h"
 
 void* memory_alloc(uint size) {
   void* tmp = malloc(size);
@@ -35,6 +36,8 @@ game game_new(square* squares) {
     array[i] = tmp;
   }
   new->square_array = array;
+  new->historique = queue_new();
+  new->annulation = queue_new();
   return new;
 }
 
@@ -50,6 +53,8 @@ game game_new_empty(void) {
     array[i] = S_EMPTY;
   }
   g->square_array = array;
+  g->historique = queue_new();
+  g->annulation = queue_new();
   return g;
 }
 
@@ -69,6 +74,8 @@ game game_copy(cgame g) {
       game_set_square(copy, i, j, game_get_square(g, i, j));
     }
   }
+  copy->historique = queue_new();
+  copy->annulation = queue_new();
   return copy;
 }
 
@@ -92,6 +99,15 @@ void game_delete(game g) {
   if (g != NULL) {
     if (g->square_array != NULL) {
       free(g->square_array);
+    }
+    if (g->historique != NULL) {
+      queue_clear(g->historique);
+      queue_free(g->historique);
+
+    }
+    if (g->annulation != NULL) {
+      queue_clear(g->annulation);
+      queue_free(g->annulation);
     }
     free(g);
   }
@@ -342,4 +358,6 @@ void game_restart(game g) {
       }
     }
   }
+  queue_clear(g->historique);
+  queue_clear(g->annulation);
 }
