@@ -394,7 +394,10 @@ void game_play_move(game g, uint i, uint j, square s) {
   if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
       game_get_square(g, i, j) != S_IMMUTABLE_ZERO) {
     game_set_square(g, i, j, s);
-    int tab[3] = {i, j, s};
+    int* tab = memory_alloc(3 * sizeof(int));
+    tab[0] = i;
+    tab[1] = j;
+    tab[2] = s;
     queue_push_head(g->historique, tab);
     queue_clear(g->annulation);
   }
