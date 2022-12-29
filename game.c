@@ -118,7 +118,7 @@ void game_set_square(game g, uint i, uint j, square s) {
        s != S_ONE && s != S_ZERO)) {
     exit(EXIT_FAILURE);
   }
-  uint index = (i * g->nb_rows) + j;
+  uint index = (i * g->nb_cols) + j;
   g->square_array[index] = s;
 }
 
@@ -126,7 +126,7 @@ square game_get_square(cgame g, uint i, uint j) {
   if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
     exit(EXIT_FAILURE);
   }
-  uint index = (i * g->nb_rows) + j;
+  uint index = (i * g->nb_cols) + j;
   return g->square_array[index];
 }
 

@@ -14,17 +14,17 @@ void game_print(cgame g) {
     exit(EXIT_FAILURE);
   }
   printf("   ");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->nb_cols; i++) {
     printf("%d", i);
   }
   printf("\n   ");
-  for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int j = 0; j < g->nb_cols; j++) {
     printf("-");
   }
   printf("\n");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->nb_rows; i++) {
     printf("%d |", i);
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+    for (int j = 0; j < g->nb_cols; j++) {
       if (game_get_square(g, i, j) == S_EMPTY) {
         printf(" ");
       }
@@ -44,7 +44,7 @@ void game_print(cgame g) {
     printf("|\n");
   }
   printf("   ");
-  for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int j = 0; j < g->nb_cols; j++) {
     printf("-");
   }
   printf("\n");

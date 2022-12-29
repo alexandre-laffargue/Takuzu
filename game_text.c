@@ -4,6 +4,7 @@
 #include "game.h"
 #include "game_aux.h"
 #include "game_ext.h"
+#include "game_struct.h"
 
 void game_help_print() {
   printf("- press 'w <i> <j>' to put a zero/white at square (i,j)\n");
@@ -13,8 +14,8 @@ void game_help_print() {
   printf("- press 'q' to quit\n");
 }
 void game_errors_print(game g) {
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++)
+  for (int i = 0; i < g->nb_rows; i++) {
+    for (int j = 0; j < g->nb_cols; j++)
       if (game_has_error(g, i, j)) {
         printf("Error at square (%d,%d)\n", i, j);
       }
@@ -23,7 +24,7 @@ void game_errors_print(game g) {
 
 int main() {
   char c;
-  game g = game_default();
+  game g = game_new_empty_ext(6, 4, true , true);
   while (!game_is_over(g)) {
     game_print(g);
     game_errors_print(g);
