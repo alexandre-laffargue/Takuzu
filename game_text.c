@@ -24,7 +24,7 @@ void game_errors_print(game g) {
 
 int main() {
   char c;
-  game g = game_new_empty_ext(6, 4, true , true);
+  game g = game_new_empty_ext(4, 6, true, true);
   while (!game_is_over(g)) {
     game_print(g);
     game_errors_print(g);
@@ -73,7 +73,7 @@ int main() {
           game_play_move(g, i, j, S_EMPTY);
         }
       }
-    } 
+    }
   }
   game_print(g);
   printf("congratulation\n");
