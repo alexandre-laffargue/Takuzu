@@ -55,7 +55,6 @@ game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
   g->historique = queue_new();
   g->annulation = queue_new();
 
-
   square* array = memory_alloc1((g->nb_rows * g->nb_cols) * sizeof(square));
 
   for (int i = 0; i < g->nb_rows * g->nb_cols; i++) {
@@ -78,7 +77,6 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   new->historique = queue_new();
   new->annulation = queue_new();
 
-
   square* array = memory_alloc1((new->nb_rows* new->nb_cols) * sizeof(square));
 
   for (int i = 0; i < (new->nb_rows* new->nb_cols); i++) {
@@ -89,7 +87,7 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   return new;
 }
 
-void game_undo(game g){
+void game_undo(game g) {
   if (g == NULL) {
     exit(EXIT_FAILURE);
   }
@@ -100,12 +98,13 @@ void game_undo(game g){
   }
 }
 
-void game_redo(game g){
+void game_redo(game g) {
   if (g == NULL) {
     exit(EXIT_FAILURE);
   }
   if (!queue_is_empty(g->annulation)) {
     int* tab = queue_pop_head(g->annulation);
     game_set_square(g, tab[0], tab[1], tab[2]);
+    queue_push_head(g->historique, tab);
   }
 }
