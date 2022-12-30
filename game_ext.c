@@ -52,6 +52,10 @@ game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
   g->nb_cols = nb_cols;
   g->wrapping = wrapping;
   g->unique = unique;
+  g->historique = queue_new();
+  g->annulation = queue_new();
+
+
   square* array = memory_alloc1((g->nb_rows * g->nb_cols) * sizeof(square));
 
   for (int i = 0; i < g->nb_rows * g->nb_cols; i++) {
@@ -71,6 +75,10 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   new->nb_cols = nb_cols;
   new->wrapping = wrapping;
   new->unique = unique;
+  new->historique = queue_new();
+  new->annulation = queue_new();
+
+
   square* array = memory_alloc1((new->nb_rows* new->nb_cols) * sizeof(square));
 
   for (int i = 0; i < (new->nb_rows* new->nb_cols); i++) {
