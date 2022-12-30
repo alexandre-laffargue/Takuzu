@@ -121,7 +121,8 @@ void game_set_square(game g, uint i, uint j, square s) {
        s != S_ONE && s != S_ZERO)) {
     printf(
         "game_set_square: g is NULL or i or j is out of range or s is not a "
-        "square, params : %d %d %d %d %d\n", i, j, g->nb_rows, g->nb_cols, s);
+        "square, params : %d %d %d %d %d\n",
+        i, j, g->nb_rows, g->nb_cols, s);
     exit(EXIT_FAILURE);
   }
   uint index = (i * g->nb_cols) + j;
@@ -201,19 +202,31 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
     }
   } else {
     if (dir == UP) {
-      int ni = (i - dist) % g->nb_rows;
+      int ni = (i - dist);
+      if (ni < 0) {
+        ni += g->nb_rows;
+      }
       square sq = game_get_square(g, ni, j);
       return sq;
     } else if (dir == DOWN) {
-      int ni = (i + dist) % g->nb_rows;
+      int ni = (i + dist);
+      if (ni >= g->nb_rows) {
+        ni -= g->nb_rows;
+      }
       square sq = game_get_square(g, ni, j);
       return sq;
     } else if (dir == LEFT) {
-      int nj = (j - dist) % g->nb_cols;
+      int nj = (j - dist);
+      if (nj < 0) {
+        nj += g->nb_cols;
+      }
       square sq = game_get_square(g, i, nj);
       return sq;
     } else if (dir == RIGHT) {
-      int nj = (j + dist) % g->nb_cols;
+      int nj = (j + dist);
+      if (nj >= g->nb_cols) {
+        nj -= g->nb_cols;
+      }
       square sq = game_get_square(g, i, nj);
       return sq;
     }
