@@ -48,6 +48,23 @@ bool test_game_is_wrapping() {
   return test;
 }
 
+bool test_game_is_unique(){
+  game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, true);
+
+  if(game_is_unique(g) != g->unique){
+    game_delete(g);
+    return false;
+  }
+  g->unique = false;
+
+  if(game_is_unique(g) != g->unique){
+    game_delete(g);
+    return false;
+  }
+  game_delete(g);
+  return true;
+}
+
 bool test_game_new_empty_ext(){
   game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, true, true);
   for (int i = 0; i <= 5; i++) {
@@ -135,6 +152,8 @@ int main(int argc, char *argv[]) {
     ok = test_game_new_empty_ext();
   else if (strcmp("game_new_ext", argv[1]) == 0)
     ok = test_game_new_ext();
+  else if (strcmp("game_is_unique", argv[1]) == 0)
+    ok = test_game_is_unique();
 
 else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
