@@ -13,7 +13,7 @@ void usage(int argc, char *argv[]) {
 
 bool test_dummy() { return true; }
 
-bool test_game_is_wrapping() { return true; }
+
 
 bool test_game_print() {
   game g = game_default();
@@ -175,9 +175,6 @@ int main(int argc, char *argv[]) {
 
   } else if (strcmp("game_new_empty", argv[1]) == 0) {
     tmp = test_game_new_empty();
-
-  } else if (strcmp("game_is_wrapping", argv[1]) == 0) {
-    tmp = test_game_is_wrapping();
 
   } else if (strcmp("game_copy", argv[1]) == 0) {
     tmp = test_game_copy();
