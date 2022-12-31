@@ -5,6 +5,9 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_ext.h"
+#include "game_struct.h"
+#include "queue.h"
 
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -41,6 +44,22 @@ bool test_game_new() {
       }
     }
   }
+  if(g->unique != g->wrapping != false){
+    game_delete(g);
+    free(square_array);
+    return false;
+  }
+  if(g->nb_cols != g->nb_rows != DEFAULT_SIZE){
+    game_delete(g);
+    free(square_array);
+    return false;
+  }
+  if(g->annulation && g->historique == NULL){
+      game_delete(g);
+      free(square_array);
+      return false;
+    }
+  
   game_delete(g);
   free(square_array);
   return true;
@@ -56,12 +75,25 @@ bool test_game_new_empty() {
       }
     }
   }
+  if(g->unique != g->wrapping != false){
+    game_delete(g);
+    return false;
+  }
+  if(g->nb_cols != g->nb_rows != DEFAULT_SIZE){
+    game_delete(g);
+    return false;
+  }
+  if(g->annulation && g->historique == NULL){
+      game_delete(g);
+      return false;
+    }
   game_delete(g);
   return true;
 }
 bool test_game_copy() {
   game g = game_default();
   game copy = game_copy(g);
+  
   if (game_equal(g, copy) == false) {
     game_delete(g);
     game_delete(copy);
@@ -72,6 +104,31 @@ bool test_game_copy() {
     game_delete(g);
     game_delete(copy);
     return false;
+  }
+  if(game_equal(g,copy) == true){
+    g->nb_cols += 1;
+    g->nb_rows += 1;
+    if(g->unique == true){
+      g->unique = false;
+    }else{
+      g->unique = true;
+    }
+    if(g->unique == false){
+      g->unique = true;
+    }else{
+      g->unique = false;
+    }
+    
+    if (copy->nb_cols == g->nb_cols || 
+        copy->nb_rows == g->nb_rows ||
+        copy->wrapping == g->wrapping ||
+        copy->unique == copy->unique)
+    {
+      game_delete(g);
+      game_delete(copy);
+      return false;
+    }
+    
   }
   game_delete(g);
   game_delete(copy);
@@ -109,6 +166,18 @@ bool test_game_equal() {
     game_delete(copy);
     game_delete(difstate);
     return false;
+  }
+  if(game_equal(g,copy)) {
+    if(g->wrapping != copy->wrapping ||
+     g->unique != copy->unique ||
+     g->nb_cols != copy->nb_cols ||
+     g->nb_rows != copy->nb_cols )
+     game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    return false;
+
   }
 
   game_delete(g);
