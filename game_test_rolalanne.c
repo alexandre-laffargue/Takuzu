@@ -146,47 +146,136 @@ bool test_game_equal() {
   game copy = game_copy(g);
   game difstate = game_copy(g);
   game_set_square(difstate, 1, 1, S_IMMUTABLE_ZERO);
-  game_set_square(difstate, 3, 4, S_IMMUTABLE_ONE);
+  game_set_square(difstate, 3, 3, S_IMMUTABLE_ONE);
+
+  game g2 = game_new_empty_ext(6, 4, false, false);
+  game dif2 = game_new_empty_ext(6, 4, false, false);
+  game_set_square(g2, 0, 0, S_EMPTY);
+  game_set_square(g2, 1, 1, S_ZERO);
+  game_set_square(g2, 5, 3, S_ONE);
+  game_set_square(g2, 2, 1, S_IMMUTABLE_ONE);
+  game_set_square(g2, 2, 2, S_IMMUTABLE_ZERO);
+  game copy2 = game_copy(g2);
+  game difstate2 = game_copy(g2);
+  difstate2->unique = true;
+  game_set_square(difstate2, 1, 1, S_IMMUTABLE_ZERO);
+  game_set_square(difstate2, 3, 3, S_IMMUTABLE_ONE);
+
 
   if (game_equal(g, dif)) {
     game_delete(g);
     game_delete(dif);
     game_delete(copy);
     game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
     return false;
   } else if (!game_equal(g, copy)) {
     game_delete(g);
     game_delete(dif);
     game_delete(copy);
     game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
     return false;
   } else if (game_equal(g, difstate)) {
     game_delete(g);
     game_delete(dif);
     game_delete(copy);
     game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
     return false;
   }
   if(game_equal(g,copy)) {
     if(g->wrapping != copy->wrapping ||
      g->unique != copy->unique ||
      g->nb_cols != copy->nb_cols ||
-     g->nb_rows != copy->nb_cols ){
+     g->nb_rows != copy->nb_rows ){
     game_delete(g);
     game_delete(dif);
     game_delete(copy);
     game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
+    return false;
+     }
+
+  }
+  
+  if (game_equal(g2, dif2)) {
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
+    return false;
+  }
+  else if (!game_equal(g2, copy2)) {
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
+    return false;
+  }
+  else if (game_equal(g2, difstate2)) {
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
+    return false;
+  }
+  if(game_equal(g2,copy2)) {
+    if(g2->wrapping != copy2->wrapping ||
+     g2->unique != copy2->unique ||
+     g2->nb_cols != copy2->nb_cols  ||
+     g2->nb_rows != copy2->nb_rows ){
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
     return false;
      }
 
   }
 
+    
+  
+
   game_delete(g);
   game_delete(dif);
   game_delete(copy);
   game_delete(difstate);
+  game_delete(g2);
+  game_delete(dif2);
+  game_delete(copy2);
+  game_delete(difstate2);
   return true;
 }
+
 bool test_game_delete() {
   game g = game_default();
   game_delete(g);
