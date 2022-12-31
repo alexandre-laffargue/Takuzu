@@ -39,6 +39,15 @@ bool test_game_nb_cols() {
   return (test1 && test2);
 }
 
+bool test_game_is_wrapping() {
+  game g1 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
+  game g2 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, true, false);
+  bool test = !game_is_wrapping(g1) && game_is_wrapping(g2);
+  game_delete(g1);
+  game_delete(g2);
+  return test;
+}
+
 
 
 int main(int argc, char *argv[]) {
@@ -51,6 +60,8 @@ int main(int argc, char *argv[]) {
     ok = test_game_nb_rows();
   else if (strcmp("game_nb_cols", argv[1]) == 0)
     ok = test_game_nb_cols();
+  else if (strcmp("game_is_wrapping", argv[1]) == 0)
+    ok = test_game_is_wrapping();
 
 else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
