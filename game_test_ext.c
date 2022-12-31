@@ -15,6 +15,26 @@ void usage(int argc, char *argv[]) {
   exit(EXIT_FAILURE);
 }
 
+
+bool test_game_undo() {
+  game g1 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false,false);
+  game g2 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
+  game_play_move(g1, 0, 0, S_ONE);
+  game_undo(g1);
+  
+  if (game_equal(g1,g2)==false) {
+    game_delete(g1);
+    game_delete(g2);
+    return false;
+  }
+  else{
+    game_delete(g1);
+    game_delete(g2);
+    return true;
+  }
+}
+
+
 bool test_game_nb_rows() {
   game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
   bool test1 = (DEFAULT_SIZE == game_nb_rows(g));
@@ -154,6 +174,8 @@ int main(int argc, char *argv[]) {
     ok = test_game_new_ext();
   else if (strcmp("game_is_unique", argv[1]) == 0)
     ok = test_game_is_unique();
+  else if (strcmp("game_undo", argv[1]) == 0)
+    ok = test_game_undo();
 
 else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
