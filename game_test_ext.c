@@ -48,6 +48,75 @@ bool test_game_is_wrapping() {
   return test;
 }
 
+bool test_game_new_empty_ext(){
+  game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, true, true);
+  for (int i = 0; i <= 5; i++) {
+    for (int j = 0; j <= 5; j++) {
+      square tmp = game_get_square(g, i, j);
+      if (tmp != S_EMPTY) {
+        game_delete(g);
+        return false;
+      }
+    }
+  }
+  if(g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)){
+    game_delete(g);
+    return false;
+  }
+  if(g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE){
+    game_delete(g);
+    return false;
+  }
+  if(g->annulation == NULL || g->historique == NULL){
+      game_delete(g);
+      return false;
+    }
+  game_delete(g);
+  return true;
+
+}
+
+bool test_game_new_ext(){
+  square *square_array = malloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));
+
+  for (int i = 0; i < 36; i++) {
+    square_array[i] = S_EMPTY;
+  }
+  game g = game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, square_array,true ,true);
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; i < 6; i++) {
+      if (game_get_square(g, i, j) != S_ZERO &&
+          game_get_square(g, i, j) != S_EMPTY &&
+          game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
+          game_get_square(g, i, j) != S_IMMUTABLE_ZERO &&
+          game_get_square(g, i, j) != S_ONE) {
+        game_delete(g);
+        free(square_array);
+        return false;
+      }
+    }
+  }
+  if(g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)){
+    game_delete(g);
+    free(square_array);
+    return false;
+  }
+  if(g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE){
+    game_delete(g);
+    free(square_array);
+    return false;
+  }
+  if(g->annulation == NULL || g->historique == NULL){
+      game_delete(g);
+      free(square_array);
+      return false;
+    }
+  
+  game_delete(g);
+  free(square_array);
+  return true;
+}
+
 
 
 int main(int argc, char *argv[]) {
@@ -62,6 +131,10 @@ int main(int argc, char *argv[]) {
     ok = test_game_nb_cols();
   else if (strcmp("game_is_wrapping", argv[1]) == 0)
     ok = test_game_is_wrapping();
+  else if (strcmp("game_new_empty_ext", argv[1]) == 0)
+    ok = test_game_new_empty_ext();
+  else if (strcmp("game_new_ext", argv[1]) == 0)
+    ok = test_game_new_ext();
 
 else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
