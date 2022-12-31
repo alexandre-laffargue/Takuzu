@@ -23,6 +23,9 @@ target_link_libraries(game_test_alelaffargue game )
 add_executable(game_test_rolalanne game_test_rolalanne.c)
 target_link_libraries(game_test_rolalanne game )
 
+add_executable(game_test_ext game_test_ext.c)
+target_link_libraries(game_test_ext game)
+
 add_test(test_abahraoui_game_is_empty ./game_test_abahraoui game_is_empty)
 add_test(test_abahraoui_game_play_move ./game_test_abahraoui game_play_move)
 add_test(test_abahraoui_game_has_error ./game_test_abahraoui game_has_error)
@@ -49,3 +52,7 @@ add_test(test_rolalanne_game_copy ./game_test_rolalanne game_copy)
 add_test(test_rolalanne_game_equal ./game_test_rolalanne game_equal)
 add_test(test_rolalanne_game_default ./game_test_rolalanne game_default)
 add_test(test_rolalanne_game_is_wrapping ./game_test_rolalanne game_is_wrapping)
+
+add_test(test_ext_game_nb_rows ./game_test_ext game_nb_rows)
+add_test(test_ext_game_nb_cols ./game_test_ext game_nb_cols)
+add_test(test_ext_game_is_wrapping ./game_test_ext game_is_wrapping)
