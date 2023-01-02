@@ -91,16 +91,33 @@ void game_undo(game g) {
   if (g == NULL) {
     exit(EXIT_FAILURE);
   }
+  if (queue_is_empty(g->historique)) {
+    printf("Pas d'undo possible \n");
+    return;
+  }
   if (!queue_is_empty(g->historique)) {
     int* tab = queue_pop_head(g->historique);
     queue_push_head(g->annulation, tab);
-    game_set_square(g, tab[0], tab[1], S_EMPTY);
+    int* tab2;
+    if (!queue_is_empty(g->historique)) {
+      tab2 = queue_peek_head(g->historique);
+    }
+    if (!queue_is_empty(g->historique) && (tab[0] == tab2[0]) &&
+        (tab[1] == tab2[1])) {
+      game_set_square(g, tab[0], tab[1], tab2[2]);
+    } else {
+      game_set_square(g, tab[0], tab[1], S_EMPTY);
+    }
   }
 }
 
 void game_redo(game g) {
   if (g == NULL) {
     exit(EXIT_FAILURE);
+  }
+  if (queue_is_empty(g->annulation)) {
+    printf("Pas d'annulation possible \n");
+    return;
   }
   if (!queue_is_empty(g->annulation)) {
     int* tab = queue_pop_head(g->annulation);
