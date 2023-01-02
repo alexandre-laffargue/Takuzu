@@ -72,7 +72,7 @@ bool test_game_play_move() {
 }
 
 bool test_game_has_error() {
-  game g = game_new_empty();
+  game g = game_new_empty_ext(3,3,true,true);
   game_set_square(g, 0, 0, S_ONE);
   game_set_square(g, 0, 1, S_ONE);
   game_set_square(g, 0, 2, S_ONE);
