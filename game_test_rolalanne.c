@@ -16,8 +16,6 @@ void usage(int argc, char *argv[]) {
 
 bool test_dummy() { return true; }
 
-
-
 bool test_game_print() {
   game g = game_default();
   game_print(g);
@@ -44,22 +42,22 @@ bool test_game_new() {
       }
     }
   }
-  if(g->unique != false || g->wrapping != false){
+  if (g->unique != false || g->wrapping != false) {
     game_delete(g);
     free(square_array);
     return false;
   }
-  if(g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE){
+  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
     game_delete(g);
     free(square_array);
     return false;
   }
-  if(g->annulation == NULL || g->historique == NULL){
-      game_delete(g);
-      free(square_array);
-      return false;
-    }
-  
+  if (g->annulation == NULL || g->historique == NULL) {
+    game_delete(g);
+    free(square_array);
+    return false;
+  }
+
   game_delete(g);
   free(square_array);
   return true;
@@ -75,25 +73,25 @@ bool test_game_new_empty() {
       }
     }
   }
-  if(g->unique != false || g->wrapping != false){
+  if (g->unique != false || g->wrapping != false) {
     game_delete(g);
     return false;
   }
-  if(g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE){
+  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
     game_delete(g);
     return false;
   }
-  if(g->annulation == NULL || g->historique == NULL){
-      game_delete(g);
-      return false;
-    }
+  if (g->annulation == NULL || g->historique == NULL) {
+    game_delete(g);
+    return false;
+  }
   game_delete(g);
   return true;
 }
 bool test_game_copy() {
   game g = game_default();
   game copy = game_copy(g);
-  
+
   if (game_equal(g, copy) == false) {
     game_delete(g);
     game_delete(copy);
@@ -105,30 +103,26 @@ bool test_game_copy() {
     game_delete(copy);
     return false;
   }
-  if(game_equal(g,copy) == true){
+  if (game_equal(g, copy) == true) {
     g->nb_cols += 1;
     g->nb_rows += 1;
-    if(g->unique == true){
+    if (g->unique == true) {
       g->unique = false;
-    }else{
+    } else {
       g->unique = true;
     }
-    if(g->unique == false){
+    if (g->unique == false) {
       g->unique = true;
-    }else{
+    } else {
       g->unique = false;
     }
-    
-    if (copy->nb_cols == g->nb_cols || 
-        copy->nb_rows == g->nb_rows ||
-        copy->wrapping == g->wrapping ||
-        copy->unique == g->unique)
-    {
+
+    if (copy->nb_cols == g->nb_cols || copy->nb_rows == g->nb_rows ||
+        copy->wrapping == g->wrapping || copy->unique == g->unique) {
       game_delete(g);
       game_delete(copy);
       return false;
     }
-    
   }
   game_delete(g);
   game_delete(copy);
@@ -161,7 +155,6 @@ bool test_game_equal() {
   game_set_square(difstate2, 1, 1, S_IMMUTABLE_ZERO);
   game_set_square(difstate2, 3, 3, S_IMMUTABLE_ONE);
 
-
   if (game_equal(g, dif)) {
     game_delete(g);
     game_delete(dif);
@@ -193,24 +186,21 @@ bool test_game_equal() {
     game_delete(difstate2);
     return false;
   }
-  if(game_equal(g,copy)) {
-    if(g->wrapping != copy->wrapping ||
-     g->unique != copy->unique ||
-     g->nb_cols != copy->nb_cols ||
-     g->nb_rows != copy->nb_rows ){
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-     }
-
+  if (game_equal(g, copy)) {
+    if (g->wrapping != copy->wrapping || g->unique != copy->unique ||
+        g->nb_cols != copy->nb_cols || g->nb_rows != copy->nb_rows) {
+      game_delete(g);
+      game_delete(dif);
+      game_delete(copy);
+      game_delete(difstate);
+      game_delete(g2);
+      game_delete(dif2);
+      game_delete(copy2);
+      game_delete(difstate2);
+      return false;
+    }
   }
-  
+
   if (game_equal(g2, dif2)) {
     game_delete(g);
     game_delete(dif);
@@ -221,8 +211,17 @@ bool test_game_equal() {
     game_delete(copy2);
     game_delete(difstate2);
     return false;
-  }
-  else if (!game_equal(g2, copy2)) {
+  } else if (!game_equal(g2, copy2)) {
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    game_delete(g2);
+    game_delete(dif2);
+    game_delete(copy2);
+    game_delete(difstate2);
+    return false;
+  } else if (game_equal(g2, difstate2)) {
     game_delete(g);
     game_delete(dif);
     game_delete(copy);
@@ -233,37 +232,20 @@ bool test_game_equal() {
     game_delete(difstate2);
     return false;
   }
-  else if (game_equal(g2, difstate2)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
+  if (game_equal(g2, copy2)) {
+    if (g2->wrapping != copy2->wrapping || g2->unique != copy2->unique ||
+        g2->nb_cols != copy2->nb_cols || g2->nb_rows != copy2->nb_rows) {
+      game_delete(g);
+      game_delete(dif);
+      game_delete(copy);
+      game_delete(difstate);
+      game_delete(g2);
+      game_delete(dif2);
+      game_delete(copy2);
+      game_delete(difstate2);
+      return false;
+    }
   }
-  if(game_equal(g2,copy2)) {
-    if(g2->wrapping != copy2->wrapping ||
-     g2->unique != copy2->unique ||
-     g2->nb_cols != copy2->nb_cols  ||
-     g2->nb_rows != copy2->nb_rows ){
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-     }
-
-  }
-
-    
-  
 
   game_delete(g);
   game_delete(dif);

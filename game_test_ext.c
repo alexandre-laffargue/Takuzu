@@ -8,26 +8,22 @@
 #include "game_ext.h"
 #include "game_struct.h"
 
-
-
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
 }
 
-
 bool test_game_undo() {
-  game g1 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false,false);
+  game g1 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
   game g2 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
   game_play_move(g1, 0, 0, S_ONE);
   game_undo(g1);
-  
-  if (game_equal(g1,g2)==false) {
+
+  if (game_equal(g1, g2) == false) {
     game_delete(g1);
     game_delete(g2);
     return false;
-  }
-  else{
+  } else {
     game_delete(g1);
     game_delete(g2);
     return true;
@@ -49,7 +45,6 @@ bool test_game_redo() {
   game_delete(g);
   return result;
 }
-
 
 bool test_game_nb_rows() {
   game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
@@ -84,16 +79,16 @@ bool test_game_is_wrapping() {
   return test;
 }
 
-bool test_game_is_unique(){
+bool test_game_is_unique() {
   game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, true);
 
-  if(game_is_unique(g) != g->unique){
+  if (game_is_unique(g) != g->unique) {
     game_delete(g);
     return false;
   }
   g->unique = false;
 
-  if(game_is_unique(g) != g->unique){
+  if (game_is_unique(g) != g->unique) {
     game_delete(g);
     return false;
   }
@@ -101,7 +96,7 @@ bool test_game_is_unique(){
   return true;
 }
 
-bool test_game_new_empty_ext(){
+bool test_game_new_empty_ext() {
   game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, true, true);
   for (int i = 0; i <= 5; i++) {
     for (int j = 0; j <= 5; j++) {
@@ -112,30 +107,29 @@ bool test_game_new_empty_ext(){
       }
     }
   }
-  if(g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)){
+  if (g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)) {
     game_delete(g);
     return false;
   }
-  if(g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE){
+  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
     game_delete(g);
     return false;
   }
-  if(g->annulation == NULL || g->historique == NULL){
-      game_delete(g);
-      return false;
-    }
+  if (g->annulation == NULL || g->historique == NULL) {
+    game_delete(g);
+    return false;
+  }
   game_delete(g);
   return true;
-
 }
 
-bool test_game_new_ext(){
+bool test_game_new_ext() {
   square *square_array = malloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));
 
   for (int i = 0; i < 36; i++) {
     square_array[i] = S_EMPTY;
   }
-  game g = game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, square_array,true ,true);
+  game g = game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, square_array, true, true);
   for (int i = 0; i < 6; i++) {
     for (int j = 0; i < 6; i++) {
       if (game_get_square(g, i, j) != S_ZERO &&
@@ -149,28 +143,26 @@ bool test_game_new_ext(){
       }
     }
   }
-  if(g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)){
+  if (g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)) {
     game_delete(g);
     free(square_array);
     return false;
   }
-  if(g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE){
+  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
     game_delete(g);
     free(square_array);
     return false;
   }
-  if(g->annulation == NULL || g->historique == NULL){
-      game_delete(g);
-      free(square_array);
-      return false;
-    }
-  
+  if (g->annulation == NULL || g->historique == NULL) {
+    game_delete(g);
+    free(square_array);
+    return false;
+  }
+
   game_delete(g);
   free(square_array);
   return true;
 }
-
-
 
 int main(int argc, char *argv[]) {
   if (argc == 1) usage(argc, argv);
@@ -195,7 +187,7 @@ int main(int argc, char *argv[]) {
   else if (strcmp("game_redo", argv[1]) == 0)
     ok = test_game_redo();
 
-else {
+  else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
     exit(EXIT_FAILURE);
   }
