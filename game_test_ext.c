@@ -80,20 +80,12 @@ bool test_game_is_wrapping() {
 }
 
 bool test_game_is_unique() {
-  game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, true);
-
-  if (game_is_unique(g) != g->unique) {
-    game_delete(g);
-    return false;
-  }
-  g->unique = false;
-
-  if (game_is_unique(g) != g->unique) {
-    game_delete(g);
-    return false;
-  }
-  game_delete(g);
-  return true;
+  game g1 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
+  game g2 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, true);
+  bool test = !game_is_unique(g1) && game_is_unique(g2);
+  game_delete(g1);
+  game_delete(g2);
+  return test;
 }
 
 bool test_game_new_empty_ext() {
