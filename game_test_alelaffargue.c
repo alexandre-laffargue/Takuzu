@@ -449,6 +449,7 @@ bool test_game_is_immutable() {
 
 bool test_game_default_solution() {
   game g = game_default_solution();
+  game_print(g);
   if (game_is_over(g)) {
     game_delete(g);
     return true;
@@ -458,6 +459,121 @@ bool test_game_default_solution() {
   }
 }
 
+bool test_game_is_over_v2() {
+  game g_Won_Uoff = game_new_empty_ext(4, 6, true, false);
+
+  // jeu terminé, ON pour Wrapping et OFF pour Unique
+  game_set_square(g_Won_Uoff, 0, 0, S_ZERO);
+  game_set_square(g_Won_Uoff, 0, 1, S_ZERO);
+  game_set_square(g_Won_Uoff, 0, 2, S_ONE);
+  game_set_square(g_Won_Uoff, 0, 3, S_ONE);
+  game_set_square(g_Won_Uoff, 0, 4, S_ZERO);
+  game_set_square(g_Won_Uoff, 0, 5, S_ONE);
+
+  game_set_square(g_Won_Uoff, 1, 0, S_ONE);
+  game_set_square(g_Won_Uoff, 1, 1, S_ONE);
+  game_set_square(g_Won_Uoff, 1, 2, S_ZERO);
+  game_set_square(g_Won_Uoff, 1, 3, S_ZERO);
+  game_set_square(g_Won_Uoff, 1, 4, S_ONE);
+  game_set_square(g_Won_Uoff, 1, 5, S_ZERO);
+
+  game_set_square(g_Won_Uoff, 2, 0, S_ONE);
+  game_set_square(g_Won_Uoff, 2, 1, S_ONE);
+  game_set_square(g_Won_Uoff, 2, 2, S_ZERO);
+  game_set_square(g_Won_Uoff, 2, 3, S_ZERO);
+  game_set_square(g_Won_Uoff, 2, 4, S_ONE);
+  game_set_square(g_Won_Uoff, 2, 5, S_ZERO);
+
+  game_set_square(g_Won_Uoff, 3, 0, S_ZERO);
+  game_set_square(g_Won_Uoff, 3, 1, S_ZERO);
+  game_set_square(g_Won_Uoff, 3, 2, S_ONE);
+  game_set_square(g_Won_Uoff, 3, 3, S_ONE);
+  game_set_square(g_Won_Uoff, 3, 4, S_ZERO);
+  game_set_square(g_Won_Uoff, 3, 5, S_ONE);
+  printf("1er jeu\n");
+  game_print(g_Won_Uoff);
+  if (game_is_over(g_Won_Uoff) == false) {
+    game_delete(g_Won_Uoff);
+    return false;
+  }
+
+  game g_Won_Uon = game_new_empty_ext(4, 6, true, true);
+  // jeu terminé,  ON pour les 2 options
+  game_set_square(g_Won_Uon, 0, 0, S_ONE);
+  game_set_square(g_Won_Uon, 0, 1, S_ZERO);
+  game_set_square(g_Won_Uon, 0, 2, S_ZERO);
+  game_set_square(g_Won_Uon, 0, 3, S_ONE);
+  game_set_square(g_Won_Uon, 0, 4, S_ZERO);
+  game_set_square(g_Won_Uon, 0, 5, S_ONE);
+
+  game_set_square(g_Won_Uon, 1, 0, S_ZERO);
+  game_set_square(g_Won_Uon, 1, 1, S_ONE);
+  game_set_square(g_Won_Uon, 1, 2, S_ZERO);
+  game_set_square(g_Won_Uon, 1, 3, S_ONE);
+  game_set_square(g_Won_Uon, 1, 4, S_ONE);
+  game_set_square(g_Won_Uon, 1, 5, S_ZERO);
+
+  game_set_square(g_Won_Uon, 2, 0, S_ZERO);
+  game_set_square(g_Won_Uon, 2, 1, S_ONE);
+  game_set_square(g_Won_Uon, 2, 2, S_ONE);
+  game_set_square(g_Won_Uon, 2, 3, S_ZERO);
+  game_set_square(g_Won_Uon, 2, 4, S_ZERO);
+  game_set_square(g_Won_Uon, 2, 5, S_ONE);
+
+  game_set_square(g_Won_Uon, 3, 0, S_ONE);
+  game_set_square(g_Won_Uon, 3, 1, S_ZERO);
+  game_set_square(g_Won_Uon, 3, 2, S_ONE);
+  game_set_square(g_Won_Uon, 3, 3, S_ZERO);
+  game_set_square(g_Won_Uon, 3, 4, S_ONE);
+  game_set_square(g_Won_Uon, 3, 5, S_ZERO);
+  printf("ok 2 eme jeu\n");
+  game_print(g_Won_Uon);
+  if (game_is_over(g_Won_Uon) == false) {
+    game_delete(g_Won_Uoff);
+    game_delete(g_Won_Uon);
+    return false;
+  }
+
+  game gF_Won_Uon = game_new_empty_ext(4, 6, true, true);
+  // jeu avec erreurs
+  game_set_square(gF_Won_Uon, 0, 0, S_ZERO);
+  game_set_square(gF_Won_Uon, 0, 1, S_ZERO);
+  game_set_square(gF_Won_Uon, 0, 2, S_ONE);
+  game_set_square(gF_Won_Uon, 0, 3, S_ONE);
+  game_set_square(gF_Won_Uon, 0, 4, S_ZERO);
+  game_set_square(gF_Won_Uon, 0, 5, S_ONE);
+
+  game_set_square(gF_Won_Uon, 1, 0, S_ONE);
+  game_set_square(gF_Won_Uon, 1, 1, S_ONE);
+  game_set_square(gF_Won_Uon, 1, 2, S_ZERO);
+  game_set_square(gF_Won_Uon, 1, 3, S_ZERO);
+  game_set_square(gF_Won_Uon, 1, 4, S_ONE);
+  game_set_square(gF_Won_Uon, 1, 5, S_ZERO);
+
+  game_set_square(gF_Won_Uon, 2, 0, S_ONE);
+  game_set_square(gF_Won_Uon, 2, 1, S_ONE);
+  game_set_square(gF_Won_Uon, 2, 2, S_ZERO);
+  game_set_square(gF_Won_Uon, 2, 3, S_ZERO);
+  game_set_square(gF_Won_Uon, 2, 4, S_ONE);
+  game_set_square(gF_Won_Uon, 2, 5, S_ZERO);
+
+  game_set_square(gF_Won_Uon, 3, 0, S_ZERO);
+  game_set_square(gF_Won_Uon, 3, 1, S_ZERO);
+  game_set_square(gF_Won_Uon, 3, 2, S_ONE);
+  game_set_square(gF_Won_Uon, 3, 3, S_ONE);
+  game_set_square(gF_Won_Uon, 3, 4, S_ZERO);
+  game_set_square(gF_Won_Uon, 3, 5, S_ONE);
+  printf("ok 3 eme jeu\n");
+  game_print(gF_Won_Uon);
+  if (game_is_over(gF_Won_Uon) == true) {
+    game_delete(g_Won_Uoff);
+    game_delete(g_Won_Uon);
+    game_delete(gF_Won_Uon);
+    return false;
+  }
+
+  return true;
+}
 /****USAGE****/
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -485,10 +601,12 @@ int main(int argc, char *argv[]) {
     ok = test_game_get_next_square();
   } else if (strcmp("game_get_next_number", argv[1]) == 0) {
     ok = test_game_get_next_number();
-  } else if (strcmp("game_game_is_immutable", argv[1]) == 0) {
+  } else if (strcmp("game_is_immutable", argv[1]) == 0) {
     ok = test_game_is_immutable();
   } else if (strcmp("game_default_solution", argv[1]) == 0) {
     ok = test_game_default_solution();
+  } else if (strcmp("game_is_over_v2", argv[1]) == 0) {
+    ok = test_game_is_over_v2();
   }
 
   else {
