@@ -99,7 +99,11 @@ bool test_game_new_empty_ext() {
       }
     }
   }
-  if (g->nb_rows != 8 || g->nb_cols != 4) {
+  if (game_is_unique(g) != true || game_is_wrapping(g) != true) {
+    game_delete(g);
+    return false;
+  }
+  if (game_nb_rows(g) != 8 || game_nb_cols(g) != 4) {
     game_delete(g);
     return false;
   }
@@ -107,7 +111,36 @@ bool test_game_new_empty_ext() {
     game_delete(g);
     return false;
   }
+
+  game g2 = game_new_empty_ext(6, 8, false, false);
+  for (int i = 0; i < g2->nb_rows; i++) {
+    for (int j = 0; j < g2->nb_cols; j++) {
+      square tmp = game_get_square(g2, i, j);
+      if (tmp != S_EMPTY) {
+        game_delete(g);
+        game_delete(g2);
+        return false;
+      }
+    }
+  }
+  if (game_is_unique(g2) != false || game_is_wrapping(g2) != false) {
+    game_delete(g);
+    game_delete(g2);
+    return false;
+  }
+  if (game_nb_rows(g2) != 6 || game_nb_cols(g2) != 8) {
+    game_delete(g);
+    game_delete(g2);
+    return false;
+  }
+  if (g2->annulation == NULL || g2->historique == NULL) {
+    game_delete(g);
+    game_delete(g2);
+    return false;
+  }
+
   game_delete(g);
+  game_delete(g2);
   return true;
 }
 
