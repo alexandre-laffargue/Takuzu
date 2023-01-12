@@ -339,8 +339,6 @@ int game_has_error(cgame g, uint i, uint j) {
   }
   if (cpt_hor1 > (g->nb_rows / 2) || cpt_ver1 > (g->nb_cols / 2)) {
     return -1;
-  } else {
-    return 0;
   }
   if (g->unique) {  // test de la condition unique
     bool testligne = true;
