@@ -145,14 +145,14 @@ bool test_game_new_empty_ext() {
 }
 
 bool test_game_new_ext() {
-  square *square_array = malloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));
+  square *square_array = malloc(sizeof(square) * (8 * 4));
 
-  for (int i = 0; i < 36; i++) {
+  for (int i = 0; i < 32; i++) {
     square_array[i] = S_EMPTY;
   }
-  game g = game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, square_array, true, true);
-  for (int i = 0; i < 6; i++) {
-    for (int j = 0; i < 6; i++) {
+  game g = game_new_ext(8, 4, square_array, true, true);
+  for (int i = 0; i < g->nb_rows; i++) {
+    for (int j = 0; j < g->nb_cols; j++) {
       if (game_get_square(g, i, j) != S_ZERO &&
           game_get_square(g, i, j) != S_EMPTY &&
           game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
@@ -169,7 +169,7 @@ bool test_game_new_ext() {
     free(square_array);
     return false;
   }
-  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
+  if (g->nb_cols != 4 || g->nb_rows != 8) {
     game_delete(g);
     free(square_array);
     return false;
