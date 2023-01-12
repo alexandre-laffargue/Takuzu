@@ -596,7 +596,7 @@ bool test_game_has_error_v2() {
   game_set_square(g_Won_Uoff, 1, 5, S_ONE);
 
   // test si trouve pas d'erreur sur 2 lignes pareilles avec option unique OFF
-  for(int i = 0; i < 2; i ++){
+  for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 6; j++) {
       if (game_has_error(g_Won_Uoff, i, j) != 0) {
         game_delete(g_Won_Uoff);
@@ -605,7 +605,7 @@ bool test_game_has_error_v2() {
     }
   }
   game_delete(g_Won_Uoff);
-  
+
   game gF_Won_Uoff = game_new_empty_ext(4, 6, true, false);
   game_set_square(gF_Won_Uoff, 0, 0, S_ZERO);
   game_set_square(gF_Won_Uoff, 0, 1, S_ZERO);
@@ -614,7 +614,7 @@ bool test_game_has_error_v2() {
   if (game_has_error(gF_Won_Uoff, 0, 0) == 0 ||
       game_has_error(gF_Won_Uoff, 0, 1) == 0 ||
       game_has_error(gF_Won_Uoff, 0, 5) == 0) {
-        game_delete(gF_Won_Uoff);
+    game_delete(gF_Won_Uoff);
     return false;
   }
   game_delete(gF_Won_Uoff);
@@ -627,7 +627,7 @@ bool test_game_has_error_v2() {
   game_set_square(gF_Won_Uon, 0, 3, S_ONE);
   game_set_square(gF_Won_Uon, 0, 4, S_ZERO);
   game_set_square(gF_Won_Uon, 0, 5, S_ONE);
-  
+
   game_set_square(gF_Won_Uon, 1, 0, S_ZERO);
   game_set_square(gF_Won_Uon, 1, 1, S_ZERO);
   game_set_square(gF_Won_Uon, 1, 2, S_ONE);
@@ -635,7 +635,7 @@ bool test_game_has_error_v2() {
   game_set_square(gF_Won_Uon, 1, 4, S_ZERO);
   game_set_square(gF_Won_Uon, 1, 5, S_ONE);
   // test si trouve les erreurs sur 2 lignes pareilles avec option unique ON
-  for(int i = 0; i < 2; i ++){
+  for (int i = 0; i < 2; i++) {
     for (int j = 0; j < 6; j++) {
       if (game_has_error(gF_Won_Uon, i, j) == 0) {
         game_delete(gF_Won_Uon);

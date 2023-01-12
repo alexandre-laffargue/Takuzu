@@ -103,25 +103,25 @@ bool test_game_copy() {
     game_delete(copy);
     return false;
   }
-  
-  if(game_is_wrapping(g) != game_is_wrapping(copy)){
+
+  if (game_is_wrapping(g) != game_is_wrapping(copy)) {
     game_delete(g);
     game_delete(copy);
     return false;
   }
 
-  if(game_is_unique(g) != game_is_unique(copy)){
+  if (game_is_unique(g) != game_is_unique(copy)) {
     game_delete(g);
     game_delete(copy);
     return false;
   }
-  if(game_nb_cols(g) != game_nb_cols(copy)){
+  if (game_nb_cols(g) != game_nb_cols(copy)) {
     game_delete(g);
     game_delete(copy);
     return false;
   }
 
-  if(game_nb_rows(g) != game_nb_rows(copy)){
+  if (game_nb_rows(g) != game_nb_rows(copy)) {
     game_delete(g);
     game_delete(copy);
     return false;
@@ -130,7 +130,7 @@ bool test_game_copy() {
   game g2 = game_new_empty_ext(10, 6, false, false);
   game copy2 = game_copy(g2);
 
-  if(game_is_wrapping(copy2) == game_is_wrapping(copy)){
+  if (game_is_wrapping(copy2) == game_is_wrapping(copy)) {
     game_delete(g);
     game_delete(g2);
     game_delete(copy);
@@ -138,7 +138,7 @@ bool test_game_copy() {
     return false;
   }
 
-  if(game_is_unique(copy2) == game_is_unique(copy)){
+  if (game_is_unique(copy2) == game_is_unique(copy)) {
     game_delete(g);
     game_delete(g2);
     game_delete(copy);
@@ -146,7 +146,7 @@ bool test_game_copy() {
     return false;
   }
 
-  if(game_nb_cols(copy2) == game_nb_cols(copy)){
+  if (game_nb_cols(copy2) == game_nb_cols(copy)) {
     game_delete(g);
     game_delete(g2);
     game_delete(copy);
@@ -154,7 +154,7 @@ bool test_game_copy() {
     return false;
   }
 
-  if(game_nb_rows(copy2) == game_nb_rows(copy)){
+  if (game_nb_rows(copy2) == game_nb_rows(copy)) {
     game_delete(g);
     game_delete(g2);
     game_delete(copy);
