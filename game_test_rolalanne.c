@@ -132,6 +132,7 @@ bool test_game_copy() {
 
   if(game_is_wrapping(copy2) == game_is_wrapping(copy)){
     game_delete(g);
+    game_delete(g2);
     game_delete(copy);
     game_delete(copy2);
     return false;
@@ -139,6 +140,7 @@ bool test_game_copy() {
 
   if(game_is_unique(copy2) == game_is_unique(copy)){
     game_delete(g);
+    game_delete(g2);
     game_delete(copy);
     game_delete(copy2);
     return false;
@@ -146,6 +148,7 @@ bool test_game_copy() {
 
   if(game_nb_cols(copy2) == game_nb_cols(copy)){
     game_delete(g);
+    game_delete(g2);
     game_delete(copy);
     game_delete(copy2);
     return false;
@@ -153,11 +156,13 @@ bool test_game_copy() {
 
   if(game_nb_rows(copy2) == game_nb_rows(copy)){
     game_delete(g);
+    game_delete(g2);
     game_delete(copy);
     game_delete(copy2);
     return false;
   }
   game_delete(g);
+  game_delete(g2);
   game_delete(copy);
   game_delete(copy2);
   return true;
