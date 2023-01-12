@@ -42,6 +42,7 @@ add_test(test_alelaffargue_game_get_next_square ./game_test_alelaffargue game_ge
 add_test(test_alelaffargue_game_get_next_number ./game_test_alelaffargue game_get_next_number)
 add_test(test_alelaffargue_game_game_is_immutable ./game_test_alelaffargue game_is_immutable)
 add_test(test_alelaffargue_game_is_over_v2 ./game_test_alelaffargue game_is_over_v2)
+add_test(test_alelaffargue_game_has_error_v2 ./game_test_alelaffargue game_has_error_v2)
 
 
 

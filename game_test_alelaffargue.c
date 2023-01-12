@@ -490,12 +490,12 @@ bool test_game_is_over_v2() {
   game_set_square(g_Won_Uoff, 3, 3, S_ONE);
   game_set_square(g_Won_Uoff, 3, 4, S_ZERO);
   game_set_square(g_Won_Uoff, 3, 5, S_ONE);
-  printf("1er jeu\n");
-  game_print(g_Won_Uoff);
+  // test si le jeu est bien fini
   if (game_is_over(g_Won_Uoff) == false) {
     game_delete(g_Won_Uoff);
     return false;
   }
+  game_delete(g_Won_Uoff);
 
   game g_Won_Uon = game_new_empty_ext(4, 6, true, true);
   // jeu terminé,  ON pour les 2 options
@@ -526,13 +526,12 @@ bool test_game_is_over_v2() {
   game_set_square(g_Won_Uon, 3, 3, S_ZERO);
   game_set_square(g_Won_Uon, 3, 4, S_ONE);
   game_set_square(g_Won_Uon, 3, 5, S_ZERO);
-  printf("ok 2 eme jeu\n");
-  game_print(g_Won_Uon);
+  // test si le jeu est bien fini
   if (game_is_over(g_Won_Uon) == false) {
-    game_delete(g_Won_Uoff);
     game_delete(g_Won_Uon);
     return false;
   }
+  game_delete(g_Won_Uon);
 
   game gF_Won_Uon = game_new_empty_ext(4, 6, true, true);
   // jeu avec erreurs
@@ -563,17 +562,92 @@ bool test_game_is_over_v2() {
   game_set_square(gF_Won_Uon, 3, 3, S_ONE);
   game_set_square(gF_Won_Uon, 3, 4, S_ZERO);
   game_set_square(gF_Won_Uon, 3, 5, S_ONE);
-  printf("ok 3 eme jeu\n");
-  game_print(gF_Won_Uon);
+  // test si trouve que le jeu n'est pas fini
   if (game_is_over(gF_Won_Uon) == true) {
-    game_delete(g_Won_Uoff);
-    game_delete(g_Won_Uon);
     game_delete(gF_Won_Uon);
     return false;
   }
+  game_delete(gF_Won_Uon);
+  return true;
+}
+
+bool test_game_has_error_v2() {
+  game g_Won_Uoff = game_new_empty_ext(4, 6, true, false);
+
+  // jeu ON pour Wrapping et OFF pour Unique
+  game_set_square(g_Won_Uoff, 0, 0, S_ZERO);
+  game_set_square(g_Won_Uoff, 0, 1, S_ZERO);
+  game_set_square(g_Won_Uoff, 0, 2, S_ONE);
+  game_set_square(g_Won_Uoff, 0, 3, S_ONE);
+  game_set_square(g_Won_Uoff, 0, 4, S_ZERO);
+  game_set_square(g_Won_Uoff, 0, 5, S_ONE);
+  // test si pas d'erreur pour une ligne normale
+  for (int j = 0; j < 6; j++) {
+    if (game_has_error(g_Won_Uoff, 0, j) != 0) {
+      game_delete(g_Won_Uoff);
+      return false;
+    }
+  }
+  game_set_square(g_Won_Uoff, 1, 0, S_ZERO);
+  game_set_square(g_Won_Uoff, 1, 1, S_ZERO);
+  game_set_square(g_Won_Uoff, 1, 2, S_ONE);
+  game_set_square(g_Won_Uoff, 1, 3, S_ONE);
+  game_set_square(g_Won_Uoff, 1, 4, S_ZERO);
+  game_set_square(g_Won_Uoff, 1, 5, S_ONE);
+
+  // test si trouve pas d'erreur sur 2 lignes pareilles avec option unique OFF
+  for(int i = 0; i < 2; i ++){
+    for (int j = 0; j < 6; j++) {
+      if (game_has_error(g_Won_Uoff, i, j) != 0) {
+        game_delete(g_Won_Uoff);
+        return false;
+      }
+    }
+  }
+  game_delete(g_Won_Uoff);
+  
+  game gF_Won_Uoff = game_new_empty_ext(4, 6, true, false);
+  game_set_square(gF_Won_Uoff, 0, 0, S_ZERO);
+  game_set_square(gF_Won_Uoff, 0, 1, S_ZERO);
+  game_set_square(gF_Won_Uoff, 0, 5, S_ZERO);
+  // test si trouve les erreurs sur 3 cases en wrapping
+  if (game_has_error(gF_Won_Uoff, 0, 0) == 0 ||
+      game_has_error(gF_Won_Uoff, 0, 1) == 0 ||
+      game_has_error(gF_Won_Uoff, 0, 5) == 0) {
+        game_delete(gF_Won_Uoff);
+    return false;
+  }
+  game_delete(gF_Won_Uoff);
+
+  game gF_Won_Uon = game_new_empty_ext(4, 6, true, true);
+
+  game_set_square(gF_Won_Uon, 0, 0, S_ZERO);
+  game_set_square(gF_Won_Uon, 0, 1, S_ZERO);
+  game_set_square(gF_Won_Uon, 0, 2, S_ONE);
+  game_set_square(gF_Won_Uon, 0, 3, S_ONE);
+  game_set_square(gF_Won_Uon, 0, 4, S_ZERO);
+  game_set_square(gF_Won_Uon, 0, 5, S_ONE);
+  
+  game_set_square(gF_Won_Uon, 1, 0, S_ZERO);
+  game_set_square(gF_Won_Uon, 1, 1, S_ZERO);
+  game_set_square(gF_Won_Uon, 1, 2, S_ONE);
+  game_set_square(gF_Won_Uon, 1, 3, S_ONE);
+  game_set_square(gF_Won_Uon, 1, 4, S_ZERO);
+  game_set_square(gF_Won_Uon, 1, 5, S_ONE);
+  // test si trouve les erreurs sur 2 lignes pareilles avec option unique ON
+  for(int i = 0; i < 2; i ++){
+    for (int j = 0; j < 6; j++) {
+      if (game_has_error(gF_Won_Uon, i, j) == 0) {
+        game_delete(gF_Won_Uon);
+        return false;
+      }
+    }
+  }
+  game_delete(gF_Won_Uon);
 
   return true;
 }
+
 /****USAGE****/
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -607,6 +681,8 @@ int main(int argc, char *argv[]) {
     ok = test_game_default_solution();
   } else if (strcmp("game_is_over_v2", argv[1]) == 0) {
     ok = test_game_is_over_v2();
+  } else if (strcmp("game_has_error_v2", argv[1]) == 0) {
+    ok = test_game_has_error_v2();
   }
 
   else {
