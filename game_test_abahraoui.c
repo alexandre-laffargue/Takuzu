@@ -118,19 +118,39 @@ bool test_game_restart() {
   game_set_square(g, 2, 2, S_IMMUTABLE_ONE);
   game_set_square(g, 3, 3, S_IMMUTABLE_ZERO);
   game_restart(g);
-  if (game_get_square(g, 0, 0) == S_EMPTY &&
-      game_get_square(g, 0, 1) == S_EMPTY &&
-      game_get_square(g, 2, 2) == S_IMMUTABLE_ONE &&
-      game_get_square(g, 3, 3) == S_IMMUTABLE_ZERO &&
-      game_get_square(g, 1, 2) == S_EMPTY &&
-      queue_is_empty(g->historique) == true &&
-      queue_is_empty(g->annulation) == true) {
+  if (game_get_square(g, 0, 0) != S_EMPTY ||
+      game_get_square(g, 0, 1) != S_EMPTY ||
+      game_get_square(g, 2, 2) != S_IMMUTABLE_ONE ||
+      game_get_square(g, 3, 3) != S_IMMUTABLE_ZERO ||
+      game_get_square(g, 1, 2) != S_EMPTY) {
     game_delete(g);
-    return true;
-  } else {
+    return false;
+  } 
+  if  (queue_is_empty(g->historique) == false && 
+       queue_is_empty(g->annulation) == false ){
     game_delete(g);
     return false;
   }
+  game_play_move(g, 0, 5, S_ONE);
+  game_play_move(g, 4, 1, S_ZERO);
+  game_play_move(g, 1, 2, S_ZERO);
+  game_play_move(g, 3, 5, S_ONE);
+  game_undo(g);
+  game_undo(g);
+  game_undo(g);
+  game_undo(g); 
+  game_restart(g);
+  
+  if  (queue_is_empty(g->historique) == false && 
+       queue_is_empty(g->annulation) == false ){
+    game_delete(g);
+    return false;
+  }
+
+
+  game_delete(g);
+  return true;
+  
 }
 
 bool test_game_is_over() {
