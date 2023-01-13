@@ -130,14 +130,14 @@ bool test_game_is_unique() {
 
 bool test_game_new_empty_ext() {
   game g = game_new_empty_ext(8, 4, true, true);
-  for (int i = 0; i < g->nb_rows; i++) {
-    for (int j = 0; j < g->nb_cols; j++) {
-      square tmp = game_get_square(g, i, j);
+  for (int i = 0; i < g->nb_rows*g->nb_cols; i++) {
+   
+      square tmp = g->square_array[i];
       if (tmp != S_EMPTY) {
         game_delete(g);
         return false;
       }
-    }
+    
   }
   if (game_is_unique(g) != true || game_is_wrapping(g) != true) {
     game_delete(g);
