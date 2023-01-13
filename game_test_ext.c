@@ -31,19 +31,29 @@ bool test_game_undo() {
 }
 
 bool test_game_redo() {
-  bool result = true;
-  game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
+  game g = game_new_empty_ext(4, 6, false, false);
   game_play_move(g, 1, 1, S_ONE);
   game_play_move(g, 2, 2, S_ZERO);
   game_undo(g);
   game_undo(g);
   game_redo(g);
   game_redo(g);
-  if (game_get_square(g, 1, 1) != S_ONE && game_get_square(g, 2, 2) != S_ZERO) {
-    result = false;
+  if (game_get_square(g, 1, 1) != S_ONE || game_get_square(g, 2, 2) != S_ZERO) {
+    game_delete(g);
+    return false;
   }
   game_delete(g);
-  return result;
+
+  game g2 = game_new_empty_ext(4, 6, true, true);
+  game_play_move(g2, 2, 3, S_ZERO);
+  game_undo(g2);
+  game_redo(g2);
+  if (queue_is_empty(g2->historique) || !queue_is_empty(g2->annulation)) {
+    game_delete(g2);
+    return false;
+  }
+  game_delete(g2);
+  return true;
 }
 
 bool test_game_nb_rows() {
