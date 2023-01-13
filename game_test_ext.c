@@ -48,65 +48,65 @@ bool test_game_redo() {
 
 bool test_game_nb_rows() {
   game g = game_new_empty_ext(4, 6, false, false);
-  if (game_nb_rows(g) != 4){
+  if (game_nb_rows(g) != 4) {
     game_delete(g);
     return false;
   }
   game_delete(g);
 
   game g2 = game_new_empty_ext(6, 2, true, false);
-  if (game_nb_rows(g2) != 6){
+  if (game_nb_rows(g2) != 6) {
     game_delete(g2);
     return false;
   }
   game_delete(g2);
 
   game g3 = game_new_empty_ext(2, 4, true, true);
-  if (game_nb_rows(g3) != 2){
+  if (game_nb_rows(g3) != 2) {
     game_delete(g3);
     return false;
   }
   game_delete(g3);
 
   game g4 = game_new_empty_ext(8, 4, false, true);
-  if (game_nb_rows(g4) != 8){
+  if (game_nb_rows(g4) != 8) {
     game_delete(g4);
     return false;
   }
   game_delete(g4);
-  
+
   return true;
 }
 
 bool test_game_nb_cols() {
   game g = game_new_empty_ext(4, 6, false, false);
-  if (game_nb_cols(g) != 6){
+  if (game_nb_cols(g) != 6) {
     game_delete(g);
     return false;
   }
   game_delete(g);
 
   game g2 = game_new_empty_ext(2, 4, true, false);
-  if (game_nb_cols(g2) != 4){
+  if (game_nb_cols(g2) != 4) {
     game_delete(g2);
     return false;
   }
   game_delete(g2);
 
   game g3 = game_new_empty_ext(6, 8, true, true);
-  if (game_nb_cols(g3) != 8){
+  if (game_nb_cols(g3) != 8) {
     game_delete(g3);
     return false;
   }
   game_delete(g3);
 
   game g4 = game_new_empty_ext(4, 2, false, true);
-  if (game_nb_cols(g4) != 2){
+  if (game_nb_cols(g4) != 2) {
     game_delete(g4);
     return false;
   }
   game_delete(g4);
-  
+
   return true;
 }
 
@@ -130,14 +130,12 @@ bool test_game_is_unique() {
 
 bool test_game_new_empty_ext() {
   game g = game_new_empty_ext(8, 4, true, true);
-  for (int i = 0; i < g->nb_rows*g->nb_cols; i++) {
-   
-      square tmp = g->square_array[i];
-      if (tmp != S_EMPTY) {
-        game_delete(g);
-        return false;
-      }
-    
+  for (int i = 0; i < g->nb_rows * g->nb_cols; i++) {
+    square tmp = g->square_array[i];
+    if (tmp != S_EMPTY) {
+      game_delete(g);
+      return false;
+    }
   }
   if (game_is_unique(g) != true || game_is_wrapping(g) != true) {
     game_delete(g);
