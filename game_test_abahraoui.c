@@ -66,31 +66,35 @@ bool test_game_play_move() {
   }
   int* move3 = queue_pop_head(g->historique);
   if (move3[2] != S_EMPTY) {
+    free(move3);
     game_delete(g2);
     game_delete(g);
     return false;
   }
+  free(move3);
   int* move2 = queue_pop_head(g->historique);
   if (move2[2] != S_ZERO) {
+    free(move2);
     game_delete(g2);
     game_delete(g);
     return false;
   }
+  free(move2);
   int* move1 = queue_pop_head(g->historique);
   if (move1[2] != S_ONE) {
-    game_delete(g2);
-    game_delete(g);
-    return false;
-  }
-  int* move4 = queue_pop_head(g2->historique);
-  if (move4[2] != S_ONE) {
+    free(move1);
     game_delete(g2);
     game_delete(g);
     return false;
   }
   free(move1);
-  free(move2);
-  free(move3);
+  int* move4 = queue_pop_head(g2->historique);
+  if (move4[2] != S_ONE) {
+    free(move4);
+    game_delete(g2);
+    game_delete(g);
+    return false;
+  }
   free(move4);
   game_delete(g);
   game_delete(g2);
