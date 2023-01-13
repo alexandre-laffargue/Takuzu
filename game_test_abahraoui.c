@@ -5,6 +5,9 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_ext.h"
+#include "game_struct.h"
+#include "queue.h"
 
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -119,7 +122,8 @@ bool test_game_restart() {
       game_get_square(g, 0, 1) == S_EMPTY &&
       game_get_square(g, 2, 2) == S_IMMUTABLE_ONE &&
       game_get_square(g, 3, 3) == S_IMMUTABLE_ZERO &&
-      game_get_square(g, 1, 2) == S_EMPTY) {
+      game_get_square(g, 1, 2) == S_EMPTY &&
+      queue_is_empty(g->historique) == true) {
     game_delete(g);
     return true;
   } else {
