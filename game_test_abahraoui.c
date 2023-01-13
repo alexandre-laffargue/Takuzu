@@ -64,25 +64,25 @@ bool test_game_play_move() {
     game_delete(g);
     return false;
   }
-  if(queue_is_empty(g->historique)){
+  if (queue_is_empty(g->historique)) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
   queue_pop_head(g->historique);
-  if(queue_is_empty(g->historique)){
+  if (queue_is_empty(g->historique)) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
   queue_pop_head(g->historique);
-  if(queue_is_empty(g->historique)){
+  if (queue_is_empty(g->historique)) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
   queue_pop_head(g->historique);
-  if(!queue_is_empty(g->historique)){
+  if (!queue_is_empty(g->historique)) {
     game_delete(g2);
     game_delete(g);
     return false;
@@ -135,7 +135,7 @@ bool test_game_play_move() {
     return false;
   }
   game_delete(g3);
-  
+
   return true;
 }
 
