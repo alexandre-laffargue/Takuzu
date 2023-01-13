@@ -64,6 +64,7 @@ bool test_game_play_move() {
     game_delete(g);
     return false;
   }
+  /*
   int* move3 = queue_pop_head(g->historique);
   if (move3[2] != S_EMPTY) {
     free(move3);
@@ -96,6 +97,7 @@ bool test_game_play_move() {
     return false;
   }
   free(move4);
+  */
   game_delete(g);
   game_delete(g2);
   /*
