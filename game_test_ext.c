@@ -7,7 +7,7 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
-
+#include "queue.h"
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
