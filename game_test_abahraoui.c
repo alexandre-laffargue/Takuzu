@@ -138,10 +138,10 @@ bool test_game_restart() {
   game_undo(g);
   game_undo(g);
   game_undo(g);
-  game_undo(g); 
+   
   game_restart(g);
-  
-  if  (queue_is_empty(g->historique) == false && 
+
+  if  (queue_is_empty(g->historique) == false ||
        queue_is_empty(g->annulation) == false ){
     game_delete(g);
     return false;
