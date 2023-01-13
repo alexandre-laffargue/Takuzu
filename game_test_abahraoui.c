@@ -88,6 +88,10 @@ bool test_game_play_move() {
     game_delete(g);
     return false;
   }
+  free(move1);
+  free(move2);
+  free(move3);
+  free(move4);
   game_delete(g);
   game_delete(g2);
 
