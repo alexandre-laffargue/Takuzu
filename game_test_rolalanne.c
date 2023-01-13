@@ -23,7 +23,7 @@ bool test_game_print() {
   return true;
 }
 bool test_game_new() {
-  square *square_array = malloc(sizeof(square) * (36));
+  square *square_array = malloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));
 
   for (int i = 0; i < 36; i++) {
     square_array[i] = S_EMPTY;
@@ -47,7 +47,7 @@ bool test_game_new() {
     free(square_array);
     return false;
   }
-  if (g->nb_cols != 6 || g->nb_rows != 6) {
+  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
     game_delete(g);
     free(square_array);
     return false;
@@ -77,7 +77,7 @@ bool test_game_new_empty() {
     game_delete(g);
     return false;
   }
-  if (g->nb_cols != 6 || g->nb_rows != 6) {
+  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
     game_delete(g);
     return false;
   }
