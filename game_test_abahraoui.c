@@ -123,7 +123,8 @@ bool test_game_restart() {
       game_get_square(g, 2, 2) == S_IMMUTABLE_ONE &&
       game_get_square(g, 3, 3) == S_IMMUTABLE_ZERO &&
       game_get_square(g, 1, 2) == S_EMPTY &&
-      queue_is_empty(g->historique) == true) {
+      queue_is_empty(g->historique) == true &&
+      queue_is_empty(g->annulation) == true) {
     game_delete(g);
     return true;
   } else {
