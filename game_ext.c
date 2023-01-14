@@ -50,6 +50,9 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   if (squares == NULL) {
     exit(EXIT_FAILURE);
   }
+  if (nb_rows%2 != 0 || nb_cols%2 != 0){
+    exit(EXIT_FAILURE);
+  } 
   game new = memory_alloc1(sizeof(struct game_s));
   new->nb_rows = nb_rows;
   new->nb_cols = nb_cols;
