@@ -45,25 +45,6 @@ uint game_nb_rows(cgame g) {
   return g->nb_rows;
 }
 
-game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
-                        bool unique) {
-  game g = memory_alloc1(sizeof(struct game_s));
-  g->nb_rows = nb_rows;
-  g->nb_cols = nb_cols;
-  g->wrapping = wrapping;
-  g->unique = unique;
-  g->historique = queue_new();
-  g->annulation = queue_new();
-
-  square* array = memory_alloc1((g->nb_rows * g->nb_cols) * sizeof(square));
-
-  for (int i = 0; i < g->nb_rows * g->nb_cols; i++) {
-    array[i] = S_EMPTY;
-  }
-  g->square_array = array;
-  return g;
-}
-
 game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
                   bool unique) {
   if (squares == NULL) {
@@ -86,6 +67,22 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   new->square_array = array;
   return new;
 }
+
+game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
+                        bool unique) {
+
+  square* array = memory_alloc1((nb_rows * nb_cols) * sizeof(square));
+
+  for (int i = 0; i < (nb_rows * nb_cols); i++) {
+    array[i] = S_EMPTY;
+  }
+  
+  game g = game_new_ext(nb_rows, nb_cols, array, wrapping, unique);
+
+  return g;
+}
+
+
 
 void game_undo(game g) {
   if (g == NULL) {

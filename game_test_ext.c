@@ -139,7 +139,7 @@ bool test_game_is_unique() {
 }
 
 bool test_game_new_empty_ext() {
-  game g = game_new_empty_ext(8, 4, true, true);
+  game g = game_new_empty_ext(8, 4, true, false);
   for (int i = 0; i < g->nb_rows; i++) {
     for (int j = 0; j < g->nb_cols; j++) {
       square tmp = game_get_square(g, i, j);
@@ -149,7 +149,7 @@ bool test_game_new_empty_ext() {
       }
     }
   }
-  if (game_is_unique(g) != true || game_is_wrapping(g) != true) {
+  if (game_is_unique(g) != false || game_is_wrapping(g) != true) {
     game_delete(g);
     return false;
   }
@@ -162,7 +162,7 @@ bool test_game_new_empty_ext() {
     return false;
   }
 
-  game g2 = game_new_empty_ext(6, 8, false, false);
+  game g2 = game_new_empty_ext(6, 8, false, true);
   for (int i = 0; i < g2->nb_rows; i++) {
     for (int j = 0; j < g2->nb_cols; j++) {
       square tmp = game_get_square(g2, i, j);
@@ -173,7 +173,7 @@ bool test_game_new_empty_ext() {
       }
     }
   }
-  if (game_is_unique(g2) != false || game_is_wrapping(g2) != false) {
+  if (game_is_unique(g2) != true || game_is_wrapping(g2) != false) {
     game_delete(g);
     game_delete(g2);
     return false;
