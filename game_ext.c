@@ -50,9 +50,9 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   if (squares == NULL) {
     exit(EXIT_FAILURE);
   }
-  if (nb_rows%2 != 0 || nb_cols%2 != 0){
+  if (nb_rows % 2 != 0 || nb_cols % 2 != 0) {
     exit(EXIT_FAILURE);
-  } 
+  }
   game new = memory_alloc1(sizeof(struct game_s));
   new->nb_rows = nb_rows;
   new->nb_cols = nb_cols;
@@ -73,19 +73,16 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
 
 game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
                         bool unique) {
-
   square* array = memory_alloc1((nb_rows * nb_cols) * sizeof(square));
 
   for (int i = 0; i < (nb_rows * nb_cols); i++) {
     array[i] = S_EMPTY;
   }
-  
+
   game g = game_new_ext(nb_rows, nb_cols, array, wrapping, unique);
 
   return g;
 }
-
-
 
 void game_undo(game g) {
   if (g == NULL) {

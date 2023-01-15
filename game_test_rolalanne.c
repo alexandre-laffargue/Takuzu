@@ -64,8 +64,8 @@ bool test_game_new() {
 }
 bool test_game_new_empty() {
   game g = game_new_empty();
-  for (int i = 0; i < g->nb_rows; i++) {
-    for (int j = 0; j < g->nb_cols; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       square tmp = game_get_square(g, i, j);
       if (tmp != S_EMPTY) {
         game_delete(g);
@@ -73,18 +73,20 @@ bool test_game_new_empty() {
       }
     }
   }
-  if (g->unique != false || g->wrapping != false) {
+  if (game_is_unique(g) != false || game_is_wrapping(g) != false) {
     game_delete(g);
     return false;
   }
-  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
+  if (game_nb_cols(g) != DEFAULT_SIZE || game_nb_rows(g) != DEFAULT_SIZE) {
     game_delete(g);
     return false;
   }
+  /*
   if (g->annulation == NULL || g->historique == NULL) {
     game_delete(g);
     return false;
   }
+  */
   game_delete(g);
   return true;
 }

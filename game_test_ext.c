@@ -157,7 +157,8 @@ bool test_game_new_empty_ext() {
     game_delete(g);
     return false;
   }
-  if (queue_is_empty(g->historique) != true || queue_is_empty(g->annulation) != true) {
+  if (queue_is_empty(g->historique) != true ||
+      queue_is_empty(g->annulation) != true) {
     game_delete(g);
     return false;
   }
@@ -183,7 +184,8 @@ bool test_game_new_empty_ext() {
     game_delete(g2);
     return false;
   }
-  if (queue_is_empty(g->historique) != true || queue_is_empty(g->annulation) != true) {
+  if (queue_is_empty(g->historique) != true ||
+      queue_is_empty(g->annulation) != true) {
     game_delete(g);
     game_delete(g2);
     return false;

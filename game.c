@@ -86,15 +86,17 @@ bool game_equal(cgame g1, cgame g2) {
     printf("game_equal: g1 or g2 is NULL\n");
     exit(EXIT_FAILURE);
   }
-  if ((game_nb_rows(g1) != game_nb_rows(g2)) || (game_nb_cols(g1) != game_nb_cols(g2)) ||
-      (game_is_unique(g1) != game_is_unique(g2)) || (game_is_wrapping(g1) != game_is_wrapping(g2))) {
+  if ((game_nb_rows(g1) != game_nb_rows(g2)) ||
+      (game_nb_cols(g1) != game_nb_cols(g2)) ||
+      (game_is_unique(g1) != game_is_unique(g2)) ||
+      (game_is_wrapping(g1) != game_is_wrapping(g2))) {
     return false;
   }
   for (int i = 0; i < game_nb_rows(g1); i++) {
-    for (int j = 0; j < game_nb_cols(g1); j++){
-    if (game_get_square(g1,i,j) != game_get_square(g2,i,j)) {
-      return false;
-    }
+    for (int j = 0; j < game_nb_cols(g1); j++) {
+      if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) {
+        return false;
+      }
     }
   }
   return true;
