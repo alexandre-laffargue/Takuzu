@@ -216,12 +216,12 @@ bool test_game_new_ext() {
       }
     }
   }
-  if (g->unique != game_is_unique(g) || g->wrapping != game_is_wrapping(g)) {
+  if (game_is_unique(g) != true || game_is_wrapping(g) != true) {
     game_delete(g);
     free(square_array);
     return false;
   }
-  if (g->nb_cols != 4 || g->nb_rows != 8) {
+  if (game_nb_cols(g) != 4 || game_nb_rows(g) != 8) {
     game_delete(g);
     free(square_array);
     return false;

@@ -42,12 +42,12 @@ bool test_game_new() {
       }
     }
   }
-  if (g->unique != false || g->wrapping != false) {
+  if (game_is_unique(g) != false || game_is_wrapping(g) != false) {
     game_delete(g);
     free(square_array);
     return false;
   }
-  if (g->nb_cols != DEFAULT_SIZE || g->nb_rows != DEFAULT_SIZE) {
+  if (game_nb_cols(g) != DEFAULT_SIZE || game_nb_rows(g) != DEFAULT_SIZE) {
     game_delete(g);
     free(square_array);
     return false;
