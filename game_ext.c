@@ -73,23 +73,19 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
 
 game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
                         bool unique) {
-  game new = memory_alloc1(sizeof(struct game_s));
-  new->nb_rows = nb_rows;
-  new->nb_cols = nb_cols;
-  new->wrapping = wrapping;
-  new->unique = unique;
-  new->historique = queue_new();
-  new->annulation = queue_new();
 
   square* array = memory_alloc1((nb_rows * nb_cols) * sizeof(square));
 
   for (int i = 0; i < (nb_rows * nb_cols); i++) {
     array[i] = S_EMPTY;
   }
-
-  new->square_array = array;
-  return new;
+  
+  game g = game_new_ext(nb_rows, nb_cols, array, wrapping, unique);
+  free(array);
+  return g;
 }
+
+
 
 void game_undo(game g) {
   if (g == NULL) {
