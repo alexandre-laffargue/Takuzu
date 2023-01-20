@@ -20,15 +20,14 @@ bool test_game_is_empty() {
   game_set_square(g, 3, 4, S_ONE);
   game_set_square(g, 2, 1, S_IMMUTABLE_ONE);
   game_set_square(g, 2, 2, S_IMMUTABLE_ZERO);
-  if (game_is_empty(g, 1, 1) == false && game_is_empty(g, 3, 4) == false &&
-      game_is_empty(g, 2, 1) == false && game_is_empty(g, 2, 2) == false &&
-      game_is_empty(g, 0, 0) == true) {
-    game_delete(g);
-    return true;
-  } else {
+  if (game_is_empty(g, 1, 1) || game_is_empty(g, 3, 4) ||
+      game_is_empty(g, 2, 1) || game_is_empty(g, 2, 2) ||
+      !game_is_empty(g, 0, 0)) {
     game_delete(g);
     return false;
   }
+  game_delete(g);
+  return true;
 }
 
 bool test_game_play_move() {
@@ -45,19 +44,10 @@ bool test_game_play_move() {
   game_play_move(g, 1, 2, S_ONE);
   game_play_move(g, 1, 3, S_ZERO);
 
-  if (game_get_square(g, 0, 0) != S_ONE) {
-    game_delete(g);
-    return false;
-  } else if (game_get_square(g, 1, 1) != S_ZERO) {
-    game_delete(g);
-    return false;
-  } else if (game_get_square(g, 3, 3) != S_EMPTY) {
-    game_delete(g);
-    return false;
-  } else if (game_get_square(g, 1, 2) != S_IMMUTABLE_ONE) {
-    game_delete(g);
-    return false;
-  } else if (game_get_square(g, 1, 3) != S_IMMUTABLE_ZERO) {
+  if (game_get_square(g, 0, 0) != S_ONE || game_get_square(g, 1, 1) != S_ZERO ||
+      game_get_square(g, 3, 3) != S_EMPTY ||
+      game_get_square(g, 1, 2) != S_IMMUTABLE_ONE ||
+      game_get_square(g, 1, 3) != S_IMMUTABLE_ZERO) {
     game_delete(g);
     return false;
   }
@@ -132,23 +122,21 @@ bool test_game_has_error() {
   game_set_square(e, 2, 0, S_ZERO);
   game_set_square(e, 1, 0, S_ZERO);
   game_set_square(e, 0, 0, S_ZERO);
-  if (!game_has_error(g, 0, 0) && !game_has_error(g, 0, 1) &&
-      !game_has_error(g, 0, 2) && !game_has_error(c, 0, 0) &&
-      !game_has_error(c, 2, 0) && !game_has_error(c, 1, 0) &&
-      !game_has_error(d, 0, 0) && !game_has_error(d, 0, 1) &&
-      !game_has_error(d, 0, 2) && !game_has_error(e, 2, 0) &&
-      !game_has_error(e, 1, 0) && !game_has_error(e, 0, 0)) {
-    game_delete(g);
-    game_delete(c);
-    game_delete(d);
-    game_delete(e);
-    return 0;
+  bool error = (!game_has_error(g, 0, 0) || !game_has_error(g, 0, 1) ||
+                !game_has_error(g, 0, 2) || !game_has_error(c, 0, 0) ||
+                !game_has_error(c, 2, 0) || !game_has_error(c, 1, 0) ||
+                !game_has_error(d, 0, 0) || !game_has_error(d, 0, 1) ||
+                !game_has_error(d, 0, 2) || !game_has_error(e, 2, 0) ||
+                !game_has_error(e, 1, 0) || !game_has_error(e, 0, 0));
+
+  game_delete(g);
+  game_delete(c);
+  game_delete(d);
+  game_delete(e);
+  if (error) {
+    return false;
   } else {
-    game_delete(g);
-    game_delete(c);
-    game_delete(d);
-    game_delete(e);
-    return 1;
+    return true;
   }
 }
 
