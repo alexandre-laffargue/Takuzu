@@ -20,6 +20,13 @@ void* memory_alloc(uint size) {
   }
 }
 
+void game_is_null(cgame g, char* s) {
+  if (g == NULL) {
+    printf("%s: g is NULL\n", s);
+    exit(EXIT_FAILURE);
+  }
+}
+
 game game_new(square* squares) {
   if (squares == NULL) {
     printf("Error: squares is NULL \n");
@@ -61,10 +68,7 @@ game game_new_empty(void) {
 }
 
 game game_copy(cgame g) {
-  if (g == NULL) {
-    printf("game_copy: g is NULL\n");
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_copy");
   game copy = memory_alloc(sizeof(struct game_s));
   copy->nb_rows = game_nb_rows(g);
   copy->nb_cols = game_nb_cols(g);
@@ -83,10 +87,8 @@ game game_copy(cgame g) {
 }
 
 bool game_equal(cgame g1, cgame g2) {
-  if (g1 == NULL || g2 == NULL) {
-    printf("game_equal: g1 or g2 is NULL\n");
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g1, "game_equal");
+  game_is_null(g2, "game_equal");
   if ((game_nb_rows(g1) != game_nb_rows(g2)) ||
       (game_nb_cols(g1) != game_nb_cols(g2)) ||
       (game_is_unique(g1) != game_is_unique(g2)) ||
@@ -119,11 +121,12 @@ void game_delete(game g) {
 }
 
 void game_set_square(game g, uint i, uint j, square s) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g) ||
+  game_is_null(g, "game_set_square");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g) ||
       (s != S_EMPTY && s != S_IMMUTABLE_ONE && s != S_IMMUTABLE_ZERO &&
        s != S_ONE && s != S_ZERO)) {
     printf(
-        "game_set_square: g is NULL or i or j is out of range or s is not a "
+        "game_set_square: i or j is out of range or s is not a "
         "square, params : %d %d %d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g), s);
     exit(EXIT_FAILURE);
@@ -133,9 +136,10 @@ void game_set_square(game g, uint i, uint j, square s) {
 }
 
 square game_get_square(cgame g, uint i, uint j) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+  game_is_null(g, "game_get_square");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
-        "game_get_square: g is NULL or i or j is out of range, params : %d %d "
+        "game_get_square: i or j is out of range, params : %d %d "
         "%d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
@@ -145,9 +149,10 @@ square game_get_square(cgame g, uint i, uint j) {
 }
 
 int game_get_number(cgame g, uint i, uint j) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+  game_is_null(g, "game_get_number");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
-        "game_get_number: g is NULL or i or j is out of range, params : %d %d "
+        "game_get_number: i or j is out of range, params : %d %d "
         "%d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
@@ -162,9 +167,10 @@ int game_get_number(cgame g, uint i, uint j) {
 }
 
 int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
+  game_is_null(g, "game_get_next_square");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
     printf(
-        "game_get_next_square: g is NULL or i or j is out of range or dist is "
+        "game_get_next_square: i or j is out of range or dist is "
         "greater than 2, params : %d %d %d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g), dist);
     exit(EXIT_FAILURE);
@@ -238,9 +244,10 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
+  game_is_null(g, "game_get_next_number");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
     printf(
-        "game_get_next_number: g is NULL or i or j is out of range or dist is "
+        "game_get_next_number: i or j is out of range or dist is "
         "greater than 2, params : %d %d %d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g), dist);
     exit(EXIT_FAILURE);
@@ -258,9 +265,10 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 bool game_is_empty(cgame g, uint i, uint j) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+  game_is_null(g, "game_is_empty");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
-        "game_is_empty: g is NULL or i or j is out of range, params : %d %d %d "
+        "game_is_empty: i or j is out of range, params : %d %d %d "
         "%d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
@@ -272,9 +280,10 @@ bool game_is_empty(cgame g, uint i, uint j) {
 }
 
 bool game_is_immutable(cgame g, uint i, uint j) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+  game_is_null(g, "game_is_immutable");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
-        "game_is_immutable: g is NULL or i or j is out of range, params : %d "
+        "game_is_immutable: i or j is out of range, params : %d "
         "%d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
@@ -288,9 +297,10 @@ bool game_is_immutable(cgame g, uint i, uint j) {
 }
 
 int game_has_error(cgame g, uint i, uint j) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+  game_is_null(g, "game_has_error");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
-        "game_has_error: g is NULL or i or j is out of range, params : %d %d "
+        "game_has_error: i or j is out of range, params : %d %d "
         "%d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
@@ -421,10 +431,7 @@ int game_has_error(cgame g, uint i, uint j) {
 }
 
 bool game_check_move(cgame g, uint i, uint j, square s) {
-  if (g == NULL) {
-    printf("game_check_move: game is NULL\n");
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_check_move");
   if (s == S_IMMUTABLE_ONE || s == S_IMMUTABLE_ZERO || i >= game_nb_rows(g) ||
       j >= game_nb_cols(g)) {
     return false;
@@ -438,9 +445,10 @@ bool game_check_move(cgame g, uint i, uint j, square s) {
 }
 
 void game_play_move(game g, uint i, uint j, square s) {
-  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+  game_is_null(g, "game_play_move");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
-        "game_play_move: game is NULL or i or j is out of range, params : "
+        "game_play_move: i or j is out of range, params : "
         " %d, %d, %d\n",
         i, j, s);
     exit(EXIT_FAILURE);
@@ -462,10 +470,7 @@ void game_play_move(game g, uint i, uint j, square s) {
 }
 
 bool game_is_over(cgame g) {
-  if (g == NULL) {
-    printf("game_is_over: game is NULL\n");
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_is_over");
   for (uint k = 0; k < game_nb_rows(g); k++) {
     for (uint l = 0; l < game_nb_cols(g); l++) {
       if (game_has_error(g, k, l) != 0) {
@@ -480,10 +485,7 @@ bool game_is_over(cgame g) {
 }
 
 void game_restart(game g) {
-  if (g == NULL) {
-    printf("game_restart: game is NULL\n");
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_restart");
   for (uint i = 0; i < game_nb_rows(g); i++) {
     for (uint j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
