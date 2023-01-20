@@ -28,6 +28,7 @@ bool test_game_new() {
     square_array[i] = S_EMPTY;
   }
   game g = game_new(square_array);
+  free(square_array);
   for (int i = 0; i < 6; i++) {
     for (int j = 0; i < 6; i++) {
       if (game_get_square(g, i, j) != S_ZERO &&
@@ -36,26 +37,26 @@ bool test_game_new() {
           game_get_square(g, i, j) != S_IMMUTABLE_ZERO &&
           game_get_square(g, i, j) != S_ONE) {
         game_delete(g);
-        free(square_array);
+
         return false;
       }
     }
   }
   if (game_is_unique(g) != false || game_is_wrapping(g) != false) {
     game_delete(g);
-    free(square_array);
+
     return false;
   }
   if (game_nb_cols(g) != DEFAULT_SIZE || game_nb_rows(g) != DEFAULT_SIZE) {
     game_delete(g);
-    free(square_array);
+
     return false;
   }
   game_undo(g);
   game_redo(g);
 
   game_delete(g);
-  free(square_array);
+
   return true;
 }
 bool test_game_new_empty() {

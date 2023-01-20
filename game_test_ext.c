@@ -203,6 +203,7 @@ bool test_game_new_ext() {
     square_array[i] = S_EMPTY;
   }
   game g = game_new_ext(8, 4, square_array, true, true);
+  free(square_array);
   for (int i = 0; i < g->nb_rows; i++) {
     for (int j = 0; j < g->nb_cols; j++) {
       if (game_get_square(g, i, j) != S_ZERO &&
@@ -211,26 +212,26 @@ bool test_game_new_ext() {
           game_get_square(g, i, j) != S_IMMUTABLE_ZERO &&
           game_get_square(g, i, j) != S_ONE) {
         game_delete(g);
-        free(square_array);
+
         return false;
       }
     }
   }
   if (game_is_unique(g) != true || game_is_wrapping(g) != true) {
     game_delete(g);
-    free(square_array);
+
     return false;
   }
   if (game_nb_cols(g) != 4 || game_nb_rows(g) != 8) {
     game_delete(g);
-    free(square_array);
+
     return false;
   }
   game_undo(g);
   game_redo(g);
 
   game_delete(g);
-  free(square_array);
+
   return true;
 }
 
