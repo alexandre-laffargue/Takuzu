@@ -69,14 +69,14 @@ game game_new_empty(void) {
 
 game game_copy(cgame g) {
   game_is_null(g, "game_copy");
-  game copy = game_new_empty_ext(game_nb_rows(g), game_nb_cols(g), game_is_wrapping(g), game_is_unique(g)
-  );
+  game copy = game_new_empty_ext(game_nb_rows(g), game_nb_cols(g),
+                                 game_is_wrapping(g), game_is_unique(g));
   for (int i = 0; i < game_nb_rows(copy); i++) {
     for (int j = 0; j < game_nb_cols(copy); j++) {
       game_set_square(copy, i, j, game_get_square(g, i, j));
     }
   }
-  
+
   return copy;
 }
 
