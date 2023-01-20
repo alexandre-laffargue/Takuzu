@@ -44,7 +44,7 @@ bool test_game_play_move() {
   game_play_move(g, 3, 3, S_EMPTY);
   game_play_move(g, 1, 2, S_ONE);
   game_play_move(g, 1, 3, S_ZERO);
-  
+
   if (game_get_square(g, 0, 0) != S_ONE) {
     game_delete(g);
     return false;

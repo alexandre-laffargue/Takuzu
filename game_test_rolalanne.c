@@ -78,12 +78,7 @@ bool test_game_new_empty() {
     game_delete(g);
     return false;
   }
-  /*
-  if (g->annulation == NULL || g->historique == NULL) {
-    game_delete(g);
-    return false;
-  }
-  */
+
   game_delete(g);
   return true;
 }
@@ -106,7 +101,6 @@ bool test_game_copy() {
   game_delete(g);
 
   game_delete(copy);
-
   return true;
 }
 
@@ -123,6 +117,28 @@ bool test_game_equal() {
   game_set_square(difstate, 1, 1, S_IMMUTABLE_ZERO);
   game_set_square(difstate, 3, 4, S_IMMUTABLE_ONE);
 
+  if (game_equal(g, dif) || !game_equal(g, copy) || game_equal(g, difstate)) {
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    return false;
+  }
+  if (game_is_wrapping(g) != game_is_wrapping(copy) ||
+      game_is_unique(g) != game_is_unique(copy) ||
+      game_nb_cols(g) != game_nb_cols(copy) ||
+      game_nb_rows(g) != game_nb_rows(copy)) {
+    game_delete(g);
+    game_delete(dif);
+    game_delete(copy);
+    game_delete(difstate);
+    return false;
+  }
+  game_delete(g);
+  game_delete(dif);
+  game_delete(copy);
+  game_delete(difstate);
+
   game g2 = game_new_empty_ext(6, 4, false, false);
   game dif2 = game_new_empty_ext(6, 4, false, false);
   game_set_square(g2, 0, 0, S_EMPTY);
@@ -136,77 +152,8 @@ bool test_game_equal() {
   game_set_square(difstate2, 1, 1, S_IMMUTABLE_ZERO);
   game_set_square(difstate2, 3, 3, S_IMMUTABLE_ONE);
 
-  if (game_equal(g, dif)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-  } else if (!game_equal(g, copy)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-  } else if (game_equal(g, difstate)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-  }
-  if (game_equal(g, copy)) {
-    if (g->wrapping != copy->wrapping || g->unique != copy->unique ||
-        g->nb_cols != copy->nb_cols || g->nb_rows != copy->nb_rows) {
-      game_delete(g);
-      game_delete(dif);
-      game_delete(copy);
-      game_delete(difstate);
-      game_delete(g2);
-      game_delete(dif2);
-      game_delete(copy2);
-      game_delete(difstate2);
-      return false;
-    }
-  }
-
-  if (game_equal(g2, dif2)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-  } else if (!game_equal(g2, copy2)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
-    game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
-    game_delete(difstate2);
-    return false;
-  } else if (game_equal(g2, difstate2)) {
-    game_delete(g);
-    game_delete(dif);
-    game_delete(copy);
-    game_delete(difstate);
+  if (game_equal(g2, dif2) || !game_equal(g2, copy2) ||
+      game_equal(g2, difstate2)) {
     game_delete(g2);
     game_delete(dif2);
     game_delete(copy2);
@@ -214,12 +161,10 @@ bool test_game_equal() {
     return false;
   }
   if (game_equal(g2, copy2)) {
-    if (g2->wrapping != copy2->wrapping || g2->unique != copy2->unique ||
-        g2->nb_cols != copy2->nb_cols || g2->nb_rows != copy2->nb_rows) {
-      game_delete(g);
-      game_delete(dif);
-      game_delete(copy);
-      game_delete(difstate);
+    if (game_is_wrapping(g2) != game_is_wrapping(copy2) ||
+        game_is_unique(g2) != game_is_unique(copy2) ||
+        game_nb_cols(g2) != game_nb_cols(copy2) ||
+        game_nb_rows(g2) != game_nb_rows(copy2)) {
       game_delete(g2);
       game_delete(dif2);
       game_delete(copy2);
@@ -228,10 +173,6 @@ bool test_game_equal() {
     }
   }
 
-  game_delete(g);
-  game_delete(dif);
-  game_delete(copy);
-  game_delete(difstate);
   game_delete(g2);
   game_delete(dif2);
   game_delete(copy2);
