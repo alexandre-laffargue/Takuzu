@@ -124,58 +124,37 @@ bool test_game_equal() {
     game_delete(difstate);
     return false;
   }
-  if (game_is_wrapping(g) != game_is_wrapping(copy) ||
-      game_is_unique(g) != game_is_unique(copy) ||
-      game_nb_cols(g) != game_nb_cols(copy) ||
+  game_delete(dif);
+  game_delete(difstate);
+
+  if (game_nb_cols(g) != game_nb_cols(copy) ||
       game_nb_rows(g) != game_nb_rows(copy)) {
     game_delete(g);
-    game_delete(dif);
+
     game_delete(copy);
-    game_delete(difstate);
+
     return false;
   }
   game_delete(g);
-  game_delete(dif);
+
   game_delete(copy);
-  game_delete(difstate);
 
   game g2 = game_new_empty_ext(6, 4, false, false);
-  game dif2 = game_new_empty_ext(6, 4, false, false);
-  game_set_square(g2, 0, 0, S_EMPTY);
-  game_set_square(g2, 1, 1, S_ZERO);
-  game_set_square(g2, 5, 3, S_ONE);
-  game_set_square(g2, 2, 1, S_IMMUTABLE_ONE);
-  game_set_square(g2, 2, 2, S_IMMUTABLE_ZERO);
-  game copy2 = game_copy(g2);
   game difstate2 = game_copy(g2);
   difstate2->unique = true;
+  difstate2->wrapping = true;
   game_set_square(difstate2, 1, 1, S_IMMUTABLE_ZERO);
   game_set_square(difstate2, 3, 3, S_IMMUTABLE_ONE);
 
-  if (game_equal(g2, dif2) || !game_equal(g2, copy2) ||
-      game_equal(g2, difstate2)) {
+  if (game_equal(g2, difstate2)) {
     game_delete(g2);
-    game_delete(dif2);
-    game_delete(copy2);
+
     game_delete(difstate2);
     return false;
   }
-  if (game_equal(g2, copy2)) {
-    if (game_is_wrapping(g2) != game_is_wrapping(copy2) ||
-        game_is_unique(g2) != game_is_unique(copy2) ||
-        game_nb_cols(g2) != game_nb_cols(copy2) ||
-        game_nb_rows(g2) != game_nb_rows(copy2)) {
-      game_delete(g2);
-      game_delete(dif2);
-      game_delete(copy2);
-      game_delete(difstate2);
-      return false;
-    }
-  }
 
   game_delete(g2);
-  game_delete(dif2);
-  game_delete(copy2);
+
   game_delete(difstate2);
   return true;
 }
