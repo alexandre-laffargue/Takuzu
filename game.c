@@ -48,9 +48,9 @@ game game_new_empty(void) {
   g->nb_cols = DEFAULT_SIZE;
   g->unique = false;
   g->wrapping = false;
-  square* array = memory_alloc((g->nb_rows * g->nb_cols) * sizeof(square));
+  square* array = memory_alloc((game_nb_rows(g) * game_nb_cols(g)) * sizeof(square));
 
-  for (int i = 0; i < g->nb_rows * g->nb_cols; i++) {
+  for (int i = 0; i < game_nb_rows(g) * game_nb_cols(g); i++) {
     array[i] = S_EMPTY;
   }
   g->square_array = array;
@@ -144,11 +144,11 @@ square game_get_square(cgame g, uint i, uint j) {
 }
 
 int game_get_number(cgame g, uint i, uint j) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
         "game_get_number: g is NULL or i or j is out of range, params : %d %d "
         "%d %d\n",
-        i, j, g->nb_rows, g->nb_cols);
+        i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
   }
   square sq = game_get_square(g, i, j);
@@ -161,17 +161,17 @@ int game_get_number(cgame g, uint i, uint j) {
 }
 
 int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols || dist > 2) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
     printf(
         "game_get_next_square: g is NULL or i or j is out of range or dist is "
         "greater than 2, params : %d %d %d %d %d\n",
-        i, j, g->nb_rows, g->nb_cols, dist);
+        i, j, game_nb_rows(g), game_nb_cols(g), dist);
     exit(EXIT_FAILURE);
   }
-  if (!g->wrapping) {
+  if (!game_is_wrapping(g)) {
     if (dir == UP) {
       int ni = i - dist;
-      if (ni >= 0 && ni < g->nb_rows) {
+      if (ni >= 0 && ni < game_nb_rows(g)) {
         square sq = game_get_square(g, ni, j);
         return sq;
       } else {
@@ -179,7 +179,7 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
       }
     } else if (dir == DOWN) {
       int ni = i + dist;
-      if (ni >= 0 && ni < g->nb_rows) {
+      if (ni >= 0 && ni < game_nb_rows(g)) {
         square sq = game_get_square(g, ni, j);
         return sq;
       } else {
@@ -187,7 +187,7 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
       }
     } else if (dir == LEFT) {
       int nj = j - dist;
-      if (nj >= 0 && nj < g->nb_cols) {
+      if (nj >= 0 && nj < game_nb_cols(g)) {
         square sq = game_get_square(g, i, nj);
         return sq;
       } else {
@@ -195,7 +195,7 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
       }
     } else if (dir == RIGHT) {
       int nj = j + dist;
-      if (nj >= 0 && nj < g->nb_cols) {
+      if (nj >= 0 && nj < game_nb_cols(g)) {
         square sq = game_get_square(g, i, nj);
         return sq;
       } else {
@@ -206,28 +206,28 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
     if (dir == UP) {
       int ni = (i - dist);
       if (ni < 0) {
-        ni += g->nb_rows;
+        ni += game_nb_rows(g);
       }
       square sq = game_get_square(g, ni, j);
       return sq;
     } else if (dir == DOWN) {
       int ni = (i + dist);
-      if (ni >= g->nb_rows) {
-        ni -= g->nb_rows;
+      if (ni >= game_nb_rows(g)) {
+        ni -= game_nb_rows(g);
       }
       square sq = game_get_square(g, ni, j);
       return sq;
     } else if (dir == LEFT) {
       int nj = (j - dist);
       if (nj < 0) {
-        nj += g->nb_cols;
+        nj += game_nb_cols(g);
       }
       square sq = game_get_square(g, i, nj);
       return sq;
     } else if (dir == RIGHT) {
       int nj = (j + dist);
-      if (nj >= g->nb_cols) {
-        nj -= g->nb_cols;
+      if (nj >= game_nb_cols(g)) {
+        nj -= game_nb_cols(g);
       }
       square sq = game_get_square(g, i, nj);
       return sq;
@@ -237,11 +237,11 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols || dist > 2) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
     printf(
         "game_get_next_number: g is NULL or i or j is out of range or dist is "
         "greater than 2, params : %d %d %d %d %d\n",
-        i, j, g->nb_rows, g->nb_cols, dist);
+        i, j, game_nb_rows(g), game_nb_cols(g), dist);
     exit(EXIT_FAILURE);
   }
   int sq = game_get_next_square(g, i, j, dir, dist);
@@ -257,11 +257,11 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 bool game_is_empty(cgame g, uint i, uint j) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
         "game_is_empty: g is NULL or i or j is out of range, params : %d %d %d "
         "%d\n",
-        i, j, g->nb_rows, g->nb_cols);
+        i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
   }
   if (game_get_square(g, i, j) != S_EMPTY) {
@@ -271,11 +271,11 @@ bool game_is_empty(cgame g, uint i, uint j) {
 }
 
 bool game_is_immutable(cgame g, uint i, uint j) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
         "game_is_immutable: g is NULL or i or j is out of range, params : %d "
         "%d %d %d\n",
-        i, j, g->nb_rows, g->nb_cols);
+        i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
   }
   square sq = game_get_square(g, i, j);
@@ -287,11 +287,11 @@ bool game_is_immutable(cgame g, uint i, uint j) {
 }
 
 int game_has_error(cgame g, uint i, uint j) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
         "game_has_error: g is NULL or i or j is out of range, params : %d %d "
         "%d %d\n",
-        i, j, g->nb_rows, g->nb_cols);
+        i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
   }
   if (game_get_square(g, i, j) == S_EMPTY) {
@@ -331,30 +331,30 @@ int game_has_error(cgame g, uint i, uint j) {
     }
   }
   int cpt_hor1 = 0, cpt_ver1 = 0;  // début du test de la moitié d'une couleur
-  for (uint k = 0; k < g->nb_rows; k++) {
+  for (uint k = 0; k < game_nb_rows(g); k++) {
     if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
       cpt_hor1++;
     }
   }
-  for (uint k = 0; k < g->nb_cols; k++) {
+  for (uint k = 0; k < game_nb_cols(g); k++) {
     if (game_get_number(g, i, k) == game_get_number(g, i, j)) {
       cpt_ver1++;
     }
   }
-  if (cpt_hor1 > (g->nb_rows / 2) || cpt_ver1 > (g->nb_cols / 2)) {
+  if (cpt_hor1 > (game_nb_rows(g) / 2) || cpt_ver1 > (game_nb_cols(g) / 2)) {
     return -1;
   }
-  if (g->unique) {  // test de la condition unique
+  if (game_is_unique(g)) {  // test de la condition unique
     bool testligne = true;
     bool testcolonne = true;
-    for (uint k = 0; k < g->nb_cols;
+    for (uint k = 0; k < game_nb_cols(g);
          k++) {  // regarde si il y a une case vide dans la ligne
       if (game_get_square(g, i, k) == S_EMPTY) {
         testligne = false;
         break;
       }
     }
-    for (uint k = 0; k < g->nb_rows;
+    for (uint k = 0; k < game_nb_rows(g);
          k++) {  // regarde si il y a une case vide dans la colonne
       if (game_get_square(g, k, j) == S_EMPTY) {
         testcolonne = false;
@@ -362,15 +362,15 @@ int game_has_error(cgame g, uint i, uint j) {
       }
     }
     if (testligne) {
-      int tab[g->nb_cols];
-      for (uint k = 0; k < g->nb_cols;
+      int tab[game_nb_cols(g)];
+      for (uint k = 0; k < game_nb_cols(g);
            k++) {  // parcours la ligne et met les valeurs dans un tableau
         tab[k] = game_get_number(g, i, k);
       }
       int cptlmemenombre;
-      for (uint x = 0; x < g->nb_rows; x++) {  // parcours les lignes
+      for (uint x = 0; x < game_nb_rows(g); x++) {  // parcours les lignes
         cptlmemenombre = 0;
-        for (uint y = 0; y < g->nb_cols; y++) {  // parcours les colonnes
+        for (uint y = 0; y < game_nb_cols(g); y++) {  // parcours les colonnes
           if (x == i) {  // si sur la meme ligne que la case testé on passe a la
                          // suivante
             break;
@@ -382,21 +382,21 @@ int game_has_error(cgame g, uint i, uint j) {
           }
           cptlmemenombre++;
         }
-        if (cptlmemenombre == g->nb_cols) {
+        if (cptlmemenombre == game_nb_cols(g)) {
           return -1;
         }
       }
     }
     if (testcolonne) {
-      int tab[g->nb_rows];
-      for (uint k = 0; k < g->nb_rows;
+      int tab[game_nb_rows(g)];
+      for (uint k = 0; k < game_nb_rows(g);
            k++) {  // parcours la colonne et met les valeurs dans un tableau
         tab[k] = game_get_number(g, k, j);
       }
       int cptcmemenombre;
-      for (uint x = 0; x < g->nb_cols; x++) {  // parcours les colonnes
+      for (uint x = 0; x < game_nb_cols(g); x++) {  // parcours les colonnes
         cptcmemenombre = 0;
-        for (uint y = 0; y < g->nb_rows; y++) {  // parcours les lignes
+        for (uint y = 0; y < game_nb_rows(g); y++) {  // parcours les lignes
           if (y == j) {  // si sur la meme colonne que la case testé on passe a
                          // la suivante
             break;
@@ -408,7 +408,7 @@ int game_has_error(cgame g, uint i, uint j) {
           }
           cptcmemenombre++;
         }
-        if (cptcmemenombre == g->nb_rows) {
+        if (cptcmemenombre == game_nb_rows(g)) {
           return -1;
         }
       }
@@ -422,8 +422,8 @@ bool game_check_move(cgame g, uint i, uint j, square s) {
     printf("game_check_move: game is NULL\n");
     exit(EXIT_FAILURE);
   }
-  if (s == S_IMMUTABLE_ONE || s == S_IMMUTABLE_ZERO || i >= g->nb_rows ||
-      j >= g->nb_cols) {
+  if (s == S_IMMUTABLE_ONE || s == S_IMMUTABLE_ZERO || i >= game_nb_rows(g) ||
+      j >= game_nb_cols(g)) {
     return false;
   }
   square sq = game_get_square(g, i, j);
@@ -435,7 +435,7 @@ bool game_check_move(cgame g, uint i, uint j, square s) {
 }
 
 void game_play_move(game g, uint i, uint j, square s) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
         "game_play_move: game is NULL or i or j is out of range, params : "
         " %d, %d, %d\n",
@@ -463,8 +463,8 @@ bool game_is_over(cgame g) {
     printf("game_is_over: game is NULL\n");
     exit(EXIT_FAILURE);
   }
-  for (uint k = 0; k < g->nb_rows; k++) {
-    for (uint l = 0; l < g->nb_cols; l++) {
+  for (uint k = 0; k < game_nb_rows(g); k++) {
+    for (uint l = 0; l < game_nb_cols(g); l++) {
       if (game_has_error(g, k, l) != 0) {
         return false;
       }
@@ -481,8 +481,8 @@ void game_restart(game g) {
     printf("game_restart: game is NULL\n");
     exit(EXIT_FAILURE);
   }
-  for (uint i = 0; i < g->nb_rows; i++) {
-    for (uint j = 0; j < g->nb_cols; j++) {
+  for (uint i = 0; i < game_nb_rows(g); i++) {
+    for (uint j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) != S_IMMUTABLE_ONE &&
           game_get_square(g, i, j) != S_IMMUTABLE_ZERO) {
         game_set_square(g, i, j, S_EMPTY);
