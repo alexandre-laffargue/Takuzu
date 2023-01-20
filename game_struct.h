@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "queue.h"
+#include "game.h"
 
 struct game_s {
   square* square_array;

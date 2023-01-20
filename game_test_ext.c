@@ -14,20 +14,31 @@ void usage(int argc, char *argv[]) {
 }
 
 bool test_game_undo() {
-  game g1 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
-  game g2 = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
+  game g1 = game_new_empty_ext(4, 6, false, false);
   game_play_move(g1, 0, 0, S_ONE);
   game_undo(g1);
-
-  if (game_equal(g1, g2) == false) {
+  if (game_get_square(g1, 0, 0) != S_EMPTY) {
     game_delete(g1);
-    game_delete(g2);
     return false;
-  } else {
-    game_delete(g1);
-    game_delete(g2);
-    return true;
   }
+  game_redo(g1);
+  if (game_get_square(g1, 0, 0) != S_ONE) {
+    game_delete(g1);
+    return false;
+  }
+  game_play_move(g1, 2, 2, S_ONE);
+  game_play_move(g1, 1, 3, S_ZERO);
+  game_play_move(g1, 2, 2, S_ZERO);
+  game_undo(g1);
+  if (game_get_square(g1, 2, 2) != S_ONE) {
+    game_delete(g1);
+    return false;
+  }
+
+
+  game_undo(g1);
+
+  return true;
 }
 
 bool test_game_redo() {
