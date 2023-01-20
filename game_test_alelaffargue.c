@@ -8,7 +8,6 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
-#include "queue.h"
 /*****TEST*****/
 bool test_dummy() { return true; }
 

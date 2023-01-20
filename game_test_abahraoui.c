@@ -7,7 +7,6 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
-#include "queue.h"
 
 void usage(int argc, char* argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -36,11 +35,10 @@ bool test_game_play_move() {
   game g = game_new_empty();
   game g2 = game_default();
 
-  game_set_square(g, 0, 0, S_EMPTY);
-  game_set_square(g, 1, 1, S_ZERO);
-  game_set_square(g, 3, 3, S_ONE);
   game_set_square(g, 1, 2, S_IMMUTABLE_ONE);
   game_set_square(g, 1, 3, S_IMMUTABLE_ZERO);
+  game_play_move(g, 1, 1, S_ZERO);
+  game_play_move(g, 3, 3, S_ONE);
 
   game_play_move(g, 0, 0, S_ONE);
   game_play_move(g, 1, 1, S_ZERO);
@@ -64,78 +62,64 @@ bool test_game_play_move() {
     game_delete(g);
     return false;
   }
-  if (queue_is_empty(g->historique)) {
+  game_undo(g);
+  if (game_get_square(g, 3, 3) != S_ONE) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
-  free(queue_pop_head(g->historique));
-  if (queue_is_empty(g->historique)) {
+  game_undo(g);
+  if (game_get_square(g, 1, 1) != S_ZERO) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
-  free(queue_pop_head(g->historique));
-  if (queue_is_empty(g->historique)) {
+  game_undo(g);
+  if (game_get_square(g, 0, 0) != S_EMPTY) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
-  free(queue_pop_head(g->historique));
-  if (!queue_is_empty(g->historique)) {
+  game_redo(g);
+  if (game_get_square(g, 0, 0) != S_ONE) {
+    game_delete(g2);
+    game_delete(g);
+    return false;
+  }
+  game_redo(g);
+  if (game_get_square(g, 1, 1) != S_ZERO) {
+    game_delete(g2);
+    game_delete(g);
+    return false;
+  }
+  game_redo(g);
+  if (game_get_square(g, 3, 3) != S_EMPTY) {
     game_delete(g2);
     game_delete(g);
     return false;
   }
 
-  /*
-  int* move3 = queue_pop_head(g->historique);
-  if (move3[2] != S_EMPTY) {
-    free(move3);
-    game_delete(g2);
-    game_delete(g);
-    return false;
-  }
-  free(move3);
-
-  int* move2 = queue_pop_head(g->historique);
-  if (move2[2] != S_ZERO) {
-    free(move2);
-    game_delete(g2);
-    game_delete(g);
-    return false;
-  }
-  free(move2);
-  int* move1 = queue_pop_head(g->historique);
-  if (move1[2] != S_ONE) {
-    free(move1);
-    game_delete(g2);
-    game_delete(g);
-    return false;
-  }
-  free(move1);
-  int* move4 = queue_pop_head(g2->historique);
-  if (move4[2] != S_ONE) {
-    free(move4);
-    game_delete(g2);
-    game_delete(g);
-    return false;
-  }
-  free(move4);
-  */
   game_delete(g);
   game_delete(g2);
 
   game g3 = game_new_empty();
   game_play_move(g3, 0, 0, S_ONE);
+  if (game_get_square(g3, 0, 0) != S_ONE) {
+    game_delete(g3);
+    return false;
+  }
   game_undo(g3);
+  if (game_get_square(g3, 0, 0) != S_EMPTY) {
+    game_delete(g3);
+    return false;
+  }
   game_play_move(g3, 1, 2, S_ZERO);
-  if (!queue_is_empty(g3->annulation)) {
+  game_redo(g3);
+  if (game_get_square(g3, 0, 0) != S_EMPTY) {
     game_delete(g3);
     return false;
   }
   game_delete(g3);
-
   return true;
 }
 
@@ -176,6 +160,30 @@ bool test_game_has_error() {
   }
 }
 
+bool trouve_une_erreur_restart(game g) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
+      if (i == 2 && j == 2) {
+        if (game_get_square(g, 2, 2) != S_IMMUTABLE_ONE) {
+          game_delete(g);
+          return false;
+        }
+      } else if (i == 3 && j == 3) {
+        if (game_get_square(g, 3, 3) != S_IMMUTABLE_ZERO) {
+          game_delete(g);
+          return false;
+        }
+      } else {
+        if (game_get_square(g, i, j) != S_EMPTY) {
+          game_delete(g);
+          return false;
+        }
+      }
+    }
+  }
+  return true;
+}
+
 bool test_game_restart() {
   game g = game_new_empty();
   game_set_square(g, 0, 0, S_ZERO);
@@ -191,11 +199,15 @@ bool test_game_restart() {
     game_delete(g);
     return false;
   }
-  if (queue_is_empty(g->historique) == false &&
-      queue_is_empty(g->annulation) == false) {
-    game_delete(g);
+  game_undo(g);
+  if (!trouve_une_erreur_restart(g)) {
     return false;
   }
+  game_redo(g);
+  if (!trouve_une_erreur_restart(g)) {
+    return false;
+  }
+
   game_play_move(g, 0, 5, S_ONE);
   game_play_move(g, 4, 1, S_ZERO);
   game_play_move(g, 1, 2, S_ZERO);
@@ -203,15 +215,15 @@ bool test_game_restart() {
   game_undo(g);
   game_undo(g);
   game_undo(g);
-
   game_restart(g);
-
-  if (queue_is_empty(g->historique) == false ||
-      queue_is_empty(g->annulation) == false) {
-    game_delete(g);
+  game_undo(g);
+  if (!trouve_une_erreur_restart(g)) {
     return false;
   }
-
+  game_redo(g);
+  if (!trouve_une_erreur_restart(g)) {
+    return false;
+  }
   game_delete(g);
   return true;
 }
