@@ -69,20 +69,14 @@ game game_new_empty(void) {
 
 game game_copy(cgame g) {
   game_is_null(g, "game_copy");
-  game copy = memory_alloc(sizeof(struct game_s));
-  copy->nb_rows = game_nb_rows(g);
-  copy->nb_cols = game_nb_cols(g);
-  copy->unique = game_is_unique(g);
-  copy->wrapping = game_is_wrapping(g);
-  copy->square_array =
-      memory_alloc((copy->nb_rows * copy->nb_cols) * sizeof(square));
-  for (int i = 0; i < copy->nb_rows; i++) {
-    for (int j = 0; j < copy->nb_cols; j++) {
+  game copy = game_new_empty_ext(game_nb_rows(g), game_nb_cols(g), game_is_wrapping(g), game_is_unique(g)
+  );
+  for (int i = 0; i < game_nb_rows(copy); i++) {
+    for (int j = 0; j < game_nb_cols(copy); j++) {
       game_set_square(copy, i, j, game_get_square(g, i, j));
     }
   }
-  copy->historique = queue_new();
-  copy->annulation = queue_new();
+  
   return copy;
 }
 
