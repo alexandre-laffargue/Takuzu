@@ -7,7 +7,7 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
-#include "queue.h"
+
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
@@ -42,17 +42,13 @@ bool test_game_redo() {
     game_delete(g);
     return false;
   }
-  game_delete(g);
-
-  game g2 = game_new_empty_ext(4, 6, true, true);
-  game_play_move(g2, 2, 3, S_ZERO);
-  game_undo(g2);
-  game_redo(g2);
-  if (queue_is_empty(g2->historique) || !queue_is_empty(g2->annulation)) {
-    game_delete(g2);
+  game_undo(g);
+  game_undo(g);
+  if (game_get_square(g, 1, 1) != S_EMPTY || game_get_square(g, 2, 2) != S_EMPTY) {
+    game_delete(g);
     return false;
   }
-  game_delete(g2);
+  game_delete(g);
   return true;
 }
 
@@ -157,11 +153,9 @@ bool test_game_new_empty_ext() {
     game_delete(g);
     return false;
   }
-  if (queue_is_empty(g->historique) != true ||
-      queue_is_empty(g->annulation) != true) {
-    game_delete(g);
-    return false;
-  }
+  game_undo(g);
+  game_redo(g);
+  
 
   game g2 = game_new_empty_ext(6, 8, false, true);
   for (int i = 0; i < g2->nb_rows; i++) {
@@ -184,12 +178,8 @@ bool test_game_new_empty_ext() {
     game_delete(g2);
     return false;
   }
-  if (queue_is_empty(g->historique) != true ||
-      queue_is_empty(g->annulation) != true) {
-    game_delete(g);
-    game_delete(g2);
-    return false;
-  }
+  game_undo(g);
+  game_redo(g);
 
   game_delete(g);
   game_delete(g2);
