@@ -35,7 +35,6 @@ bool test_game_undo() {
     return false;
   }
 
-
   game_undo(g1);
 
   return true;
