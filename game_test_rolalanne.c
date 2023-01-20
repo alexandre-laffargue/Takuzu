@@ -178,7 +178,7 @@ bool test_game_equal() {
   game copy = game_copy(g);
   game difstate = game_copy(g);
   game_set_square(difstate, 1, 1, S_IMMUTABLE_ZERO);
-  game_set_square(difstate, 3, 3, S_IMMUTABLE_ONE);
+  game_set_square(difstate, 3, 4, S_IMMUTABLE_ONE);
 
   game g2 = game_new_empty_ext(6, 4, false, false);
   game dif2 = game_new_empty_ext(6, 4, false, false);
