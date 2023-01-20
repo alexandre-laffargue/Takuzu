@@ -95,14 +95,25 @@ void game_undo(game g) {
   if (!queue_is_empty(g->historique)) {
     int* tab = queue_pop_head(g->historique);
     queue_push_head(g->annulation, tab);
-    int* tab2;
-    if (!queue_is_empty(g->historique)) {
-      tab2 = queue_peek_head(g->historique);
+    int* tab_coup_joue[3];
+
+    int compteur = -1;
+    bool changed = false;
+    while (!queue_is_empty(g->historique)) {
+      compteur++;
+      tab_coup_joue[compteur] = queue_pop_head(g->historique);
+      if ((tab[0] == tab_coup_joue[compteur][0]) &&
+          (tab[1] == tab_coup_joue[compteur][1])) {
+        game_set_square(g, tab[0], tab[1], tab_coup_joue[compteur][2]);
+        changed = true;
+        break;
+      }
     }
-    if (!queue_is_empty(g->historique) && (tab[0] == tab2[0]) &&
-        (tab[1] == tab2[1])) {
-      game_set_square(g, tab[0], tab[1], tab2[2]);
-    } else {
+    while (compteur >= 0) {
+      queue_push_head(g->historique, tab_coup_joue[compteur]);
+      compteur--;
+    }
+    if (!changed) {
       game_set_square(g, tab[0], tab[1], S_EMPTY);
     }
   }
