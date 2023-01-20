@@ -330,18 +330,18 @@ int game_has_error(cgame g, uint i, uint j) {
       return -1;
     }
   }
-  int cpt_hor1 = 0, cpt_ver1 = 0;  // début du test de la moitié d'une couleur
+  int cpt_memecouleur_surC = 0, cpt_memecouleur_surL = 0;  // début du test de la moitié d'une couleur
   for (uint k = 0; k < game_nb_rows(g); k++) {
     if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
-      cpt_hor1++;
+      cpt_memecouleur_surL++;
     }
   }
   for (uint k = 0; k < game_nb_cols(g); k++) {
     if (game_get_number(g, i, k) == game_get_number(g, i, j)) {
-      cpt_ver1++;
+      cpt_memecouleur_surC++;
     }
   }
-  if (cpt_hor1 > (game_nb_rows(g) / 2) || cpt_ver1 > (game_nb_cols(g) / 2)) {
+  if (cpt_memecouleur_surL > (game_nb_rows(g) / 2) || cpt_memecouleur_surC > (game_nb_cols(g) / 2)) {
     return -1;
   }
   if (game_is_unique(g)) {  // test de la condition unique
@@ -397,7 +397,7 @@ int game_has_error(cgame g, uint i, uint j) {
       for (uint x = 0; x < game_nb_cols(g); x++) {  // parcours les colonnes
         cptcmemenombre = 0;
         for (uint y = 0; y < game_nb_rows(g); y++) {  // parcours les lignes
-          if (y == j) {  // si sur la meme colonne que la case testé on passe a
+          if (x == j) {  // si sur la meme colonne que la case testé on passe a
                          // la suivante
             break;
           }
