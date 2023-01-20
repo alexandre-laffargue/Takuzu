@@ -44,7 +44,8 @@ bool test_game_redo() {
   }
   game_undo(g);
   game_undo(g);
-  if (game_get_square(g, 1, 1) != S_EMPTY || game_get_square(g, 2, 2) != S_EMPTY) {
+  if (game_get_square(g, 1, 1) != S_EMPTY ||
+      game_get_square(g, 2, 2) != S_EMPTY) {
     game_delete(g);
     return false;
   }
@@ -155,7 +156,6 @@ bool test_game_new_empty_ext() {
   }
   game_undo(g);
   game_redo(g);
-  
 
   game g2 = game_new_empty_ext(6, 8, false, true);
   for (int i = 0; i < g2->nb_rows; i++) {
