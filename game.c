@@ -440,7 +440,7 @@ void game_play_move(game g, uint i, uint j, square s) {
         i, j, s);
     exit(EXIT_FAILURE);
   }
-  if (s == S_IMMUTABLE_ONE && s == S_IMMUTABLE_ONE) {
+  if (s == S_IMMUTABLE_ONE || s == S_IMMUTABLE_ZERO) {
     printf("game_play_move: square is immutable\n");
     exit(EXIT_FAILURE);
   }
