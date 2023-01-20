@@ -65,10 +65,10 @@ game game_copy(cgame g) {
     exit(EXIT_FAILURE);
   }
   game copy = memory_alloc(sizeof(struct game_s));
-  copy->nb_rows = g->nb_rows;
-  copy->nb_cols = g->nb_cols;
-  copy->unique = g->unique;
-  copy->wrapping = g->wrapping;
+  copy->nb_rows = game_nb_rows(g);
+  copy->nb_cols = game_nb_cols(g);
+  copy->unique = game_is_unique(g);
+  copy->wrapping = game_is_wrapping(g);
   copy->square_array =
       memory_alloc((copy->nb_rows * copy->nb_cols) * sizeof(square));
   for (int i = 0; i < copy->nb_rows; i++) {
@@ -118,28 +118,28 @@ void game_delete(game g) {
 }
 
 void game_set_square(game g, uint i, uint j, square s) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols ||
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g) ||
       (s != S_EMPTY && s != S_IMMUTABLE_ONE && s != S_IMMUTABLE_ZERO &&
        s != S_ONE && s != S_ZERO)) {
     printf(
         "game_set_square: g is NULL or i or j is out of range or s is not a "
         "square, params : %d %d %d %d %d\n",
-        i, j, g->nb_rows, g->nb_cols, s);
+        i, j, game_nb_rows(g), game_nb_cols(g), s);
     exit(EXIT_FAILURE);
   }
-  uint index = (i * g->nb_cols) + j;
+  uint index = (i * game_nb_cols(g)) + j;
   g->square_array[index] = s;
 }
 
 square game_get_square(cgame g, uint i, uint j) {
-  if (g == NULL || i >= g->nb_rows || j >= g->nb_cols) {
+  if (g == NULL || i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
         "game_get_square: g is NULL or i or j is out of range, params : %d %d "
         "%d %d\n",
-        i, j, g->nb_rows, g->nb_cols);
+        i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
   }
-  uint index = (i * g->nb_cols) + j;
+  uint index = (i * game_nb_cols(g)) + j;
   return g->square_array[index];
 }
 

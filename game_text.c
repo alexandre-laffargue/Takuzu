@@ -14,8 +14,8 @@ void game_help_print() {
   printf("- press 'q' to quit\n");
 }
 void game_errors_print(game g) {
-  for (int i = 0; i < g->nb_rows; i++) {
-    for (int j = 0; j < g->nb_cols; j++)
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++)
       if (game_has_error(g, i, j)) {
         printf("Error at square (%d,%d)\n", i, j);
       }
