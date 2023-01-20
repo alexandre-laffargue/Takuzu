@@ -48,7 +48,8 @@ game game_new_empty(void) {
   g->nb_cols = DEFAULT_SIZE;
   g->unique = false;
   g->wrapping = false;
-  square* array = memory_alloc((game_nb_rows(g) * game_nb_cols(g)) * sizeof(square));
+  square* array =
+      memory_alloc((game_nb_rows(g) * game_nb_cols(g)) * sizeof(square));
 
   for (int i = 0; i < game_nb_rows(g) * game_nb_cols(g); i++) {
     array[i] = S_EMPTY;
@@ -330,7 +331,8 @@ int game_has_error(cgame g, uint i, uint j) {
       return -1;
     }
   }
-  int cpt_memecouleur_surC = 0, cpt_memecouleur_surL = 0;  // début du test de la moitié d'une couleur
+  int cpt_memecouleur_surC = 0,
+      cpt_memecouleur_surL = 0;  // début du test de la moitié d'une couleur
   for (uint k = 0; k < game_nb_rows(g); k++) {
     if (game_get_number(g, k, j) == game_get_number(g, i, j)) {
       cpt_memecouleur_surL++;
@@ -341,7 +343,8 @@ int game_has_error(cgame g, uint i, uint j) {
       cpt_memecouleur_surC++;
     }
   }
-  if (cpt_memecouleur_surL > (game_nb_rows(g) / 2) || cpt_memecouleur_surC > (game_nb_cols(g) / 2)) {
+  if (cpt_memecouleur_surL > (game_nb_rows(g) / 2) ||
+      cpt_memecouleur_surC > (game_nb_cols(g) / 2)) {
     return -1;
   }
   if (game_is_unique(g)) {  // test de la condition unique
