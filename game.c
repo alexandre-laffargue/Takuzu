@@ -351,12 +351,14 @@ int game_has_error(cgame g, uint i, uint j) {
          k++) {  // regarde si il y a une case vide dans la ligne
       if (game_get_square(g, i, k) == S_EMPTY) {
         testligne = false;
+        break;
       }
     }
     for (uint k = 0; k < g->nb_rows;
          k++) {  // regarde si il y a une case vide dans la colonne
-      if (game_get_number(g, k, j) == S_EMPTY) {
+      if (game_get_square(g, k, j) == S_EMPTY) {
         testcolonne = false;
+        break;
       }
     }
     if (testligne) {
