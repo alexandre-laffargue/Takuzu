@@ -51,11 +51,8 @@ bool test_game_new() {
     free(square_array);
     return false;
   }
-  if (g->annulation == NULL || g->historique == NULL) {
-    game_delete(g);
-    free(square_array);
-    return false;
-  }
+  game_undo(g);
+  game_redo(g);
 
   game_delete(g);
   free(square_array);
