@@ -50,7 +50,7 @@ void queue_push_head(queue *q, void *data) {
 }
 
 /* *********************************************************** */
-
+/*
 void queue_push_tail(queue *q, void *data) {
   assert(q);
   element_t *e = malloc(sizeof(element_t));
@@ -63,7 +63,7 @@ void queue_push_tail(queue *q, void *data) {
   if (!q->head) q->head = e;
   q->length++;
 }
-
+*/
 /* *********************************************************** */
 
 void *queue_pop_head(queue *q) {
@@ -81,7 +81,7 @@ void *queue_pop_head(queue *q) {
 }
 
 /* *********************************************************** */
-
+/*
 void *queue_pop_tail(queue *q) {
   assert(q);
   assert(q->length > 0);
@@ -95,7 +95,7 @@ void *queue_pop_tail(queue *q) {
   if (!q->tail) q->head = NULL;  // empty list
   return data;
 }
-
+*/
 /* *********************************************************** */
 
 int queue_length(const queue *q) {
@@ -111,23 +111,23 @@ bool queue_is_empty(const queue *q) {
 }
 
 /* *********************************************************** */
-
+/*
 void *queue_peek_head(queue *q) {
   assert(q);
   assert(q->head);
   return q->head->data;
 }
-
+*/
 /* *********************************************************** */
-
+/*
 void *queue_peek_tail(queue *q) {
   assert(q);
   assert(q->tail);
   return q->tail->data;
 }
-
+*/
 /* *********************************************************** */
-
+/*
 void queue_clear(queue *q) {
   assert(q);
   element_t *e = q->head;
@@ -139,7 +139,7 @@ void queue_clear(queue *q) {
   q->head = q->tail = NULL;
   q->length = 0;
 }
-
+*/
 /* *********************************************************** */
 
 void queue_clear_full(queue *q, void (*destroy)(void *)) {
@@ -156,12 +156,12 @@ void queue_clear_full(queue *q, void (*destroy)(void *)) {
 }
 
 /* *********************************************************** */
-
+/*
 void queue_free(queue *q) {
   queue_clear(q);
   free(q);
 }
-
+*/
 /* *********************************************************** */
 
 void queue_free_full(queue *q, void (*destroy)(void *)) {
