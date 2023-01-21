@@ -290,51 +290,130 @@ bool game_is_immutable(cgame g, uint i, uint j) {
   }
 }
 
-int game_has_error(cgame g, uint i, uint j) {
-  game_is_null(g, "game_has_error");
-  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
-    printf(
-        "game_has_error: i or j is out of range, params : %d %d "
-        "%d %d\n",
-        i, j, game_nb_rows(g), game_nb_cols(g));
-    exit(EXIT_FAILURE);
+bool error_unique_rows(cgame g, uint i, uint j) {
+  int tab[game_nb_cols(g)];
+  for (uint k = 0; k < game_nb_cols(g);
+       k++) {  // parcours la ligne et met les valeurs dans un tableau
+    tab[k] = game_get_number(g, i, k);
   }
-  if (game_get_square(g, i, j) == S_EMPTY) {
-    return 0;
+  int cptlmemenombre;
+  for (uint x = 0; x < game_nb_rows(g); x++) {  // parcours les lignes
+    cptlmemenombre = 0;
+    for (uint y = 0; y < game_nb_cols(g); y++) {  // parcours les colonnes
+      if (x == i) {  // si sur la meme ligne que la case testé on passe a la
+                     // suivante
+        break;
+      }
+      if (game_get_number(g, x, y) !=
+          tab[y]) {  // si la valeur de la case testé est differente de
+                     // celle du tableau
+        break;       // on passe a la ligne suivante
+      }
+      cptlmemenombre++;
+    }
+    if (cptlmemenombre == game_nb_cols(g)) {
+      return false;
+    }
   }
-  int cpt_ver = 1, cpt_hor = 1;  // début des test du nbr de même case à coté
+  return true;
+}
+
+bool error_unique_cols(cgame g, uint i, uint j) {
+  int tab[game_nb_rows(g)];
+  for (uint k = 0; k < game_nb_rows(g);
+       k++) {  // parcours la colonne et met les valeurs dans un tableau
+    tab[k] = game_get_number(g, k, j);
+  }
+  int cptcmemenombre;
+  for (uint x = 0; x < game_nb_cols(g); x++) {  // parcours les colonnes
+    cptcmemenombre = 0;
+    for (uint y = 0; y < game_nb_rows(g); y++) {  // parcours les lignes
+      if (x == j) {  // si sur la meme colonne que la case testé on passe a
+                     // la suivante
+        break;
+      }
+      if (game_get_number(g, y, x) !=
+          tab[y]) {  // si la valeur de la case testé est differente de
+                     // celle du tableau
+        break;       // on passe a la colonne suivante
+      }
+      cptcmemenombre++;
+    }
+    if (cptcmemenombre == game_nb_rows(g)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool error_unique(cgame g, uint i, uint j) {
+  bool testligne = true;
+  bool testcolonne = true;
+  for (uint k = 0; k < game_nb_cols(g);
+       k++) {  // regarde si il y a une case vide dans la ligne
+    if (game_get_square(g, i, k) == S_EMPTY) {
+      testligne = false;
+      break;
+    }
+  }
+  for (uint k = 0; k < game_nb_rows(g);
+       k++) {  // regarde si il y a une case vide dans la colonne
+    if (game_get_square(g, k, j) == S_EMPTY) {
+      testcolonne = false;
+      break;
+    }
+  }
+  if (testligne) {
+    if (!error_unique_rows(g, i, j)) {
+      return false;
+    }
+  }
+  if (testcolonne) {
+    if (!error_unique_cols(g, i, j)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool error_3samecolor(cgame g, uint i, uint j) {
+  int cpt_ver = 1, cpt_hor = 1;
   /* horizontal*/
   if (game_get_number(g, i, j) == game_get_next_number(g, i, j, RIGHT, 1)) {
     cpt_hor++;
     if (game_get_number(g, i, j) == game_get_next_number(g, i, j, RIGHT, 2)) {
-      return -1;
+      return false;
     }
   }
   if (game_get_number(g, i, j) == game_get_next_number(g, i, j, LEFT, 1)) {
     cpt_hor++;
     if (cpt_hor > 2) {
-      return -1;
+      return false;
     }
     if (game_get_number(g, i, j) == game_get_next_number(g, i, j, LEFT, 2)) {
-      return -1;
+      return false;
     }
   }
   /* vertical*/
   if (game_get_number(g, i, j) == game_get_next_number(g, i, j, UP, 1)) {
     cpt_ver++;
     if (game_get_number(g, i, j) == game_get_next_number(g, i, j, UP, 2)) {
-      return -1;
+      return false;
     }
   }
   if (game_get_number(g, i, j) == game_get_next_number(g, i, j, DOWN, 1)) {
     cpt_ver++;
     if (cpt_ver > 2) {
-      return -1;
+      return false;
     }
     if (game_get_number(g, i, j) == game_get_next_number(g, i, j, DOWN, 2)) {
-      return -1;
+      return false;
     }
   }
+  return true;
+}
+
+bool error_more_half_color(cgame g, uint i, uint j) {
   int cpt_memecouleur_surC = 0,
       cpt_memecouleur_surL = 0;  // début du test de la moitié d'une couleur
   for (uint k = 0; k < game_nb_rows(g); k++) {
@@ -349,76 +428,32 @@ int game_has_error(cgame g, uint i, uint j) {
   }
   if (cpt_memecouleur_surL > (game_nb_rows(g) / 2) ||
       cpt_memecouleur_surC > (game_nb_cols(g) / 2)) {
+    return false;
+  }
+  return true;
+}
+
+int game_has_error(cgame g, uint i, uint j) {
+  game_is_null(g, "game_has_error");
+  if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
+    printf(
+        "game_has_error: i or j is out of range, params : %d %d "
+        "%d %d\n",
+        i, j, game_nb_rows(g), game_nb_cols(g));
+    exit(EXIT_FAILURE);
+  }
+  if (game_get_square(g, i, j) == S_EMPTY) {
+    return 0;
+  }
+  if (!error_3samecolor(g, i, j)) {
     return -1;
   }
-  if (game_is_unique(g)) {  // test de la condition unique
-    bool testligne = true;
-    bool testcolonne = true;
-    for (uint k = 0; k < game_nb_cols(g);
-         k++) {  // regarde si il y a une case vide dans la ligne
-      if (game_get_square(g, i, k) == S_EMPTY) {
-        testligne = false;
-        break;
-      }
-    }
-    for (uint k = 0; k < game_nb_rows(g);
-         k++) {  // regarde si il y a une case vide dans la colonne
-      if (game_get_square(g, k, j) == S_EMPTY) {
-        testcolonne = false;
-        break;
-      }
-    }
-    if (testligne) {
-      int tab[game_nb_cols(g)];
-      for (uint k = 0; k < game_nb_cols(g);
-           k++) {  // parcours la ligne et met les valeurs dans un tableau
-        tab[k] = game_get_number(g, i, k);
-      }
-      int cptlmemenombre;
-      for (uint x = 0; x < game_nb_rows(g); x++) {  // parcours les lignes
-        cptlmemenombre = 0;
-        for (uint y = 0; y < game_nb_cols(g); y++) {  // parcours les colonnes
-          if (x == i) {  // si sur la meme ligne que la case testé on passe a la
-                         // suivante
-            break;
-          }
-          if (game_get_number(g, x, y) !=
-              tab[y]) {  // si la valeur de la case testé est differente de
-                         // celle du tableau
-            break;       // on passe a la ligne suivante
-          }
-          cptlmemenombre++;
-        }
-        if (cptlmemenombre == game_nb_cols(g)) {
-          return -1;
-        }
-      }
-    }
-    if (testcolonne) {
-      int tab[game_nb_rows(g)];
-      for (uint k = 0; k < game_nb_rows(g);
-           k++) {  // parcours la colonne et met les valeurs dans un tableau
-        tab[k] = game_get_number(g, k, j);
-      }
-      int cptcmemenombre;
-      for (uint x = 0; x < game_nb_cols(g); x++) {  // parcours les colonnes
-        cptcmemenombre = 0;
-        for (uint y = 0; y < game_nb_rows(g); y++) {  // parcours les lignes
-          if (x == j) {  // si sur la meme colonne que la case testé on passe a
-                         // la suivante
-            break;
-          }
-          if (game_get_number(g, y, x) !=
-              tab[y]) {  // si la valeur de la case testé est differente de
-                         // celle du tableau
-            break;       // on passe a la colonne suivante
-          }
-          cptcmemenombre++;
-        }
-        if (cptcmemenombre == game_nb_rows(g)) {
-          return -1;
-        }
-      }
+  if (!error_more_half_color(g, i, j)) {
+    return -1;
+  }
+  if (game_is_unique(g)) {
+    if (!error_unique(g, i, j)) {
+      return -1;
     }
   }
   return 0;
