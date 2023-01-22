@@ -32,38 +32,12 @@ game game_new(square* squares) {
     printf("Error: squares is NULL \n");
     exit(EXIT_FAILURE);
   }
-  game new = memory_alloc(sizeof(struct game_s));
-  new->nb_rows = DEFAULT_SIZE;
-  new->nb_cols = DEFAULT_SIZE;
-  new->unique = false;
-  new->wrapping = false;
-  square* array = memory_alloc((new->nb_rows* new->nb_cols) * sizeof(square));
-
-  for (int i = 0; i < (new->nb_rows* new->nb_cols); i++) {
-    square tmp = squares[i];
-    array[i] = tmp;
-  }
-  new->square_array = array;
-  new->historique = queue_new();
-  new->annulation = queue_new();
-  return new;
+  game g = game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, squares, false, false);
+  return g;
 }
 
 game game_new_empty(void) {
-  game g = memory_alloc(sizeof(struct game_s));
-  g->nb_rows = DEFAULT_SIZE;
-  g->nb_cols = DEFAULT_SIZE;
-  g->unique = false;
-  g->wrapping = false;
-  square* array =
-      memory_alloc((game_nb_rows(g) * game_nb_cols(g)) * sizeof(square));
-
-  for (int i = 0; i < game_nb_rows(g) * game_nb_cols(g); i++) {
-    array[i] = S_EMPTY;
-  }
-  g->square_array = array;
-  g->historique = queue_new();
-  g->annulation = queue_new();
+  game g = game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE, false, false);
   return g;
 }
 
