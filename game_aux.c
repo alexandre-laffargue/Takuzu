@@ -10,9 +10,7 @@
 #include "game_struct.h"
 
 void game_print(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_print");
   printf("   ");
   for (int i = 0; i < game_nb_cols(g); i++) {
     printf("%d", i);
@@ -51,8 +49,7 @@ void game_print(cgame g) {
 }
 
 game game_default(void) {
-  square* sq = malloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));
-  ;
+  square* sq = memory_alloc(sizeof(square) * (DEFAULT_SIZE * DEFAULT_SIZE));
 
   for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     sq[i] = S_EMPTY;

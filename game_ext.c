@@ -18,30 +18,22 @@ void* memory_alloc1(uint size) {
 }
 
 bool game_is_unique(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_is_unique");
   return g->unique;
 }
 
 bool game_is_wrapping(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_is_wrapping");
   return g->wrapping;
 }
 
 uint game_nb_cols(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_nb_cols");
   return g->nb_cols;
 }
 
 uint game_nb_rows(cgame g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_nb_rows");
   return g->nb_rows;
 }
 
@@ -85,9 +77,7 @@ game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
 }
 
 void game_undo(game g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_undo");
   if (queue_is_empty(g->historique)) {
     printf("Pas d'undo possible \n");
     return;
@@ -119,9 +109,7 @@ void game_undo(game g) {
 }
 
 void game_redo(game g) {
-  if (g == NULL) {
-    exit(EXIT_FAILURE);
-  }
+  game_is_null(g, "game_redo");
   if (queue_is_empty(g->annulation)) {
     printf("Pas d'annulation possible \n");
     return;
