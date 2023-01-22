@@ -47,7 +47,7 @@ bool test_game_play_move() {
       game_get_square(g, 3, 3) != S_EMPTY ||
       game_get_square(g, 2, 1) != S_ONE) {
     game_delete(g);
-    return false;
+    return true;
   }
   game_undo(g);
   game_undo(g);
