@@ -50,8 +50,8 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, bool wrapping,
   new->nb_cols = nb_cols;
   new->wrapping = wrapping;
   new->unique = unique;
-  new->historique = queue_new();
-  new->annulation = queue_new();
+  new->history = queue_new();
+  new->cancelation = queue_new();
 
   square* array = memory_alloc1((new->nb_rows* new->nb_cols) * sizeof(square));
 
@@ -78,20 +78,20 @@ game game_new_empty_ext(uint nb_rows, uint nb_cols, bool wrapping,
 
 void game_undo(game g) {
   game_is_null(g, "game_undo");
-  if (queue_is_empty(g->historique)) {
+  if (queue_is_empty(g->history)) {
     printf("Pas d'undo possible \n");
     return;
   }
 
-  int* tab = queue_pop_head(g->historique);
-  queue_push_head(g->annulation, tab);
-  int* tab_coup_joue[queue_length(g->historique)];
+  int* tab = queue_pop_head(g->history);
+  queue_push_head(g->cancelation, tab);
+  int* tab_coup_joue[queue_length(g->history)];
 
   int compteur = -1;
   bool changed = false;
-  while (!queue_is_empty(g->historique)) {
+  while (!queue_is_empty(g->history)) {
     compteur++;
-    tab_coup_joue[compteur] = queue_pop_head(g->historique);
+    tab_coup_joue[compteur] = queue_pop_head(g->history);
     if ((tab[0] == tab_coup_joue[compteur][0]) &&
         (tab[1] == tab_coup_joue[compteur][1])) {
       game_set_square(g, tab[0], tab[1], tab_coup_joue[compteur][2]);
@@ -100,7 +100,7 @@ void game_undo(game g) {
     }
   }
   while (compteur >= 0) {
-    queue_push_head(g->historique, tab_coup_joue[compteur]);
+    queue_push_head(g->history, tab_coup_joue[compteur]);
     compteur--;
   }
   if (!changed) {
@@ -110,13 +110,13 @@ void game_undo(game g) {
 
 void game_redo(game g) {
   game_is_null(g, "game_redo");
-  if (queue_is_empty(g->annulation)) {
+  if (queue_is_empty(g->cancelation)) {
     printf("Pas d'annulation possible \n");
     return;
   }
-  if (!queue_is_empty(g->annulation)) {
-    int* tab = queue_pop_head(g->annulation);
+  if (!queue_is_empty(g->cancelation)) {
+    int* tab = queue_pop_head(g->cancelation);
     game_set_square(g, tab[0], tab[1], tab[2]);
-    queue_push_head(g->historique, tab);
+    queue_push_head(g->history, tab);
   }
 }

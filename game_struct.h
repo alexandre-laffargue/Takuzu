@@ -13,6 +13,6 @@ struct game_s {
   bool unique;    // règle du meme nbr de 0 et 1.
   uint nb_rows;
   uint nb_cols;
-  queue* historique;
-  queue* annulation;
+  queue* history;
+  queue* cancelation;
 };

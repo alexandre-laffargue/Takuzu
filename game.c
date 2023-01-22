@@ -78,11 +78,11 @@ void game_delete(game g) {
     if (g->square_array != NULL) {
       free(g->square_array);
     }
-    if (g->historique != NULL) {
-      queue_free_full(g->historique, free);
+    if (g->history != NULL) {
+      queue_free_full(g->history, free);
     }
-    if (g->annulation != NULL) {
-      queue_free_full(g->annulation, free);
+    if (g->cancelation != NULL) {
+      queue_free_full(g->cancelation, free);
     }
     free(g);
   }
@@ -478,8 +478,8 @@ void game_play_move(game g, uint i, uint j, square s) {
     tab[0] = i;
     tab[1] = j;
     tab[2] = s;
-    queue_push_head(g->historique, tab);
-    queue_clear_full(g->annulation, free);
+    queue_push_head(g->history, tab);
+    queue_clear_full(g->cancelation, free);
   }
 }
 
@@ -508,6 +508,6 @@ void game_restart(game g) {
       }
     }
   }
-  queue_clear_full(g->historique, free);
-  queue_clear_full(g->annulation, free);
+  queue_clear_full(g->history, free);
+  queue_clear_full(g->cancelation, free);
 }
