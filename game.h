@@ -49,6 +49,22 @@ typedef struct game_s* game;
 typedef const struct game_s* cgame;
 
 /**
+ * @brief to alloc and test if the allocation is NULL.
+ * 
+ * @param size size of allocation.
+ * @return void* 
+ */
+void* memory_alloc(uint size);
+
+/**
+ * @brief test if g is NULL
+ * 
+ * @param g a game
+ * @param s the name of the function to print an error.
+ */
+void game_is_null(cgame g, char* s);
+
+/**
  * @brief Creates a new game with default size and initializes it.
  * @param squares an array describing the initial state of each square using
  *row-major storage
