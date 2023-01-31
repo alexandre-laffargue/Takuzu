@@ -5,6 +5,7 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
+#include "game_tools.h"
 
 void game_help_print() {
   printf("- press 'w <i> <j>' to put a zero/white at square (i,j)\n");
@@ -22,9 +23,14 @@ void game_errors_print(game g) {
   }
 }
 
-int main() {
+int main(int argc, char const *argv[]) {
   char c;
-  game g = game_new_empty_ext(4, 6, true, true);
+  game g;
+  if (argc == 2) {
+    g = game_load(argv[1]);
+  } else {
+    g = game_new_empty_ext(4, 6, true, true);
+  }
   while (!game_is_over(g)) {
     game_print(g);
     game_errors_print(g);
