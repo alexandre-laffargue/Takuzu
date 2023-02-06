@@ -54,6 +54,7 @@ add_test(test_rolalanne_game_new_empty ./game_test_rolalanne game_new_empty)
 add_test(test_rolalanne_game_copy ./game_test_rolalanne game_copy)
 add_test(test_rolalanne_game_equal ./game_test_rolalanne game_equal)
 add_test(test_rolalanne_game_default ./game_test_rolalanne game_default)
+add_test(test_rolalanne_game_load ./game_test_rolalanne game_load)
 
 
 add_test(test_ext_game_nb_rows ./game_test_ext game_nb_rows)

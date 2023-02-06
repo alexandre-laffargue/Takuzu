@@ -7,6 +7,7 @@
 #include "game_aux.h"
 #include "game_ext.h"
 #include "game_struct.h"
+#include "game_tools.h"
 
 void usage(int argc, char *argv[]) {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -193,6 +194,27 @@ bool test_game_default() {
   return true;
 }
 
+bool test_game_load(){
+    game g = game_new_empty_ext(8, 6, false, false);
+    game_play_move(g, 0, 1, S_ONE);
+    game_play_move(g, 7, 2, S_ONE);
+    game_play_move(g, 6, 5, S_ONE);
+    game_play_move(g, 2, 0, S_ONE);
+    game_play_move(g, 4, 4, S_ONE);
+    game_save(g,"save.txt");
+    game save = game_load("save.txt");
+    if(!game_equal(g,save)){
+      game_delete(g);
+      game_delete(save);
+      return false;
+    }
+    game_delete(g);
+    game_delete(save);
+    return true;
+    
+
+}
+
 int main(int argc, char *argv[]) {
   if (argc == 1) {
     usage(argc, argv);
@@ -226,6 +248,9 @@ int main(int argc, char *argv[]) {
 
   } else if (strcmp("game_default", argv[1]) == 0) {
     tmp = test_game_default();
+
+  } else if (strcmp("game_load", argv[1]) == 0) {
+    tmp = test_game_load();
 
   } else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
