@@ -27,7 +27,8 @@ int main(int argc, char const *argv[]) {
   char c;
   game g;
   if (argc == 2) {
-    g = game_load(argv[1]);
+    char *filename = (char *)argv[1];
+    g = game_load(filename);
   } else {
     g = game_new_empty_ext(4, 6, true, true);
   }
