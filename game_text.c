@@ -81,6 +81,12 @@ int main(int argc, char const *argv[]) {
         }
       }
     }
+    if (c == 's') {
+      char name[10];
+      scanf(" %s", name);
+      printf("> action: game save 's' into %s\n", name);
+      game_save(g, name);
+    }
   }
   game_print(g);
   printf("congratulation\n");
