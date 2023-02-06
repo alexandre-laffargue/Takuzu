@@ -45,26 +45,27 @@ bool test_game_save() {
   FILE *f = fopen("testdefault.txt", "r");
   int rows, cols, wrapping, unique;
   fscanf(f, " %d %d %d %d", &rows, &cols, &wrapping, &unique);
-  if(rows != game_nb_rows(g) || cols != game_nb_cols(g) || wrapping != game_is_wrapping(g) || unique != game_is_unique(g)) {
+  if (rows != game_nb_rows(g) || cols != game_nb_cols(g) ||
+      wrapping != game_is_wrapping(g) || unique != game_is_unique(g)) {
     game_delete(g);
     fclose(f);
     remove("testdefault.txt");
     return false;
   }
   fgetc(f);
-  for(int i = 0; i < rows; i++) {
-    for(int j = 0; j < cols; j++){
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
       int code = fgetc(f);
       square sq;
-      if(code == 119)
+      if (code == 119)
         sq = S_ZERO;
-      else if(code == 98)
+      else if (code == 98)
         sq = S_ONE;
-      else if(code == 87)
+      else if (code == 87)
         sq = S_IMMUTABLE_ZERO;
-      else if(code == 66)
+      else if (code == 66)
         sq = S_IMMUTABLE_ONE;
-      else if(code == 101)
+      else if (code == 101)
         sq = S_EMPTY;
       else {
         game_delete(g);
@@ -73,7 +74,7 @@ bool test_game_save() {
         return false;
       }
 
-      if(game_get_square(g, i, j) != sq) {
+      if (game_get_square(g, i, j) != sq) {
         game_delete(g);
         fclose(f);
         remove("testdefault.txt");
