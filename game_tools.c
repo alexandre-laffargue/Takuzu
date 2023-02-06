@@ -36,6 +36,7 @@ game game_load(char *filename) {
     fgetc(f);
     i++;
   }
+  fclose(f);
   return g;
 }
 

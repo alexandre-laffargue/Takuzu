@@ -35,6 +35,58 @@ bool test_game_load() {
   return true;
 }
 
+bool test_game_save() {
+  game g = game_default();
+  game_set_square(g, 0, 0, S_ZERO);
+  game_set_square(g, 5, 4, S_ONE);
+
+  game_save(g, "testdefault.txt");
+
+  FILE *f = fopen("testdefault.txt", "r");
+  int rows, cols, wrapping, unique;
+  fscanf(f, " %d %d %d %d", &rows, &cols, &wrapping, &unique);
+  if(rows != game_nb_rows(g) || cols != game_nb_cols(g) || wrapping != game_is_wrapping(g) || unique != game_is_unique(g)) {
+    game_delete(g);
+    fclose(f);
+    remove("testdefault.txt");
+    return false;
+  }
+  fgetc(f);
+  for(int i = 0; i < rows; i++) {
+    for(int j = 0; j < cols; j++){
+      int code = fgetc(f);
+      square sq;
+      if(code == 119)
+        sq = S_ZERO;
+      else if(code == 98)
+        sq = S_ONE;
+      else if(code == 87)
+        sq = S_IMMUTABLE_ZERO;
+      else if(code == 66)
+        sq = S_IMMUTABLE_ONE;
+      else if(code == 101)
+        sq = S_EMPTY;
+      else {
+        game_delete(g);
+        fclose(f);
+        remove("testdefault.txt");
+        return false;
+      }
+
+      if(game_get_square(g, i, j) != sq) {
+        game_delete(g);
+        fclose(f);
+        remove("testdefault.txt");
+        return false;
+      }
+    }
+    fgetc(f);
+  }
+  game_delete(g);
+  fclose(f);
+  return true;
+}
+
 int main(int argc, char *argv[]) {
   if (argc == 1) {
     usage(argc, argv);
@@ -42,10 +94,12 @@ int main(int argc, char *argv[]) {
   fprintf(stderr, "-> Start test \"%s\"\n", argv[1]);
   bool tmp = false;
 
-  if (strcmp("game_load", argv[1]) == 0) {
+  if (strcmp("game_load", argv[1]) == 0)
     tmp = test_game_load();
+  else if (strcmp("game_save", argv[1]) == 0)
+    tmp = test_game_save();
 
-  } else {
+  else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);
     exit(EXIT_FAILURE);
   }

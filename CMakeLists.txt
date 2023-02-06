@@ -29,6 +29,7 @@ target_link_libraries(game_test_ext game)
 add_executable(game_test_tools game_test_tools.c)
 target_link_libraries(game_test_tools game)
 
+
 add_test(test_abahraoui_game_is_empty ./game_test_abahraoui game_is_empty)
 add_test(test_abahraoui_game_play_move ./game_test_abahraoui game_play_move)
 add_test(test_abahraoui_game_has_error ./game_test_abahraoui game_has_error)
@@ -48,7 +49,6 @@ add_test(test_alelaffargue_game_is_over_v2 ./game_test_alelaffargue game_is_over
 add_test(test_alelaffargue_game_has_error_v2 ./game_test_alelaffargue game_has_error_v2)
 
 
-
 add_test(test_rolalanne_dummy ./game_test_rolalanne dummy)
 add_test(test_rolalanne_game_print ./game_test_rolalanne game_print)
 add_test(test_rolalanne_game_delete ./game_test_rolalanne game_delete)
@@ -57,7 +57,6 @@ add_test(test_rolalanne_game_new_empty ./game_test_rolalanne game_new_empty)
 add_test(test_rolalanne_game_copy ./game_test_rolalanne game_copy)
 add_test(test_rolalanne_game_equal ./game_test_rolalanne game_equal)
 add_test(test_rolalanne_game_default ./game_test_rolalanne game_default)
-
 
 
 add_test(test_ext_game_nb_rows ./game_test_ext game_nb_rows)
@@ -70,3 +69,4 @@ add_test(test_ext_game_undo ./game_test_ext game_undo)
 add_test(test_ext_game_redo ./game_test_ext game_redo)
 
 add_test(test_tools_game_load ./game_test_tools game_load)
+add_test(test_tools_game_save ./game_test_tools game_save)
