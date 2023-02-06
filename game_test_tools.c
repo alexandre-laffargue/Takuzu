@@ -26,10 +26,12 @@ bool test_game_load() {
   if (!game_equal(g, save)) {
     game_delete(g);
     game_delete(save);
+    remove("save.txt");
     return false;
   }
   game_delete(g);
   game_delete(save);
+  remove("save.txt");
   return true;
 }
 
