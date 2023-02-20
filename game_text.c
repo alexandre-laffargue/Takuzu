@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]) {
     char *filename = (char *)argv[1];
     g = game_load(filename);
   } else {
-    g = game_new_empty_ext(4, 6, true, true);
+    g = game_default();
   }
   while (!game_is_over(g)) {
     game_print(g);
