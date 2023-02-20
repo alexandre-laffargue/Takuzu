@@ -33,6 +33,23 @@ game game_load(char *filename);
 void game_save(cgame g, char *filename);
 
 /**
+ * @brief Computes the solution of a given game
+ * @param g the game to solve
+ * @details The game @p g is updated with the first solution found. If there are
+ * no solution for this game, @p g must be unchanged.
+ * @return true if a solution is found, false otherwise
+ */
+bool game_solve(game g);
+
+/**
+ * @brief Computes the total number of solutions of a given game.
+ * @param g the game
+ * @details The game @p g must be unchanged.
+ * @return the number of solutions
+ */
+uint game_nb_solutions(cgame g);
+
+/**
  * @}
  */
 
