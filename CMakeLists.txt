@@ -11,6 +11,8 @@ link_directories(${CMAKE_SOURCE_DIR})
 add_library(game game.c game_aux.c game_ext.c queue.c game_tools.c)
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game )
+add_executable(game_solve game_solve.c)
+target_link_libraries(game_solve game )
 
 
 
