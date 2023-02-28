@@ -78,20 +78,22 @@ void game_save(cgame g, char *filename) {
 
 bool game_build_solution(game g, int i, int j) {
   if (game_is_over(g)) {
-    game_print(g);
+    // game_print(g);
     return true;
   }
   bool retour1;
   bool retour2;
 
-  if (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
-      game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
+  while (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
+         game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
     if ((uint)(j + 1) < game_nb_cols(g)) {
       j++;
     } else if (((uint)(j + 1) == game_nb_cols(g)) &&
                ((uint)(i + 1) < game_nb_rows(g))) {
       i++;
       j = 0;
+    } else {
+      return false;
     }
   }
 
@@ -115,13 +117,13 @@ bool game_build_solution(game g, int i, int j) {
     game_set_square(g, i, j, S_ONE);
     if (game_is_over(g)) {
       retour1 = true;
-      game_print(g);
+      // game_print(g);
     }
     if (!retour1) {
       game_set_square(g, i, j, S_ZERO);
       if (game_is_over(g)) {
         retour2 = true;
-        game_print(g);
+        // game_print(g);
       }
     }
   } else {
@@ -146,13 +148,13 @@ bool game_solve(game g) {
 
 uint game_build_nb(game g, int i, int j) {
   if (game_is_over(g)) {
-    game_print(g);
+    //game_print(g);
     return (uint)1;
   }
   uint rt1 = 0;
   uint rt2 = 0;
 
-  if (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
+  while (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
       game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
     if ((uint)(j + 1) < game_nb_cols(g)) {
       j++;
@@ -160,6 +162,8 @@ uint game_build_nb(game g, int i, int j) {
                ((uint)(i + 1) < game_nb_rows(g))) {
       i++;
       j = 0;
+    } else {
+      return false;
     }
   }
 
@@ -179,12 +183,12 @@ uint game_build_nb(game g, int i, int j) {
     game_set_square(g, i, j, S_ONE);
     if (game_is_over(g)) {
       rt1 = (uint)1;
-      game_print(g);
+      //game_print(g);
     }
     game_set_square(g, i, j, S_ZERO);
     if (game_is_over(g)) {
       rt2 = (uint)1;
-      game_print(g);
+      //game_print(g);
     }
   } else {
     return (uint)0;
