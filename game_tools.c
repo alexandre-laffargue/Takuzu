@@ -76,67 +76,64 @@ void game_save(cgame g, char *filename) {
   fclose(f);
 }
 
-bool game_build_solution(game g, int i, int j) {
-  if (game_is_over(g)) {
-    // game_print(g);
-    return true;
+bool game_build_solution(game g, uint i, uint j) {
+  bool retour1 = false;
+  bool retour2 = false;
+
+  if (j == game_nb_cols(g)) {
+    i++;
+    j = 0;
   }
-  bool retour1;
-  bool retour2;
 
   while (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
          game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
-    if ((uint)(j + 1) < game_nb_cols(g)) {
+    if ((j + 1) < game_nb_cols(g)) {
       j++;
-    } else if (((uint)(j + 1) == game_nb_cols(g)) &&
-               ((uint)(i + 1) < game_nb_rows(g))) {
+    } else if (((j + 1) == game_nb_cols(g)) && ((i + 1) < game_nb_rows(g))) {
       i++;
       j = 0;
-    } else {
+    } else {  // derniere case du tableau
+      if (game_is_over(g)) {
+        return true;
+      }
       return false;
     }
   }
-
-  if ((uint)(j + 1) < game_nb_cols(g)) {
-    game_set_square(g, i, j, S_ONE);
-    retour1 = game_build_solution(g, i, j + 1);
-    if (!retour1) {
-      game_set_square(g, i, j, S_ZERO);
-      retour2 = game_build_solution(g, i, j + 1);
-    }
-  } else if (((uint)(j + 1) == game_nb_cols(g)) &&
-             ((uint)(i + 1) < game_nb_rows(g))) {
-    game_set_square(g, i, j, S_ONE);
-    retour1 = game_build_solution(g, i + 1, 0);
-    if (!retour1) {
-      game_set_square(g, i, j, S_ZERO);
-      retour2 = game_build_solution(g, i + 1, 0);
-    }
-  } else if (((uint)(j + 1) == game_nb_cols(g)) &&
-             ((uint)(i + 1) == game_nb_rows(g))) {
+  // dernière case du tableau
+  if (((j + 1) == game_nb_cols(g)) && ((i + 1) == game_nb_rows(g))) {
     game_set_square(g, i, j, S_ONE);
     if (game_is_over(g)) {
+      game_print(g);
       retour1 = true;
-      // game_print(g);
     }
     if (!retour1) {
       game_set_square(g, i, j, S_ZERO);
       if (game_is_over(g)) {
+        game_print(g);
         retour2 = true;
-        // game_print(g);
       }
     }
-  } else {
-    return false;
+  } else {  // toutes les autres cases
+    game_set_square(g, i, j, S_ONE);
+    if (game_has_error(g, i, j) == 0) {
+      retour1 = game_build_solution(g, i, j + 1);
+    }
+    if (!retour1) {
+      game_set_square(g, i, j, S_ZERO);
+      if (game_has_error(g, i, j) == 0) {
+        retour2 = game_build_solution(g, i, j + 1);
+      }
+    }
   }
+  game_set_square(g, i, j, S_EMPTY);
   return retour1 || retour2;
 }
 
 bool game_solve(game g) {
   if (game_is_over(g)) return true;
 
-  int i = 0;
-  int j = 0;
+  uint i = 0;
+  uint j = 0;
 
   bool ret = game_build_solution(g, i, j);
   if (ret)
@@ -146,59 +143,54 @@ bool game_solve(game g) {
   return ret;
 }
 
-uint game_build_nb(game g, int i, int j) {
-  if (game_is_over(g)) {
-    //game_print(g);
-    return (uint)1;
-  }
+uint game_build_nb(game g, uint i, uint j) {
   uint rt1 = 0;
   uint rt2 = 0;
-
-  while (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
-      game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
-    if ((uint)(j + 1) < game_nb_cols(g)) {
-      j++;
-    } else if (((uint)(j + 1) == game_nb_cols(g)) &&
-               ((uint)(i + 1) < game_nb_rows(g))) {
-      i++;
-      j = 0;
-    } else {
-      return false;
-    }
+  if (j == game_nb_cols(g)) {
+    i++;
+    j = 0;
   }
 
-  if ((uint)(j + 1) < game_nb_cols(g)) {
-    game_set_square(g, i, j, S_ONE);
-    rt1 = game_build_nb(g, i, j + 1);
-    game_set_square(g, i, j, S_ZERO);
-    rt2 = game_build_nb(g, i, j + 1);
-  } else if (((uint)(j + 1) == game_nb_cols(g)) &&
-             ((i + 1) < game_nb_rows(g))) {
-    game_set_square(g, i, j, S_ONE);
-    rt1 = game_build_nb(g, i + 1, 0);
-    game_set_square(g, i, j, S_ZERO);
-    rt2 = game_build_nb(g, i + 1, 0);
-  } else if (((uint)(j + 1) == game_nb_cols(g)) &&
-             ((i + 1) == game_nb_rows(g))) {
+  while (game_is_immutable(g, i, j)) {
+    if ((j + 1) < game_nb_cols(g)) {
+      j++;
+    } else if (((j + 1) == game_nb_cols(g)) && ((i + 1) < game_nb_rows(g))) {
+      i++;
+      j = 0;
+    } else {  // derniere case du tableau
+      if (game_is_over(g)) {
+        return (uint)1;
+      }
+      return (uint)0;
+    }
+  }
+  // derniere case du tableau
+  if (((j + 1) == game_nb_cols(g)) && ((i + 1) == game_nb_rows(g))) {
     game_set_square(g, i, j, S_ONE);
     if (game_is_over(g)) {
       rt1 = (uint)1;
-      //game_print(g);
     }
     game_set_square(g, i, j, S_ZERO);
     if (game_is_over(g)) {
       rt2 = (uint)1;
-      //game_print(g);
     }
-  } else {
-    return (uint)0;
+  } else {  // toutes les autres cases
+    game_set_square(g, i, j, S_ONE);
+    if (game_has_error(g, i, j) == 0) {
+      rt1 = game_build_nb(g, i, j + 1);
+    }
+    game_set_square(g, i, j, S_ZERO);
+    if (game_has_error(g, i, j) == 0) {
+      rt2 = game_build_nb(g, i, j + 1);
+    }
   }
-  return rt1 + rt2;
+  game_set_square(g, i, j, S_EMPTY);
+  return (rt1 + rt2);
 }
 
 uint game_nb_solutions(cgame g) {
-  int i = 0;
-  int j = 0;
+  uint i = 0;
+  uint j = 0;
   game gs = game_copy(g);
 
   uint ret = game_build_nb(gs, i, j);
