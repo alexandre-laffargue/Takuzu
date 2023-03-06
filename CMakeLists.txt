@@ -6,7 +6,7 @@ enable_testing()
 
 
 
-set(CMAKE_C_FLAGS "-std=c99 -g -Wall --coverage")
+set(CMAKE_C_FLAGS "-O3 -std=c99 -g -Wall --coverage")
 link_directories(${CMAKE_SOURCE_DIR})
 add_library(game game.c game_aux.c game_ext.c queue.c game_tools.c)
 add_executable(game_text game_text.c)
