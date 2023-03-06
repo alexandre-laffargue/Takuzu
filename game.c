@@ -89,6 +89,7 @@ void game_delete(game g) {
 }
 
 void game_set_square(game g, uint i, uint j, square s) {
+  /*
   game_is_null(g, "game_set_square");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g) ||
       (s != S_EMPTY && s != S_IMMUTABLE_ONE && s != S_IMMUTABLE_ZERO &&
@@ -98,12 +99,13 @@ void game_set_square(game g, uint i, uint j, square s) {
         "square, params : %d %d %d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g), s);
     exit(EXIT_FAILURE);
-  }
+  }*/
   uint index = (i * game_nb_cols(g)) + j;
   g->square_array[index] = s;
 }
 
 square game_get_square(cgame g, uint i, uint j) {
+  /*
   game_is_null(g, "game_get_square");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
@@ -111,12 +113,13 @@ square game_get_square(cgame g, uint i, uint j) {
         "%d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
-  }
+  }*/
   uint index = (i * game_nb_cols(g)) + j;
   return g->square_array[index];
 }
 
 int game_get_number(cgame g, uint i, uint j) {
+  /*
   game_is_null(g, "game_get_number");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
@@ -124,7 +127,7 @@ int game_get_number(cgame g, uint i, uint j) {
         "%d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
-  }
+  }*/
   square sq = game_get_square(g, i, j);
   if (sq == S_ZERO || sq == S_IMMUTABLE_ZERO) {
     return 0;
@@ -206,6 +209,7 @@ int get_next_square_wrapping(cgame g, uint i, uint j, direction dir,
 }
 
 int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
+  /*
   game_is_null(g, "game_get_next_square");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
     printf(
@@ -213,7 +217,7 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
         "greater than 2, params : %d %d %d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g), dist);
     exit(EXIT_FAILURE);
-  }
+  }*/
   if (!game_is_wrapping(g)) {
     return get_next_square_nowrapping(g, i, j, dir, dist);
   } else {
@@ -223,6 +227,7 @@ int game_get_next_square(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
+  /*
   game_is_null(g, "game_get_next_number");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g) || dist > 2) {
     printf(
@@ -230,7 +235,7 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
         "greater than 2, params : %d %d %d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g), dist);
     exit(EXIT_FAILURE);
-  }
+  }*/
   int sq = game_get_next_square(g, i, j, dir, dist);
   if (sq == -1) {
     return -1;
@@ -244,6 +249,7 @@ int game_get_next_number(cgame g, uint i, uint j, direction dir, uint dist) {
 }
 
 bool game_is_empty(cgame g, uint i, uint j) {
+  /*
   game_is_null(g, "game_is_empty");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
@@ -251,7 +257,7 @@ bool game_is_empty(cgame g, uint i, uint j) {
         "%d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
-  }
+  }*/
   if (game_get_square(g, i, j) != S_EMPTY) {
     return false;
   }
@@ -259,6 +265,7 @@ bool game_is_empty(cgame g, uint i, uint j) {
 }
 
 bool game_is_immutable(cgame g, uint i, uint j) {
+  /*
   game_is_null(g, "game_is_immutable");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
@@ -266,7 +273,7 @@ bool game_is_immutable(cgame g, uint i, uint j) {
         "%d %d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
-  }
+  }*/
   square sq = game_get_square(g, i, j);
   if (sq == S_IMMUTABLE_ONE || sq == S_IMMUTABLE_ZERO) {
     return true;
@@ -419,6 +426,7 @@ bool error_more_half_color(cgame g, uint i, uint j) {
 }
 
 int game_has_error(cgame g, uint i, uint j) {
+  /*
   game_is_null(g, "game_has_error");
   if (i >= game_nb_rows(g) || j >= game_nb_cols(g)) {
     printf(
@@ -426,7 +434,7 @@ int game_has_error(cgame g, uint i, uint j) {
         "%d %d\n",
         i, j, game_nb_rows(g), game_nb_cols(g));
     exit(EXIT_FAILURE);
-  }
+  }*/
   if (game_get_square(g, i, j) == S_EMPTY) {
     return 0;
   }
