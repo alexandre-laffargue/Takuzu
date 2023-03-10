@@ -24,6 +24,7 @@ void game_errors_print(game g) {
 }
 
 int main(int argc, char const *argv[]) {
+  int scan, b = 0;
   char c;
   game g;
   if (argc == 2) {
@@ -36,7 +37,7 @@ int main(int argc, char const *argv[]) {
     game_print(g);
     game_errors_print(g);
     printf("> ?[h for help]\n");
-    scanf(" %c", &c);
+    scan = scanf(" %c", &c);
     switch (c) {
       case 'h':
         printf("> action: help\n");
@@ -63,7 +64,7 @@ int main(int argc, char const *argv[]) {
     }
     if ((c == 'w') || (c == 'b') || (c == 'e')) {
       int i, j;
-      scanf(" %d %d", &i, &j);
+      scan = scanf(" %d %d", &i, &j);
       if (c == 'w') {
         printf("> action: play move 'w' into square (%d,%d)\n", i, j);
         if (game_check_move(g, i, j, S_ZERO)) {
@@ -83,7 +84,7 @@ int main(int argc, char const *argv[]) {
     }
     if (c == 's') {
       char name[4095];
-      scanf(" %s", name);
+      scan = scanf(" %s", name);
       printf("> action: game save 's' into %s\n", name);
       game_save(g, name);
     }
@@ -91,5 +92,6 @@ int main(int argc, char const *argv[]) {
   game_print(g);
   printf("congratulation\n");
   game_delete(g);
+  b += scan;
   return EXIT_SUCCESS;
 }

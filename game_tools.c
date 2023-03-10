@@ -48,8 +48,9 @@ void game_save(cgame g, char *filename) {
     exit(EXIT_FAILURE);
   }
   char *c;
-  fprintf(f, "%d %d %d %d\n", game_nb_rows(g), game_nb_cols(g),
-          game_is_wrapping(g), game_is_unique(g));
+  int a, b = 0;
+  a = fprintf(f, "%d %d %d %d\n", game_nb_rows(g), game_nb_cols(g),
+              game_is_wrapping(g), game_is_unique(g));
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       square sq = game_get_square(g, i, j);
@@ -73,10 +74,19 @@ void game_save(cgame g, char *filename) {
     }
     fprintf(f, "\n");
   }
+  b += a;
   fclose(f);
 }
 
-bool game_build_solution(game g, uint i, uint j) {
+void game_copy_2(cgame g, game g2) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
+      game_set_square(g2, i, j, game_get_square(g, i, j));
+    }
+  }
+}
+
+bool game_build_solution(game g, uint i, uint j, game solu) {
   bool retour1 = false;
   bool retour2 = false;
 
@@ -94,6 +104,7 @@ bool game_build_solution(game g, uint i, uint j) {
       j = 0;
     } else {  // derniere case du tableau
       if (game_is_over(g)) {
+        game_copy_2(g, solu);
         return true;
       }
       return false;
@@ -103,25 +114,25 @@ bool game_build_solution(game g, uint i, uint j) {
   if (((j + 1) == game_nb_cols(g)) && ((i + 1) == game_nb_rows(g))) {
     game_set_square(g, i, j, S_ONE);
     if (game_is_over(g)) {
-      game_print(g);
+      game_copy_2(g, solu);
       retour1 = true;
     }
     if (!retour1) {
       game_set_square(g, i, j, S_ZERO);
       if (game_is_over(g)) {
-        game_print(g);
+        game_copy_2(g, solu);
         retour2 = true;
       }
     }
   } else {  // toutes les autres cases
     game_set_square(g, i, j, S_ONE);
     if (game_has_error(g, i, j) == 0) {
-      retour1 = game_build_solution(g, i, j + 1);
+      retour1 = game_build_solution(g, i, j + 1, solu);
     }
     if (!retour1) {
       game_set_square(g, i, j, S_ZERO);
       if (game_has_error(g, i, j) == 0) {
-        retour2 = game_build_solution(g, i, j + 1);
+        retour2 = game_build_solution(g, i, j + 1, solu);
       }
     }
   }
@@ -134,11 +145,14 @@ bool game_solve(game g) {
 
   uint i = 0;
   uint j = 0;
+  game search = game_copy(g);
+  game soluce = game_default();
 
-  bool ret = game_build_solution(g, i, j);
-  if (ret)
+  bool ret = game_build_solution(search, i, j, soluce);
+  if (ret) {
+    game_copy_2(soluce, g);
     printf("Il y a une ou plusieurs solutions.\n");
-  else
+  } else
     printf("Il n'y a pas de solution.\n");
   return ret;
 }
