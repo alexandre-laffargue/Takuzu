@@ -48,8 +48,9 @@ void game_save(cgame g, char *filename) {
     exit(EXIT_FAILURE);
   }
   char *c;
-  fprintf(f, "%d %d %d %d\n", game_nb_rows(g), game_nb_cols(g),
-          game_is_wrapping(g), game_is_unique(g));
+  int a, b = 0;
+  a = fprintf(f, "%d %d %d %d\n", game_nb_rows(g), game_nb_cols(g),
+              game_is_wrapping(g), game_is_unique(g));
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       square sq = game_get_square(g, i, j);
@@ -73,6 +74,7 @@ void game_save(cgame g, char *filename) {
     }
     fprintf(f, "\n");
   }
+  b += a;
   fclose(f);
 }
 
