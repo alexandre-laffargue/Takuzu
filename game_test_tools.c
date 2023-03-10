@@ -89,24 +89,13 @@ bool test_game_save() {
 }
 
 bool test_game_nb_solutions() {
-  game g = game_default();
-  game g2 = game_new_empty_ext(4, 6, false, false);
-  game_set_square(g2, 0, 2, S_IMMUTABLE_ONE);
-  game_set_square(g2, 3, 5, S_IMMUTABLE_ONE);
-  game_set_square(g2, 2, 4, S_IMMUTABLE_ZERO);
-  game_set_square(g2, 1, 0, S_IMMUTABLE_ZERO);
-  uint i = 0;
-  uint j = 0;
-  uint a1 = game_nb_solutions(g);
-  uint a2 = game_build_nb(g, i, j);
-  uint b1 = game_nb_solutions(g2);
-  uint b2 = game_build_nb(g2, i, j);
-  if (a1 != a2) {
+  game g = game_load("../ressources/4x4_2.txt");
+  if (game_nb_solutions(g) != 2) {
     game_delete(g);
-    game_delete(g2);
     return false;
   }
-  if (b1 != b2) {
+  game g2 = game_load("../ressources/4x4.txt");
+  if (game_nb_solutions(g2) != 90) {
     game_delete(g);
     game_delete(g2);
     return false;
@@ -115,25 +104,24 @@ bool test_game_nb_solutions() {
   game_delete(g2);
   return true;
 }
-bool test_game_solve(){
-    game over = game_default_solution();
-    bool a = game_solve(over);
-    if(a != true){
-      game_delete(over);
-      return false;
-    }
-    game g = game_default();
-    uint i = 0;
-    uint j = 0;
-    if(game_solve(g) != game_build_solution(g,i,j)){
-      game_delete(over);
-      game_delete(g);
-      return false;
-    }
+bool test_game_solve() {
+  game over = game_default_solution();
+  bool a = game_solve(over);
+  if (a != true) {
+    game_delete(over);
+    return false;
+  }
+  game g = game_default();
+  uint i = 0;
+  uint j = 0;
+  if (game_solve(g) != game_build_solution(g, i, j)) {
     game_delete(over);
     game_delete(g);
-    return true;
-
+    return false;
+  }
+  game_delete(over);
+  game_delete(g);
+  return true;
 }
 
 int main(int argc, char *argv[]) {
