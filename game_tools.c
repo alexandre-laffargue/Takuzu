@@ -78,13 +78,13 @@ void game_save(cgame g, char *filename) {
   fclose(f);
 }
 
-void game_copy_2(cgame g, game g2){
+void game_copy_2(cgame g, game g2) {
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-        game_set_square(g2, i, j, game_get_square(g, i, j));
+      game_set_square(g2, i, j, game_get_square(g, i, j));
     }
   }
-} 
+}
 
 bool game_build_solution(game g, uint i, uint j, game solu) {
   bool retour1 = false;
@@ -94,7 +94,6 @@ bool game_build_solution(game g, uint i, uint j, game solu) {
     i++;
     j = 0;
   }
-  
 
   while (game_get_square(g, i, j) == S_IMMUTABLE_ONE ||
          game_get_square(g, i, j) == S_IMMUTABLE_ZERO) {
@@ -141,8 +140,6 @@ bool game_build_solution(game g, uint i, uint j, game solu) {
   return retour1 || retour2;
 }
 
-
-
 bool game_solve(game g) {
   if (game_is_over(g)) return true;
 
@@ -150,10 +147,9 @@ bool game_solve(game g) {
   uint j = 0;
   game search = game_copy(g);
   game soluce = game_default();
-  
 
   bool ret = game_build_solution(search, i, j, soluce);
-  if (ret){
+  if (ret) {
     game_copy_2(soluce, g);
     printf("Il y a une ou plusieurs solutions.\n");
   } else
