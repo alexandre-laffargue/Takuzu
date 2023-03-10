@@ -88,6 +88,31 @@ bool test_game_save() {
   return true;
 }
 
+bool test_game_nb_solutions() {
+  game g = game_default();
+  game g2 = game_new_empty_ext(4, 6, false, false);
+  game_set_square(g2, 0, 2, S_IMMUTABLE_ONE);
+  game_set_square(g2, 3, 5, S_IMMUTABLE_ONE);
+  game_set_square(g2, 2, 4, S_IMMUTABLE_ZERO);
+  game_set_square(g2, 1, 0, S_IMMUTABLE_ZERO);
+  game copy1 = game_copy(g);
+  game copy2 = game_copy(g2);
+  uint i = 0;
+  uint j = 0;
+  uint a1 = game_nb_solutions(g);
+  uint a2 = game_build_nb(copy1, i, j);
+  uint b1 = game_nb_solutions(g2);
+  uint b2 = game_build_nb(copy2, i, j);
+  if (a1 != a2) {
+    return false;
+  }
+  if (b1 != b2) {
+    return false;
+  }
+
+  return true;
+}
+
 int main(int argc, char *argv[]) {
   if (argc == 1) {
     usage(argc, argv);
@@ -99,6 +124,8 @@ int main(int argc, char *argv[]) {
     tmp = test_game_load();
   else if (strcmp("game_save", argv[1]) == 0)
     tmp = test_game_save();
+  else if (strcmp("game_nb_solutions", argv[1]) == 0)
+    tmp = test_game_nb_solutions();
 
   else {
     fprintf(stderr, "Error: test \"%s\" not found!\n", argv[1]);

@@ -72,3 +72,4 @@ add_test(test_ext_game_redo ./game_test_ext game_redo)
 
 add_test(test_tools_game_load ./game_test_tools game_load)
 add_test(test_tools_game_save ./game_test_tools game_save)
+add_test(test_tools_game_nb_solutions ./game_test_tools game_nb_solutions)

@@ -82,7 +82,7 @@ int main(int argc, char const *argv[]) {
       }
     }
     if (c == 's') {
-      char name[10];
+      char name[4095];
       scanf(" %s", name);
       printf("> action: game save 's' into %s\n", name);
       game_save(g, name);
