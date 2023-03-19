@@ -147,7 +147,7 @@ bool game_solve(game g) {
   uint i = 0;
   uint j = 0;
   game search = game_copy(g);
-  game soluce = game_default();
+  game soluce = game_copy(g);
 
   bool ret = game_build_solution(search, i, j, soluce);
   if (ret) {
@@ -155,6 +155,8 @@ bool game_solve(game g) {
     printf("Il y a une ou plusieurs solutions.\n");
   } else
     printf("Il n'y a pas de solution.\n");
+  game_delete(search);
+  game_delete(soluce);
   return ret;
 }
 
