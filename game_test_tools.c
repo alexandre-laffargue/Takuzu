@@ -44,7 +44,8 @@ bool test_game_save() {
 
   FILE *f = fopen("testdefault.txt", "r");
   int rows, cols, wrapping, unique;
-  fscanf(f, " %d %d %d %d", &rows, &cols, &wrapping, &unique);
+  int rFscanf = fscanf(f, " %d %d %d %d", &rows, &cols, &wrapping, &unique);
+  rFscanf++;
   if (rows != game_nb_rows(g) || cols != game_nb_cols(g) ||
       wrapping != game_is_wrapping(g) || unique != game_is_unique(g)) {
     game_delete(g);
@@ -104,6 +105,7 @@ bool test_game_nb_solutions() {
   game_delete(g2);
   return true;
 }
+
 bool test_game_solve() {
   game over = game_default_solution();
   bool a = game_solve(over);
@@ -112,9 +114,7 @@ bool test_game_solve() {
     return false;
   }
   game g = game_default();
-  uint i = 0;
-  uint j = 0;
-  if (game_solve(g) != game_build_solution(g, i, j)) {
+  if (game_solve(g) != true) {
     game_delete(over);
     game_delete(g);
     return false;

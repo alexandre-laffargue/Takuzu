@@ -16,7 +16,8 @@ game game_load(char *filename) {
   }
   int rows, cols, wrapping, unique;
 
-  fscanf(f, " %d %d %d %d", &rows, &cols, &wrapping, &unique);
+  int rFscanf = fscanf(f, " %d %d %d %d", &rows, &cols, &wrapping, &unique);
+  rFscanf++;
   game g = game_new_empty_ext(rows, cols, wrapping, unique);
 
   fgetc(f);
