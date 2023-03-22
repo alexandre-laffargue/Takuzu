@@ -2,18 +2,26 @@ cmake_minimum_required(VERSION 3.3)
 
 project(game_text C)
 include(CTest)
+include(SDL2.cmake)
+message(STATUS "SDL2 include dir: ${SDL2_ALL_INC}")
+message(STATUS "SDL2 all libraries: ${SDL2_ALL_LIBS}")
 enable_testing()
 
 set(CMAKE_C_FLAGS "-std=c99 -Wall")
 set(CMAKE_C_FLAGS_DEBUG "-g -O0 --coverage")   # options de compilation en mode Debug
 set(CMAKE_C_FLAGS_RELEASE "-O3")
 
+include_directories(${SDL2_ALL_INC})
 link_directories(${CMAKE_SOURCE_DIR})
 add_library(game game.c game_aux.c game_ext.c queue.c game_tools.c)
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game )
 add_executable(game_solve game_solve.c)
 target_link_libraries(game_solve game )
+add_executable(game_sdl game_sdl.c model.c)
+target_link_libraries(game_sdl game ${SDL2_ALL_LIBS})
+
+
 
 
 
