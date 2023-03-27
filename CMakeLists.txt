@@ -19,8 +19,7 @@ target_link_libraries(game_text game )
 add_executable(game_solve game_solve.c)
 target_link_libraries(game_solve game )
 add_executable(game_sdl game_sdl.c model.c)
-target_link_libraries(game_sdl game ${SDL2_ALL_LIBS})
-
+target_link_libraries(game_sdl game ${SDL2_ALL_LIBS} m)
 
 
 
@@ -83,3 +82,9 @@ add_test(test_tools_game_load ./game_test_tools game_load)
 add_test(test_tools_game_save ./game_test_tools game_save)
 add_test(test_tools_game_nb_solutions ./game_test_tools game_nb_solutions)
 add_test(test_tools_game_solve ./game_test_tools game_solve)
+
+## copy useful data files in build dir
+foreach(file "model/background.png" "model/bomb.png" "model/mario.png" "model/arial.ttf" "model/white.png" "model/black.png" "model/void.png")
+  file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endforeach(file)
+

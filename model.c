@@ -11,11 +11,19 @@
 
 #include "game.h"
 #include "game_ext.h"
+#include "game_tools.h"
 
 /* **************************************************************** */
 
+#define BACKGROUND "background.png"
+#define WHITE "white.png"
+#define BLACK "black.png"
+#define VOID "void.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
+  SDL_Texture *background;
+  SDL_Texture **cases;
+  int **cases_coord;
 };
 
 /* **************************************************************** */
@@ -28,6 +36,22 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   g = game_load(filename);
   int cols = game_nb_cols(g);
   int rows = game_nb_rows(g);
+
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      int n = game_get_number(g, i, j);
+      if (n == -1) {
+        env->cases[(i * cols) + j] = IMG_LoadTexture(ren, VOID);
+        if (!env->cases[(i * cols) + j]) ERROR("IMG_LoadTexture: %s\n", VOID);
+      } else if (n == 0) {
+        env->cases[(i * cols) + j] = IMG_LoadTexture(ren, BLACK);
+        if (!env->cases[(i * cols) + j]) ERROR("IMG_LoadTexture: %s\n", BLACK);
+      } else {
+        env->cases[(i * cols) + j] = IMG_LoadTexture(ren, WHITE);
+        if (!env->cases[(i * cols) + j]) ERROR("IMG_LoadTexture: %s\n", WHITE);
+      }
+    }
+  }
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
 
