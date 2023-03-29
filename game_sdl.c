@@ -10,8 +10,8 @@
 #include "model.h"
 
 int main(int argc, char* argv[]) {
-  SDL_Window *window;
-  SDL_Renderer *renderer;
+  SDL_Window* window;
+  SDL_Renderer* renderer;
 
   /* Initialize SDL. */
   if (SDL_Init(SDL_INIT_VIDEO) < 0) return 1;
@@ -50,13 +50,6 @@ int main(int argc, char* argv[]) {
     SDL_Delay(DELAY);
   }
 
-  
-  
-
- 
- 
-
- 
   /* clean your environment */
   clean(window, renderer, env);
 

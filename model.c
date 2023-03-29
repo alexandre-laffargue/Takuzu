@@ -74,40 +74,38 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
 
 /* **************************************************************** */
 
-void render(SDL_Window *win, SDL_Renderer *ren,Env *env) {
-   SDL_Rect rect;
-   rect.w = 0;
-   rect.h = 0;
+void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
+  SDL_Rect rect;
+  rect.w = 0;
+  rect.h = 0;
 
   /* get current window size */
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
   SDL_RenderCopy(ren, env->background, NULL, NULL);
-   
+
   int image_width = 50;
   int image_height = 50;
   int rows = game_nb_rows(env->g);
   int cols = game_nb_cols(env->g);
   rect.x = w / 2 - rect.w / 2;
   rect.y = h / 2 - rect.h / 2;
-  for (int i = 0; i < rows; i++){
-    for (int j = 0; j < cols; j++){
-      SDL_Rect rect2 = {(i * image_width)+rect.x-((rows/2)*image_width), (j * image_height)+rect.y-((cols/2)*image_height), image_width, image_height};
-      if(game_get_number(env->g, i, j) == 0){
+  for (int i = 0; i < rows; i++) {
+    for (int j = 0; j < cols; j++) {
+      SDL_Rect rect2 = {
+          (i * image_width) + rect.x - ((rows / 2) * image_width),
+          (j * image_height) + rect.y - ((cols / 2) * image_height),
+          image_width, image_height};
+      if (game_get_number(env->g, i, j) == 0) {
         SDL_RenderCopy(ren, env->black, NULL, &rect2);
-      }else if(game_get_number(env->g, i, j) == 1){
+      } else if (game_get_number(env->g, i, j) == 1) {
         SDL_RenderCopy(ren, env->white, NULL, &rect2);
-      }else{
-      SDL_RenderCopy(ren, env->empty, NULL, &rect2);
+      } else {
+        SDL_RenderCopy(ren, env->empty, NULL, &rect2);
+      }
     }
-
   }
-  
-
-
 }
-}
-
 
 /* **************************************************************** */
 
