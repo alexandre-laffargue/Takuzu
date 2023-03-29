@@ -7,8 +7,9 @@
 #include "game_ext.h"
 #include "game_struct.h"
 #include "game_tools.h"
+#include "model.h"
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char* argv[]) {
   SDL_Window *window;
   SDL_Renderer *renderer;
 
@@ -26,18 +27,38 @@ int main(int argc, char const *argv[]) {
    * window. */
   renderer = SDL_CreateRenderer(window, -1, 0);
 
-  /* Select the color for drawing. It is set to red here. */
-  SDL_SetRenderDrawColor(renderer, 125, 0, 0, 255);
+  Env* env = init(window, renderer, argc, argv);
 
-  /* Clear the entire screen to our selected color. */
-  SDL_RenderClear(renderer);
+  /* main render loop */
+  SDL_Event e;
+  bool quit = false;
+  while (!quit) {
+    /* manage events */
+    while (SDL_PollEvent(&e)) {
+      /* process your events */
+      quit = process(window, renderer, env, &e);
+      if (quit) break;
+    }
 
-  /* Up until now everything was drawn behind the scenes.
-     This will show the new, red contents of the window. */
-  SDL_RenderPresent(renderer);
+    /* background in gray */
+    SDL_SetRenderDrawColor(renderer, 0xA0, 0xA0, 0xA0, 0xFF);
+    SDL_RenderClear(renderer);
 
-  /* Give us time to see the window. */
-  SDL_Delay(5000);
+    /* render all what you want */
+    render(window, renderer, env);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(DELAY);
+  }
+
+  
+  
+
+ 
+ 
+
+ 
+  /* clean your environment */
+  clean(window, renderer, env);
 
   /* Always be sure to clean up */
   SDL_DestroyRenderer(renderer);
