@@ -18,8 +18,8 @@
 #define BACKGROUND "background.png"
 #define WHITE "white.png"
 #define BLACK "black.png"
-#define VOID "void.png"
 #define EMPTY "empty.png"
+#define HELP "helpimage.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
@@ -68,8 +68,8 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->black) ERROR("IMG_LoadTexture: %s\n", BLACK);
   env->empty = IMG_LoadTexture(ren, EMPTY);
   if (!env->empty) ERROR("IMG_LoadTexture: %s\n", EMPTY);
-  env->help = IMG_LoadTexture(ren, VOID);
-  if (!env->help) ERROR("IMG_LoadTexture: %s\n", VOID);
+  env->help = IMG_LoadTexture(ren, HELP);
+  if (!env->help) ERROR("IMG_LoadTexture: %s\n", HELP);
   env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
