@@ -18,7 +18,8 @@ int main(int argc, char* argv[]) {
 
   /* Create the window where we will draw. */
   window = SDL_CreateWindow("SDL_RenderClear", SDL_WINDOWPOS_CENTERED,
-                            SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+                            SDL_WINDOWPOS_CENTERED, 700, 512,
+                            SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
   SDL_SetWindowTitle(window, "takuzu");
   // SDL_SetWindowIcon(window, SDL_Surface* icon);

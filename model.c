@@ -26,9 +26,11 @@ struct Env_t {
   SDL_Texture *white;
   SDL_Texture *black;
   SDL_Texture *empty;
+  SDL_Texture *help;
   SDL_Texture **cases;
   int **cases_coord;
   game g;
+  bool showhelp;
 };
 
 /* **************************************************************** */
@@ -66,6 +68,9 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->black) ERROR("IMG_LoadTexture: %s\n", BLACK);
   env->empty = IMG_LoadTexture(ren, EMPTY);
   if (!env->empty) ERROR("IMG_LoadTexture: %s\n", EMPTY);
+  env->help = IMG_LoadTexture(ren, VOID);
+  if (!env->help) ERROR("IMG_LoadTexture: %s\n", VOID);
+  env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
 
@@ -75,10 +80,6 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
 /* **************************************************************** */
 
 void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
-  SDL_Rect rect;
-  rect.w = 0;
-  rect.h = 0;
-
   /* get current window size */
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
@@ -88,14 +89,13 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   int image_height = 50;
   int rows = game_nb_rows(env->g);
   int cols = game_nb_cols(env->g);
-  rect.x = w / 2 - rect.w / 2;
-  rect.y = h / 2 - rect.h / 2;
+  int x = w / 2;
+  int y = h / 2;
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
-      SDL_Rect rect2 = {
-          (i * image_width) + rect.x - ((rows / 2) * image_width),
-          (j * image_height) + rect.y - ((cols / 2) * image_height),
-          image_width, image_height};
+      SDL_Rect rect2 = {(i * image_width) + x - ((rows / 2) * image_width),
+                        (j * image_height) + y - ((cols / 2) * image_height),
+                        image_width, image_height};
       if (game_get_number(env->g, i, j) == 0) {
         SDL_RenderCopy(ren, env->black, NULL, &rect2);
       } else if (game_get_number(env->g, i, j) == 1) {
@@ -105,13 +105,51 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
       }
     }
   }
+  if (env->showhelp) {
+    SDL_RenderCopy(ren, env->help, NULL, NULL);
+  }
 }
 
 /* **************************************************************** */
 
 bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
+  int w, h;
+  SDL_GetWindowSize(win, &w, &h);
+
   if (e->type == SDL_QUIT) {
     return true;
+  }
+
+  else if (e->type == SDL_KEYDOWN) {
+    switch (e->key.keysym.sym) {
+      case SDLK_h:
+        env->showhelp = !env->showhelp;
+        break;
+      case SDLK_r:
+        game_restart(env->g);
+        break;
+      case SDLK_z:
+        game_undo(env->g);
+        break;
+      case SDLK_y:
+        game_redo(env->g);
+        break;
+      case SDLK_SPACE:
+        game_play_move(env->g, 0, 0, S_ZERO);
+        break;
+      /*case SDL_MOUSEBUTTONDOWN:
+        if (e->button.button == SDL_BUTTON_LEFT){
+
+        }
+        break;*/
+      case SDLK_ESCAPE:
+        return true;
+        break;
+
+      case SDLK_q:
+        return true;
+        break;
+    }
   }
 
   /* PUT YOUR CODE HERE TO PROCESS EVENTS */
