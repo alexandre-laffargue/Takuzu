@@ -27,10 +27,11 @@ struct Env_t {
   SDL_Texture *black;
   SDL_Texture *empty;
   SDL_Texture *help;
-  SDL_Texture **cases;
+  SDL_Texture **casess;
   int **cases_coord;
   game g;
   bool showhelp;
+  SDL_Rect cases[];
 };
 
 /* **************************************************************** */
@@ -115,6 +116,13 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
 bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
+  int rows = game_nb_rows(env->g);
+  int cols = game_nb_cols(env->g);
+  int mouse_x;
+  int mouse_y;
+  SDL_GetMouseState(&mouse_x, &mouse_y);
+  int image_width = 50;
+  int image_height = 50;
 
   if (e->type == SDL_QUIT) {
     return true;
@@ -137,11 +145,37 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
       case SDLK_SPACE:
         game_play_move(env->g, 0, 0, S_ZERO);
         break;
-      /*case SDL_MOUSEBUTTONDOWN:
-        if (e->button.button == SDL_BUTTON_LEFT){
+      case SDLK_k:
 
+        if (mouse_x > w / 2 - ((rows / 2) * image_width) &&
+            mouse_x < w / 2 + ((rows / 2) * image_width) &&
+            mouse_y > h / 2 - ((cols / 2) * image_height) &&
+            mouse_y < h / 2 + ((cols / 2) * image_height)) {
+          int x =
+              (mouse_x - (w / 2 - ((rows / 2) * image_width))) / image_width;
+          int y =
+              (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
+          if (game_check_move(env->g, x, y, S_ZERO)) {
+            game_play_move(env->g, x, y, S_ZERO);
+          }
         }
-        break;*/
+        break;
+      case SDLK_l:
+
+        if (mouse_x > w / 2 - ((rows / 2) * image_width) &&
+            mouse_x < w / 2 + ((rows / 2) * image_width) &&
+            mouse_y > h / 2 - ((cols / 2) * image_height) &&
+            mouse_y < h / 2 + ((cols / 2) * image_height)) {
+          int x =
+              (mouse_x - (w / 2 - ((rows / 2) * image_width))) / image_width;
+          int y =
+              (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
+          if (game_check_move(env->g, x, y, S_ONE)) {
+            game_play_move(env->g, x, y, S_ONE);
+          }
+        }
+
+        break;
       case SDLK_ESCAPE:
         return true;
         break;
