@@ -20,6 +20,7 @@
 #define BLACK "black.png"
 #define EMPTY "empty.png"
 #define HELP "helpimage.png"
+#define ERREUR "error.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
@@ -27,6 +28,7 @@ struct Env_t {
   SDL_Texture *black;
   SDL_Texture *empty;
   SDL_Texture *help;
+  SDL_Texture *erreur;
   SDL_Texture **casess;
   int **cases_coord;
   game g;
@@ -71,6 +73,8 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->empty) ERROR("IMG_LoadTexture: %s\n", EMPTY);
   env->help = IMG_LoadTexture(ren, HELP);
   if (!env->help) ERROR("IMG_LoadTexture: %s\n", HELP);
+  env->erreur = IMG_LoadTexture(ren, ERREUR);
+  if (!env->erreur) ERROR("IMG_LoadTexture: %s\n", ERREUR);
   env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
@@ -97,12 +101,16 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
       SDL_Rect rect2 = {(i * image_width) + x - ((rows / 2) * image_width),
                         (j * image_height) + y - ((cols / 2) * image_height),
                         image_width, image_height};
-      if (game_get_number(env->g, i, j) == 0) {
-        SDL_RenderCopy(ren, env->black, NULL, &rect2);
-      } else if (game_get_number(env->g, i, j) == 1) {
-        SDL_RenderCopy(ren, env->white, NULL, &rect2);
+      if (game_has_error(env->g, i, j)) {
+        SDL_RenderCopy(ren, env->erreur, NULL, &(rect2));
       } else {
-        SDL_RenderCopy(ren, env->empty, NULL, &rect2);
+        if (game_get_number(env->g, i, j) == 0) {
+          SDL_RenderCopy(ren, env->black, NULL, &rect2);
+        } else if (game_get_number(env->g, i, j) == 1) {
+          SDL_RenderCopy(ren, env->white, NULL, &rect2);
+        } else {
+          SDL_RenderCopy(ren, env->empty, NULL, &rect2);
+        }
       }
     }
   }
@@ -155,6 +163,7 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
               (mouse_x - (w / 2 - ((rows / 2) * image_width))) / image_width;
           int y =
               (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
+
           if (game_check_move(env->g, x, y, S_ZERO)) {
             game_play_move(env->g, x, y, S_ZERO);
           }
@@ -170,11 +179,14 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
               (mouse_x - (w / 2 - ((rows / 2) * image_width))) / image_width;
           int y =
               (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
+
           if (game_check_move(env->g, x, y, S_ONE)) {
             game_play_move(env->g, x, y, S_ONE);
           }
         }
-
+        break;
+      case SDLK_s:
+        game_solve(env->g);
         break;
       case SDLK_ESCAPE:
         return true;
