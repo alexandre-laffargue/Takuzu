@@ -16,63 +16,37 @@
 /* **************************************************************** */
 
 #define BACKGROUND "background_jp.jpg"
-#define WHITE "white.png"
-#define BLACK "black.png"
 #define EMPTY "empty.png"
 #define HELP "helpimage.png"
 #define ERREUR "erreur.png"
 #define KANJIN "kanjiN.png"
 #define KANJIB "kanjiB.png"
+#define KANJINIM "kanjiN.png"
+#define KANJIBIM "kanjiB.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
-  SDL_Texture *white;
-  SDL_Texture *black;
   SDL_Texture *empty;
   SDL_Texture *kanjiN;
   SDL_Texture *kanjiB;
+  SDL_Texture *kanjiNIM;
+  SDL_Texture *kanjiBIM;
   SDL_Texture *help;
   SDL_Texture *erreur;
-  SDL_Texture **casess;
-  int **cases_coord;
   game g;
   bool showhelp;
-  SDL_Rect cases[];
 };
 
 /* **************************************************************** */
 
 Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   Env *env = malloc(sizeof(struct Env_t));
-  env->g = malloc(sizeof(game));
 
   char *filename = (char *)argv[1];
   env->g = game_load(filename);
-  /*int cols = game_nb_cols(env->g);
-  int rows = game_nb_rows(env->g);
-
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      int n = game_get_number(env->g, i, j);
-      if (n == -1) {
-        env->cases[(i * cols) + j] = IMG_LoadTexture(ren, EMPTY);
-        if (!env->cases[(i * cols) + j]) ERROR("IMG_LoadTexture: %s\n", EMPTY);
-      } else if (n == 0) {
-        env->cases[(i * cols) + j] = IMG_LoadTexture(ren, BLACK);
-        if (!env->cases[(i * cols) + j]) ERROR("IMG_LoadTexture: %s\n", BLACK);
-      } else {
-        env->cases[(i * cols) + j] = IMG_LoadTexture(ren, WHITE);
-        if (!env->cases[(i * cols) + j]) ERROR("IMG_LoadTexture: %s\n", WHITE);
-      }
-    }
-  }*/
   /* init background texture from PNG image */
   env->background = IMG_LoadTexture(ren, BACKGROUND);
   if (!env->background) ERROR("IMG_LoadTexture: %s\n", BACKGROUND);
-  env->white = IMG_LoadTexture(ren, WHITE);
-  if (!env->white) ERROR("IMG_LoadTexture: %s\n", WHITE);
-  env->black = IMG_LoadTexture(ren, BLACK);
-  if (!env->black) ERROR("IMG_LoadTexture: %s\n", BLACK);
   env->empty = IMG_LoadTexture(ren, EMPTY);
   if (!env->empty) ERROR("IMG_LoadTexture: %s\n", EMPTY);
   env->help = IMG_LoadTexture(ren, HELP);
@@ -83,6 +57,10 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->kanjiN) ERROR("IMG_LoadTexture: %s\n", KANJIN);
   env->kanjiB = IMG_LoadTexture(ren, KANJIB);
   if (!env->kanjiB) ERROR("IMG_LoadTexture: %s\n", KANJIB);
+  env->kanjiNIM = IMG_LoadTexture(ren, KANJINIM);
+  if (!env->kanjiNIM) ERROR("IMG_LoadTexture: %s\n", KANJINIM);
+  env->kanjiBIM = IMG_LoadTexture(ren, KANJIBIM);
+  if (!env->kanjiBIM) ERROR("IMG_LoadTexture: %s\n", KANJIBIM);
   env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
@@ -110,10 +88,14 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
                         (i * image_height) + y - ((rows / 2) * image_height),
                         image_width, image_height};
       
-        if (game_get_number(env->g, i, j) == 0) {
+        if (game_get_square(env->g, i, j) == S_ONE) {
           SDL_RenderCopy(ren, env->kanjiN, NULL, &rect2);
-        } else if (game_get_number(env->g, i, j) == 1) {
+        } else if (game_get_square(env->g, i, j) == S_ZERO) {
           SDL_RenderCopy(ren, env->kanjiB, NULL, &rect2);
+        } else if (game_get_square(env->g, i, j) == S_IMMUTABLE_ONE) {
+          SDL_RenderCopy(ren, env->kanjiNIM, NULL, &rect2);
+        } else if (game_get_square(env->g, i, j) == S_IMMUTABLE_ZERO) {
+          SDL_RenderCopy(ren, env->kanjiBIM, NULL, &rect2);
         } else {
           SDL_RenderCopy(ren, env->empty, NULL, &rect2);
         }
@@ -217,9 +199,13 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
 
 void clean(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   SDL_DestroyTexture(env->background);
-  SDL_DestroyTexture(env->white);
-  SDL_DestroyTexture(env->black);
   SDL_DestroyTexture(env->empty);
+  SDL_DestroyTexture(env->kanjiN);
+  SDL_DestroyTexture(env->kanjiB);
+  SDL_DestroyTexture(env->kanjiNIM);
+  SDL_DestroyTexture(env->kanjiBIM);
+  SDL_DestroyTexture(env->help);
+  SDL_DestroyTexture(env->erreur); 
   game_delete(env->g);
   free(env);
 }
