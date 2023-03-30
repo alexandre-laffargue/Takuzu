@@ -21,12 +21,16 @@
 #define EMPTY "empty.png"
 #define HELP "helpimage.png"
 #define ERREUR "error.png"
+#define KANJIN "kanjiN.png"
+#define KANJIB "kanjiB.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
   SDL_Texture *white;
   SDL_Texture *black;
   SDL_Texture *empty;
+  SDL_Texture *kanjiN;
+  SDL_Texture *kanjiB;
   SDL_Texture *help;
   SDL_Texture *erreur;
   SDL_Texture **casess;
@@ -75,6 +79,10 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->help) ERROR("IMG_LoadTexture: %s\n", HELP);
   env->erreur = IMG_LoadTexture(ren, ERREUR);
   if (!env->erreur) ERROR("IMG_LoadTexture: %s\n", ERREUR);
+  env->kanjiN = IMG_LoadTexture(ren, KANJIN);
+  if (!env->kanjiN) ERROR("IMG_LoadTexture: %s\n", KANJIN);
+  env->kanjiB = IMG_LoadTexture(ren, KANJIB);
+  if (!env->kanjiB) ERROR("IMG_LoadTexture: %s\n", KANJIB);
   env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
@@ -105,9 +113,9 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
         SDL_RenderCopy(ren, env->erreur, NULL, &(rect2));
       } else {
         if (game_get_number(env->g, i, j) == 0) {
-          SDL_RenderCopy(ren, env->black, NULL, &rect2);
+          SDL_RenderCopy(ren, env->kanjiN, NULL, &rect2);
         } else if (game_get_number(env->g, i, j) == 1) {
-          SDL_RenderCopy(ren, env->white, NULL, &rect2);
+          SDL_RenderCopy(ren, env->kanjiB, NULL, &rect2);
         } else {
           SDL_RenderCopy(ren, env->empty, NULL, &rect2);
         }
