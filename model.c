@@ -15,7 +15,7 @@
 
 /* **************************************************************** */
 
-#define BACKGROUND "background.png"
+#define BACKGROUND "background_jp.jpg"
 #define WHITE "white.png"
 #define BLACK "black.png"
 #define EMPTY "empty.png"
