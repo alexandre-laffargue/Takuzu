@@ -177,6 +177,22 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
           }
         }
         break;
+      case SDLK_e:
+
+        if (mouse_x > w / 2 - ((rows / 2) * image_width) &&
+            mouse_x < w / 2 + ((rows / 2) * image_width) &&
+            mouse_y > h / 2 - ((cols / 2) * image_height) &&
+            mouse_y < h / 2 + ((cols / 2) * image_height)) {
+          int x =
+              (mouse_x - (w / 2 - ((rows / 2) * image_width))) / image_width;
+          int y =
+              (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
+
+          if (game_check_move(env->g, y, x, S_EMPTY)) {
+            game_play_move(env->g, y, x, S_EMPTY);
+          }
+        }
+        break;
       case SDLK_s:
         game_solve(env->g);
         break;
