@@ -106,8 +106,8 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   int y = h / 2;
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
-      SDL_Rect rect2 = {(i * image_width) + x - ((rows / 2) * image_width),
-                        (j * image_height) + y - ((cols / 2) * image_height),
+      SDL_Rect rect2 = {(j * image_width) + x - ((cols / 2) * image_width),
+                        (i * image_height) + y - ((rows / 2) * image_height),
                         image_width, image_height};
       if (game_has_error(env->g, i, j)) {
         SDL_RenderCopy(ren, env->erreur, NULL, &(rect2));
