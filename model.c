@@ -119,7 +119,7 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
         }
 
         if(game_has_error(env->g, i, j)){
-          SDL_RenderCopy(ren, env->erreur, NULL, &);
+          SDL_RenderCopy(ren, env->erreur, NULL, &rect2);
         }
       
     }
@@ -174,8 +174,8 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
           int y =
               (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
 
-          if (game_check_move(env->g, x, y, S_ZERO)) {
-            game_play_move(env->g, x, y, S_ZERO);
+          if (game_check_move(env->g, y, x, S_ZERO)) {
+            game_play_move(env->g, y, x, S_ZERO);
           }
         }
         break;
@@ -190,8 +190,8 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
           int y =
               (mouse_y - (h / 2 - ((cols / 2) * image_height))) / image_height;
 
-          if (game_check_move(env->g, x, y, S_ONE)) {
-            game_play_move(env->g, x, y, S_ONE);
+          if (game_check_move(env->g, y, x, S_ONE)) {
+            game_play_move(env->g, y, x, S_ONE);
           }
         }
         break;
