@@ -20,7 +20,7 @@
 #define BLACK "black.png"
 #define EMPTY "empty.png"
 #define HELP "helpimage.png"
-#define ERREUR "error.png"
+#define ERREUR "erreur.png"
 #define KANJIN "kanjiN.png"
 #define KANJIB "kanjiB.png"
 struct Env_t {
@@ -109,9 +109,7 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
       SDL_Rect rect2 = {(j * image_width) + x - ((cols / 2) * image_width),
                         (i * image_height) + y - ((rows / 2) * image_height),
                         image_width, image_height};
-      if (game_has_error(env->g, i, j)) {
-        SDL_RenderCopy(ren, env->erreur, NULL, &(rect2));
-      } else {
+      
         if (game_get_number(env->g, i, j) == 0) {
           SDL_RenderCopy(ren, env->kanjiN, NULL, &rect2);
         } else if (game_get_number(env->g, i, j) == 1) {
@@ -119,7 +117,11 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
         } else {
           SDL_RenderCopy(ren, env->empty, NULL, &rect2);
         }
-      }
+
+        if(game_has_error(env->g, i, j)){
+          SDL_RenderCopy(ren, env->erreur, NULL, &);
+        }
+      
     }
   }
   if (env->showhelp) {
