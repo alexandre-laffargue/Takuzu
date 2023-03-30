@@ -12,6 +12,8 @@
 #include "game.h"
 #include "game_ext.h"
 #include "game_tools.h"
+#include "game_aux.c"
+
 
 /* **************************************************************** */
 
@@ -41,9 +43,15 @@ struct Env_t {
 
 Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   Env *env = malloc(sizeof(struct Env_t));
-
-  char *filename = (char *)argv[1];
-  env->g = game_load(filename);
+  if (argc == 2){
+    char *filename = (char *)argv[1];
+    env->g = game_load(filename);
+    
+  } else {
+    env->g = game_default();
+  }
+  
+  
   /* init background texture from PNG image */
   env->background = IMG_LoadTexture(ren, BACKGROUND);
   if (!env->background) ERROR("IMG_LoadTexture: %s\n", BACKGROUND);
