@@ -23,8 +23,8 @@
 #define ERREUR "erreur.png"
 #define KANJIN "kanjiN.png"
 #define KANJIB "kanjiB.png"
-#define KANJINIM "kanjiN.png"
-#define KANJIBIM "kanjiB.png"
+#define KANJINIM "kanjiNIM.png"
+#define KANJIBIM "kanjiBIM.png"
 #define HELPTXT "helptxt.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
