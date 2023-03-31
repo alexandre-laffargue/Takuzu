@@ -21,8 +21,7 @@ int main(int argc, char* argv[]) {
                             SDL_WINDOWPOS_CENTERED, 700, 512,
                             SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
-  SDL_SetWindowTitle(window, "takuzu");
-  // SDL_SetWindowIcon(window, SDL_Surface* icon);
+  SDL_SetWindowTitle(window, "Japanuzu");
 
   /* We must call SDL_CreateRenderer in order for draw calls to affect this
    * window. */
