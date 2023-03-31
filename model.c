@@ -10,10 +10,9 @@
 #include <stdlib.h>
 
 #include "game.h"
+#include "game_aux.c"
 #include "game_ext.h"
 #include "game_tools.h"
-#include "game_aux.c"
-
 
 /* **************************************************************** */
 
@@ -27,7 +26,7 @@
 #define KANJIBIM "kanjiBIM.png"
 #define HELPTXT "helptxt.png"
 #define VICTORY "victory.png"
-#define ICON "icon.png" 
+#define ICON "icon.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
@@ -49,15 +48,14 @@ struct Env_t {
 
 Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   Env *env = malloc(sizeof(struct Env_t));
-  if (argc == 2){
+  if (argc == 2) {
     char *filename = (char *)argv[1];
     env->g = game_load(filename);
-    
+
   } else {
     env->g = game_default();
   }
-  
-  
+
   /* init background texture from PNG image */
   env->background = IMG_LoadTexture(ren, BACKGROUND);
   if (!env->background) ERROR("IMG_LoadTexture: %s\n", BACKGROUND);
@@ -103,8 +101,8 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   int cols = game_nb_cols(env->g);
   int x = w / 2;
   int y = h / 2;
-  SDL_Rect rect = {w-200, 0, 200, 50};
-  SDL_Rect rect3 = {(w/2)-200, 0, 400, 100};
+  SDL_Rect rect = {w - 200, 0, 200, 50};
+  SDL_Rect rect3 = {(w / 2) - 200, 0, 400, 100};
   SDL_RenderCopy(ren, env->helptxt, NULL, &rect);
   if (game_is_over(env->g)) {
     SDL_RenderCopy(ren, env->victory, NULL, &rect3);
@@ -114,30 +112,27 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
       SDL_Rect rect2 = {(j * image_width) + x - ((cols / 2) * image_width),
                         (i * image_height) + y - ((rows / 2) * image_height),
                         image_width, image_height};
-      
-        if (game_get_square(env->g, i, j) == S_ONE) {
-          SDL_RenderCopy(ren, env->kanjiN, NULL, &rect2);
-        } else if (game_get_square(env->g, i, j) == S_ZERO) {
-          SDL_RenderCopy(ren, env->kanjiB, NULL, &rect2);
-        } else if (game_get_square(env->g, i, j) == S_IMMUTABLE_ONE) {
-          SDL_RenderCopy(ren, env->kanjiNIM, NULL, &rect2);
-        } else if (game_get_square(env->g, i, j) == S_IMMUTABLE_ZERO) {
-          SDL_RenderCopy(ren, env->kanjiBIM, NULL, &rect2);
-        } else {
-          SDL_RenderCopy(ren, env->empty, NULL, &rect2);
-        }
 
-        if(game_has_error(env->g, i, j)){
-          SDL_RenderCopy(ren, env->erreur, NULL, &rect2);
-        }
-      
+      if (game_get_square(env->g, i, j) == S_ONE) {
+        SDL_RenderCopy(ren, env->kanjiN, NULL, &rect2);
+      } else if (game_get_square(env->g, i, j) == S_ZERO) {
+        SDL_RenderCopy(ren, env->kanjiB, NULL, &rect2);
+      } else if (game_get_square(env->g, i, j) == S_IMMUTABLE_ONE) {
+        SDL_RenderCopy(ren, env->kanjiNIM, NULL, &rect2);
+      } else if (game_get_square(env->g, i, j) == S_IMMUTABLE_ZERO) {
+        SDL_RenderCopy(ren, env->kanjiBIM, NULL, &rect2);
+      } else {
+        SDL_RenderCopy(ren, env->empty, NULL, &rect2);
+      }
+
+      if (game_has_error(env->g, i, j)) {
+        SDL_RenderCopy(ren, env->erreur, NULL, &rect2);
+      }
     }
   }
   if (env->showhelp) {
     SDL_RenderCopy(ren, env->help, NULL, NULL);
   }
-  
- 
 }
 
 /* **************************************************************** */
@@ -226,7 +221,7 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
         game_solve(env->g);
         break;
       case SDLK_s:
-        char* filename = "game_save.txt";
+        char *filename = "game_save.txt";
         game_save(env->g, filename);
         break;
       case SDLK_ESCAPE:
@@ -256,7 +251,7 @@ void clean(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   SDL_DestroyTexture(env->help);
   SDL_DestroyTexture(env->erreur);
   SDL_DestroyTexture(env->helptxt);
-  SDL_DestroyTexture(env->victory); 
+  SDL_DestroyTexture(env->victory);
   SDL_FreeSurface(env->icon);
   game_delete(env->g);
   free(env);

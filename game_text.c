@@ -91,7 +91,6 @@ int main(int argc, char const *argv[]) {
       printf("> action: game save 's' into %s\n", name);
       game_save(g, name);
     }
-
   }
   game_print(g);
   printf("congratulation\n");
