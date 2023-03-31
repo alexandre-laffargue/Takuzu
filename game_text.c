@@ -15,7 +15,6 @@ void game_help_print() {
   printf("- press 'z' to undo\n");
   printf("- press 'y' to redo\n");
   printf("- press 's' <filename> to save\n");
-  printf("- press 'c' to solve\n");
   printf("- press 'q' to quit\n");
 }
 void game_errors_print(game g) {
@@ -64,9 +63,6 @@ int main(int argc, char const *argv[]) {
       case 'y':
         printf("> action: redo\n");
         game_redo(g);
-        break;
-      case 'c':
-        game_solve(g);
         break;
     }
     if ((c == 'w') || (c == 'b') || (c == 'e')) {
