@@ -85,7 +85,7 @@ add_test(test_tools_game_solve ./game_test_tools game_solve)
 
 ## copy useful data files in build dir
 foreach(file "model/background_jp.jpg" "model/empty.png" "model/erreur.png" 
-"model/helpimage.png" "model/kanjiB.png" "model/kanjiN.png" )
+"model/helpimage.png" "model/kanjiB.png" "model/kanjiN.png" "model/helptxt.png")
   file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endforeach(file)
 

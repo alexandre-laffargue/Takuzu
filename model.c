@@ -25,6 +25,7 @@
 #define KANJIB "kanjiB.png"
 #define KANJINIM "kanjiN.png"
 #define KANJIBIM "kanjiB.png"
+#define HELPTXT "helptxt.png"
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
@@ -35,6 +36,7 @@ struct Env_t {
   SDL_Texture *kanjiBIM;
   SDL_Texture *help;
   SDL_Texture *erreur;
+  SDL_Texture *helptxt;
   game g;
   bool showhelp;
 };
@@ -69,6 +71,8 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->kanjiNIM) ERROR("IMG_LoadTexture: %s\n", KANJINIM);
   env->kanjiBIM = IMG_LoadTexture(ren, KANJIBIM);
   if (!env->kanjiBIM) ERROR("IMG_LoadTexture: %s\n", KANJIBIM);
+  env->helptxt = IMG_LoadTexture(ren, HELPTXT);
+  if (!env->helptxt) ERROR("IMG_LoadTexture: %s\n", HELPTXT);
   env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
@@ -90,6 +94,8 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   int cols = game_nb_cols(env->g);
   int x = w / 2;
   int y = h / 2;
+  SDL_Rect rect = {w-200, 0, 200, 50};
+  SDL_RenderCopy(ren, env->helptxt, NULL, &rect);
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       SDL_Rect rect2 = {(j * image_width) + x - ((cols / 2) * image_width),
