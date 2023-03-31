@@ -27,6 +27,7 @@
 #define KANJIBIM "kanjiBIM.png"
 #define HELPTXT "helptxt.png"
 #define VICTORY "victory.png"
+#define ICON "icon.png" 
 struct Env_t {
   /* PUT YOUR VARIABLES HERE */
   SDL_Texture *background;
@@ -39,6 +40,7 @@ struct Env_t {
   SDL_Texture *erreur;
   SDL_Texture *helptxt;
   SDL_Texture *victory;
+  SDL_Surface *icon;
   game g;
   bool showhelp;
 };
@@ -77,6 +79,9 @@ Env *init(SDL_Window *win, SDL_Renderer *ren, int argc, char *argv[]) {
   if (!env->helptxt) ERROR("IMG_LoadTexture: %s\n", HELPTXT);
   env->victory = IMG_LoadTexture(ren, VICTORY);
   if (!env->victory) ERROR("IMG_LoadTexture: %s\n", VICTORY);
+  env->icon = IMG_Load(ICON);
+  if (!env->icon) ERROR("IMG_Load: %s\n", ICON);
+  SDL_SetWindowIcon(win, env->icon);
   env->showhelp = false;
 
   /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
@@ -249,7 +254,10 @@ void clean(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   SDL_DestroyTexture(env->kanjiNIM);
   SDL_DestroyTexture(env->kanjiBIM);
   SDL_DestroyTexture(env->help);
-  SDL_DestroyTexture(env->erreur); 
+  SDL_DestroyTexture(env->erreur);
+  SDL_DestroyTexture(env->helptxt);
+  SDL_DestroyTexture(env->victory); 
+  SDL_FreeSurface(env->icon);
   game_delete(env->g);
   free(env);
 }
