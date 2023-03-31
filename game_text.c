@@ -65,12 +65,6 @@ int main(int argc, char const *argv[]) {
         printf("> action: redo\n");
         game_redo(g);
         break;
-      case 's':
-        char name[4095];
-        scan = scanf(" %s", name);
-        printf("> action: game save 's' into %s\n", name);
-        game_save(g, name);
-        break;
       case 'c':
         game_solve(g);
         break;
@@ -95,6 +89,13 @@ int main(int argc, char const *argv[]) {
         }
       }
     }
+    if (c == 's') {
+      char name[4095];
+      scan = scanf(" %s", name);
+      printf("> action: game save 's' into %s\n", name);
+      game_save(g, name);
+    }
+
   }
   game_print(g);
   printf("congratulation\n");
