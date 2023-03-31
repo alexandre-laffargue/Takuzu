@@ -99,7 +99,7 @@ void render(SDL_Window *win, SDL_Renderer *ren, Env *env) {
   int x = w / 2;
   int y = h / 2;
   SDL_Rect rect = {w-200, 0, 200, 50};
-  SDL_Rect rect3 = {(w/2)-125, 0, 250, 100};
+  SDL_Rect rect3 = {(w/2)-200, 0, 400, 100};
   SDL_RenderCopy(ren, env->helptxt, NULL, &rect);
   if (game_is_over(env->g)) {
     SDL_RenderCopy(ren, env->victory, NULL, &rect3);
@@ -169,7 +169,7 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
       case SDLK_SPACE:
         game_play_move(env->g, 0, 0, S_ZERO);
         break;
-      case SDLK_k:
+      case SDLK_w:
 
         if (mouse_x > w / 2 - ((rows / 2) * image_width) &&
             mouse_x < w / 2 + ((rows / 2) * image_width) &&
@@ -185,7 +185,7 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
           }
         }
         break;
-      case SDLK_l:
+      case SDLK_b:
 
         if (mouse_x > w / 2 - ((rows / 2) * image_width) &&
             mouse_x < w / 2 + ((rows / 2) * image_width) &&
