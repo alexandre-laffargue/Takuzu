@@ -12,6 +12,10 @@ void game_help_print() {
   printf("- press 'b <i> <j>' to put a one/black at square (i,j)\n");
   printf("- press 'e <i> <j>' to empty square (i,j)\n");
   printf("- press 'r' to restart\n");
+  printf("- press 'z' to undo\n");
+  printf("- press 'y' to redo\n");
+  printf("- press 's' <filename> to save\n");
+  printf("- press 'c' to solve\n");
   printf("- press 'q' to quit\n");
 }
 void game_errors_print(game g) {
@@ -61,6 +65,15 @@ int main(int argc, char const *argv[]) {
         printf("> action: redo\n");
         game_redo(g);
         break;
+      case 's':
+        char name[4095];
+        scan = scanf(" %s", name);
+        printf("> action: game save 's' into %s\n", name);
+        game_save(g, name);
+        break;
+      case 'c':
+        game_solve(g);
+        break;
     }
     if ((c == 'w') || (c == 'b') || (c == 'e')) {
       int i, j;
@@ -81,12 +94,6 @@ int main(int argc, char const *argv[]) {
           game_play_move(g, i, j, S_EMPTY);
         }
       }
-    }
-    if (c == 's') {
-      char name[4095];
-      scan = scanf(" %s", name);
-      printf("> action: game save 's' into %s\n", name);
-      game_save(g, name);
     }
   }
   game_print(g);
