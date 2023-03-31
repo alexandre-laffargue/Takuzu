@@ -221,8 +221,7 @@ bool process(SDL_Window *win, SDL_Renderer *ren, Env *env, SDL_Event *e) {
         game_solve(env->g);
         break;
       case SDLK_s:
-        char *filename = "game_save.txt";
-        game_save(env->g, filename);
+        game_save(env->g, "game_save.txt");
         break;
       case SDLK_ESCAPE:
         return true;
