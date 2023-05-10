@@ -44,7 +44,6 @@ btnrandom.addEventListener("click", function() {
 });
 
 canvas.addEventListener("click", canvasLeftClick);
-canvas.addEventListener("contextmenu", canvasRightClick);
 
 function canvasLeftClick(event) {
     var x = event.pageX - canvas.offsetLeft;
@@ -52,36 +51,26 @@ function canvasLeftClick(event) {
     var squareSize = canvas.width / Module._nb_cols(g);
     var row = Math.floor(y / squareSize);
     var col = Math.floor(x / squareSize);
-    Module._play_move(g, row, col, 1);
+    var square = (Module._get_square(g, row, col) + 1) %3;
+    Module._play_move(g, row, col, square);
     printGame(g);
 }
 
-function canvasRightClick(event) {
-    event.preventDefault();
-    var x = event.pageX - canvas.offsetLeft;
-    var y = event.pageY - canvas.offsetTop;
-    var squareSize = canvas.width / Module._nb_cols(g);
-    var row = Math.floor(y / squareSize);
-    var col = Math.floor(x / squareSize);
-    Module._play_move(g, row, col, 2);
-    printGame(g);
-}
-
-window.addEventListener('resize', function(){ // appeler la fonction lors du redimensionnement de la fenêtre
+window.addEventListener('resize', function(){
     resizeCanvas();
     printGame(g);
 }  ); 
 
 function resizeCanvas() {
-    const minSize = Math.min(window.innerWidth, window.innerHeight); // déterminer la plus petite dimension de la fenêtre
-    canvas.width = minSize * 0.7; // ajuster la largeur du canvas à 70% de la plus petite dimension
-    canvas.height = canvas.width; // maintenir le ratio hauteur/largeur
+    const minSize = Math.min(window.innerWidth, window.innerHeight);
+    canvas.width = minSize * 0.7;
+    canvas.height = canvas.width;
   }
 
 function printGame(g) {
     var nb_rows = Module._nb_rows(g);
     var nb_cols = Module._nb_cols(g);
-    resizeCanvas(); // appeler la fonction pour initialiser la taille du canvas
+    resizeCanvas();
     var squareSize = canvas.width / nb_cols;
     for (var row = 0; row < nb_rows; row++) {
         for (var col = 0; col < nb_cols; col++) {
