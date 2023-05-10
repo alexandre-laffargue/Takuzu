@@ -49,8 +49,9 @@ canvas.addEventListener("contextmenu", canvasRightClick);
 function canvasLeftClick(event) {
     var x = event.pageX - canvas.offsetLeft;
     var y = event.pageY - canvas.offsetTop;
-    var row = Math.floor(y / 50);
-    var col = Math.floor(x / 50);
+    var squareSize = canvas.width / Module._nb_cols(g);
+    var row = Math.floor(y / squareSize);
+    var col = Math.floor(x / squareSize);
     Module._play_move(g, row, col, 1);
     printGame(g);
 }
@@ -59,8 +60,9 @@ function canvasRightClick(event) {
     event.preventDefault();
     var x = event.pageX - canvas.offsetLeft;
     var y = event.pageY - canvas.offsetTop;
-    var row = Math.floor(y / 50);
-    var col = Math.floor(x / 50);
+    var squareSize = canvas.width / Module._nb_cols(g);
+    var row = Math.floor(y / squareSize);
+    var col = Math.floor(x / squareSize);
     Module._play_move(g, row, col, 2);
     printGame(g);
 }
@@ -80,7 +82,7 @@ function printGame(g) {
     var nb_rows = Module._nb_rows(g);
     var nb_cols = Module._nb_cols(g);
     resizeCanvas(); // appeler la fonction pour initialiser la taille du canvas
-    var squareSize = Math.min(canvas.width / nb_cols, canvas.height / nb_rows);
+    var squareSize = canvas.width / nb_cols;
     for (var row = 0; row < nb_rows; row++) {
         for (var col = 0; col < nb_cols; col++) {
             var number = Module._get_number(g, row, col);
