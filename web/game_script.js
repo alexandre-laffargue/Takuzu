@@ -7,7 +7,7 @@ const kanjiN = new Image();
 const kanjiBIM = new Image();
 const kanjiNIM = new Image();
 const emptycase = new Image();
-const error = new Image();
+const errorcase = new Image();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -92,7 +92,7 @@ function printGame(g) {
             if (empty)
             {
                 if (error){
-                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
+                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
                 ctx.drawImage(emptycase,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
@@ -100,7 +100,7 @@ function printGame(g) {
             else if (immutable && number == 0)
             {
                 if (error){
-                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
+                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
                 ctx.drawImage(kanjiBIM,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
@@ -108,7 +108,7 @@ function printGame(g) {
             else if (immutable && number == 1)
             {
                 if (error){
-                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
+                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
                 ctx.drawImage(kanjiNIM,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
@@ -116,7 +116,7 @@ function printGame(g) {
             else if (number == 0)
             {
                 if (error){
-                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
+                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
                 ctx.drawImage(kanjiB,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
@@ -124,7 +124,7 @@ function printGame(g) {
             else if (number == 1)
             {
                 if (error){
-                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
+                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
                 ctx.drawImage(kanjiN,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
@@ -132,7 +132,7 @@ function printGame(g) {
             else 
             {
                 if (error){
-                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
+                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
                 ctx.drawImage(emptycase,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
@@ -156,4 +156,4 @@ kanjiN.src = 'ressources/kanjiN.png';
 kanjiBIM.src = 'ressources/kanjiBIM.png';
 kanjiNIM.src = 'ressources/kanjiNIM.png';
 emptycase.src = 'ressources/empty.png';
-error.src = 'ressources/error.png';
+errorcase.src = 'ressources/erreur.png';
