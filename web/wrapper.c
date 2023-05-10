@@ -75,6 +75,6 @@ game new_random(uint nb_rows, uint nb_cols, bool wrapping, bool uniq)
 {
    srand(time(NULL)); // random seed
    return game_random(nb_rows, nb_cols, wrapping, uniq, false);
- }
+}
 
 // EOF
