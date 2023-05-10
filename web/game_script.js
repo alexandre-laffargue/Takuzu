@@ -51,9 +51,7 @@ function printGame(g) {
         text = "";
     }
     
-    // put this text in <div> element with ID 'result'
-    var elm = document.getElementById('result');
-    elm.innerHTML = text;
+    
 }
 
 function start() {
