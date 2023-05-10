@@ -4,7 +4,7 @@ const kanjiB = new Image();
 const kanjiN = new Image();
 const kanjiBIM = new Image();
 const kanjiNIM = new Image();
-const empty = new Image();
+const emptycase = new Image();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -25,7 +25,7 @@ function printGame(g) {
             var error = Module._has_error(g, row, col);
             if (empty){
                 text = "";
-                ctx.drawImage(empty, col*50, row * 50, 50, 50);
+                ctx.drawImage(emptycase, col*50, row * 50, 50, 50);
             }
                 else if (immutable && number == 0)
             {
@@ -74,4 +74,4 @@ kanjiB.src = 'ressources/kanjiB.png';
 kanjiN.src = 'ressources/kanjiN.png';
 kanjiBIM.src = 'ressources/kanjiBIM.png';
 kanjiNIM.src = 'ressources/kanjiNIM.png';
-empty.src = 'ressources/empty.png';
+emptycase.src = 'ressources/empty.png';
