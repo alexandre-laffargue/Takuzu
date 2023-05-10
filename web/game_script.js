@@ -1,9 +1,13 @@
 Module.onRuntimeInitialized = () => { start(); }
 
+const kanjiB = new Image();
+const kanjiN = new Image();
+const kanjiBIM = new Image();
+const kanjiNIM = new Image();
+const empty = new Image();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-ctx.font = "20px Arial";
-ctx.fillStyle = "red";
+
 
 
 
@@ -11,6 +15,8 @@ function printGame(g) {
     var text = "";
     var nb_rows = Module._nb_rows(g);
     var nb_cols = Module._nb_cols(g);
+    canvas.width = nb_cols * 50;
+    canvas.height = nb_rows * 50;
     for (var row = 0; row < nb_rows; row++) {
         for (var col = 0; col < nb_cols; col++) {
             var number = Module._get_number(g, row, col);
@@ -19,32 +25,32 @@ function printGame(g) {
             var error = Module._has_error(g, row, col);
             if (empty){
                 text = "";
-                ctx.fillText(text, col*30, row * 30);
+                ctx.drawImage(empty, col*50, row * 50, 50, 50);
             }
                 else if (immutable && number == 0)
             {
                 text = "W";
-                ctx.fillText(text, col*30, row * 30);
+                ctx.drawImage(kanjiBIM, col*50, row * 50, 50, 50);
             }
             else if (immutable && number == 1)
             {
                 text = "B";
-                ctx.fillText(text, col*30, row * 30);
+                ctx.drawImage(kanjiNIM, col*50, row * 50, 50, 50);
             }
             else if (number == 0)
             {
                 text = "w";
-                ctx.fillText(text, col*30, row * 30);
+                ctx.drawImage(kanjiB, col*50, row * 50, 50, 50);
             }
-            else if (nummber == 1)
+            else if (number == 1)
             {
                 text = "b";
-                ctx.fillText(text, col*30, row * 30);
+                ctx.drawImage(kanjiN, col*50, row * 50, 50, 50);
             }
             else 
             {
                 text = "?";
-                ctx.fillText(text, col*30, row * 30);
+                ctx.drawImage(empty, col*50, row * 50, 50, 50);
             }
         }
         
@@ -64,4 +70,8 @@ function start() {
 }
 
 
-
+kanjiB.src = 'ressources/kanjiB.png';
+kanjiN.src = 'ressources/kanjiN.png';
+kanjiBIM.src = 'ressources/kanjiBIM.png';
+kanjiNIM.src = 'ressources/kanjiNIM.png';
+empty.src = 'ressources/empty.png';
