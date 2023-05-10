@@ -65,11 +65,22 @@ function canvasRightClick(event) {
     printGame(g);
 }
 
+window.addEventListener('resize', function(){ // appeler la fonction lors du redimensionnement de la fenêtre
+    resizeCanvas();
+    printGame(g);
+}  ); 
+
+function resizeCanvas() {
+    const minSize = Math.min(window.innerWidth, window.innerHeight); // déterminer la plus petite dimension de la fenêtre
+    canvas.width = minSize * 0.7; // ajuster la largeur du canvas à 70% de la plus petite dimension
+    canvas.height = canvas.width; // maintenir le ratio hauteur/largeur
+  }
+
 function printGame(g) {
     var nb_rows = Module._nb_rows(g);
     var nb_cols = Module._nb_cols(g);
-    canvas.width = nb_cols * 50;
-    canvas.height = nb_rows * 50;
+    resizeCanvas(); // appeler la fonction pour initialiser la taille du canvas
+    var squareSize = Math.min(canvas.width / nb_cols, canvas.height / nb_rows);
     for (var row = 0; row < nb_rows; row++) {
         for (var col = 0; col < nb_cols; col++) {
             var number = Module._get_number(g, row, col);
@@ -79,49 +90,49 @@ function printGame(g) {
             if (empty)
             {
                 if (error){
-                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
-                ctx.drawImage(emptycase, col*50, row * 50, 50, 50);
+                ctx.drawImage(emptycase,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
 
             else if (immutable && number == 0)
             {
                 if (error){
-                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
-                ctx.drawImage(kanjiBIM, col*50, row * 50, 50, 50);
+                ctx.drawImage(kanjiBIM,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
 
             else if (immutable && number == 1)
             {
                 if (error){
-                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
-                ctx.drawImage(kanjiNIM, col*50, row * 50, 50, 50);
+                ctx.drawImage(kanjiNIM,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
 
             else if (number == 0)
             {
                 if (error){
-                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
-                ctx.drawImage(kanjiB, col*50, row * 50, 50, 50);
+                ctx.drawImage(kanjiB,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
 
             else if (number == 1)
             {
                 if (error){
-                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
-                ctx.drawImage(kanjiN, col*50, row * 50, 50, 50);
+                ctx.drawImage(kanjiN,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
 
             else 
             {
                 if (error){
-                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                    ctx.drawImage(error,  col*squareSize, row*squareSize, squareSize, squareSize);
                 }else{
-                ctx.drawImage(empty, col*50, row * 50, 50, 50);
+                ctx.drawImage(emptycase,  col*squareSize, row*squareSize, squareSize, squareSize);
             }}
             
         }
