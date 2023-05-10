@@ -7,6 +7,7 @@ const kanjiN = new Image();
 const kanjiBIM = new Image();
 const kanjiNIM = new Image();
 const emptycase = new Image();
+const error = new Image();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -38,13 +39,33 @@ btnredo.addEventListener("click", function() {
 });
 
 btnrandom.addEventListener("click", function() {
-    g = Module._game_random(6, 6, false, false, true);
+    g = Module._new_random(6, 6, false, false);
     printGame(g);
 });
 
+canvas.addEventListener("click", canvasLeftClick);
+canvas.addEventListener("contextmenu", canvasRightClick);
+
+function canvasLeftClick(event) {
+    var x = event.pageX - canvas.offsetLeft;
+    var y = event.pageY - canvas.offsetTop;
+    var row = Math.floor(y / 50);
+    var col = Math.floor(x / 50);
+    Module._play_move(g, row, col, 1);
+    printGame(g);
+}
+
+function canvasRightClick(event) {
+    event.preventDefault();
+    var x = event.pageX - canvas.offsetLeft;
+    var y = event.pageY - canvas.offsetTop;
+    var row = Math.floor(y / 50);
+    var col = Math.floor(x / 50);
+    Module._play_move(g, row, col, 2);
+    printGame(g);
+}
 
 function printGame(g) {
-    var text = "";
     var nb_rows = Module._nb_rows(g);
     var nb_cols = Module._nb_cols(g);
     canvas.width = nb_cols * 50;
@@ -55,38 +76,56 @@ function printGame(g) {
             var immutable = Module._is_immutable(g, row, col);
             var empty = Module._is_empty(g, row, col);
             var error = Module._has_error(g, row, col);
-            if (empty){
-                text = "";
-                ctx.drawImage(emptycase, col*50, row * 50, 50, 50);
-            }
-                else if (immutable && number == 0)
+            if (empty)
             {
-                text = "W";
+                if (error){
+                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                }else{
+                ctx.drawImage(emptycase, col*50, row * 50, 50, 50);
+            }}
+
+            else if (immutable && number == 0)
+            {
+                if (error){
+                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                }else{
                 ctx.drawImage(kanjiBIM, col*50, row * 50, 50, 50);
-            }
+            }}
+
             else if (immutable && number == 1)
             {
-                text = "B";
+                if (error){
+                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                }else{
                 ctx.drawImage(kanjiNIM, col*50, row * 50, 50, 50);
-            }
+            }}
+
             else if (number == 0)
             {
-                text = "w";
+                if (error){
+                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                }else{
                 ctx.drawImage(kanjiB, col*50, row * 50, 50, 50);
-            }
+            }}
+
             else if (number == 1)
             {
-                text = "b";
+                if (error){
+                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                }else{
                 ctx.drawImage(kanjiN, col*50, row * 50, 50, 50);
-            }
+            }}
+
             else 
             {
-                text = "?";
+                if (error){
+                    ctx.drawImage(error, col*50, row * 50, 50, 50);
+                }else{
                 ctx.drawImage(empty, col*50, row * 50, 50, 50);
-            }
+            }}
+            
         }
         
-        text = "";
     }
     
     
@@ -104,3 +143,4 @@ kanjiN.src = 'ressources/kanjiN.png';
 kanjiBIM.src = 'ressources/kanjiBIM.png';
 kanjiNIM.src = 'ressources/kanjiNIM.png';
 emptycase.src = 'ressources/empty.png';
+error.src = 'ressources/error.png';
