@@ -57,3 +57,32 @@ canvas {
     margin: 0 auto;
     border: 1px solid black;
 }
+
+.scroll-container {
+    position: fixed;
+    top: 0;
+    left: -20;
+    width: 100%;
+    height: 100px;
+    z-index: -1;
+    overflow: hidden;
+}
+
+
+@keyframes scroll {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: 100%;
+    }
+}
+
+.image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+    animation: scroll 15s linear infinite;
+}
