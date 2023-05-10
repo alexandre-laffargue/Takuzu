@@ -1,5 +1,7 @@
 Module.onRuntimeInitialized = () => { start(); }
 
+var g;
+
 const kanjiB = new Image();
 const kanjiN = new Image();
 const kanjiBIM = new Image();
@@ -12,27 +14,32 @@ var btnrestart = document.getElementById("restart");
 var btnsolve = document.getElementById("solve");
 var btnundo = document.getElementById("undo");
 var btnredo = document.getElementById("redo");
-var btnsave = document.getElementById("save");
+var btnrandom = document.getElementById("random");
 
 
 btnrestart.addEventListener("click", function() {
     Module._restart(g);
+    printGame(g);
 });
 
 btnsolve.addEventListener("click", function() {
     Module._solve(g);
+    printGame(g);
 });
 
 btnundo.addEventListener("click", function() {
     Module._undo(g);
+    printGame(g);
 });
 
 btnredo.addEventListener("click", function() {
     Module._redo(g);
+    printGame(g);
 });
 
-btnsave.addEventListener("click", function() {
-    Module._save(g);
+btnrandom.addEventListener("click", function() {
+    g = Module._game_random(6, 6, false, false, true);
+    printGame(g);
 });
 
 
@@ -87,9 +94,8 @@ function printGame(g) {
 
 function start() {
     console.log("call start routine");
-    var g = Module._new_default();
+    g = Module._new_default();
     printGame(g);
-    Module._delete(g);
 }
 
 
