@@ -8,7 +8,32 @@ const emptycase = new Image();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
+var btnrestart = document.getElementById("restart");
+var btnsolve = document.getElementById("solve");
+var btnundo = document.getElementById("undo");
+var btnredo = document.getElementById("redo");
+var btnsave = document.getElementById("save");
 
+
+btnrestart.addEventListener("click", function() {
+    Module._restart(g);
+});
+
+btnsolve.addEventListener("click", function() {
+    Module._solve(g);
+});
+
+btnundo.addEventListener("click", function() {
+    Module._undo(g);
+});
+
+btnredo.addEventListener("click", function() {
+    Module._redo(g);
+});
+
+btnsave.addEventListener("click", function() {
+    Module._save(g);
+});
 
 
 function printGame(g) {
@@ -63,8 +88,6 @@ function printGame(g) {
 function start() {
     console.log("call start routine");
     var g = Module._new_default();
-    const LIGHTBULB = 1;
-    Module._play_move(g, 0, 0, LIGHTBULB);
     printGame(g);
     Module._delete(g);
 }
