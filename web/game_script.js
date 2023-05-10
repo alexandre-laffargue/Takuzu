@@ -8,6 +8,7 @@ const kanjiBIM = new Image();
 const kanjiNIM = new Image();
 const emptycase = new Image();
 const errorcase = new Image();
+const imgvictory = new Image();
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -109,6 +110,8 @@ function printGame(g) {
         }
 
     }
+    var victory = Module._is_over(g);
+    if (victory) { ctx.drawImage(imgvictory, (canvas.width / 2) - (imgvictory.width / 2), (canvas.height / 2) - (imgvictory.height / 2)) }
 
 
 }
@@ -126,3 +129,4 @@ kanjiBIM.src = 'ressources/kanjiBIM.png';
 kanjiNIM.src = 'ressources/kanjiNIM.png';
 emptycase.src = 'ressources/empty.png';
 errorcase.src = 'ressources/erreur.png';
+imgvictory.src = 'ressources/victory.png';
