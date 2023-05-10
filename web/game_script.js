@@ -79,52 +79,39 @@ function printGame(g) {
             var empty = Module._is_empty(g, row, col);
             var error = Module._has_error(g, row, col);
             if (empty)
-            {
-                if (error){
-                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
-                }else{
+            {   
                 ctx.drawImage(emptycase,  col*squareSize, row*squareSize, squareSize, squareSize);
-            }}
+            }
 
             else if (immutable && number == 0)
             {
-                if (error){
-                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
-                }else{
                 ctx.drawImage(kanjiBIM,  col*squareSize, row*squareSize, squareSize, squareSize);
-            }}
+              }
 
             else if (immutable && number == 1)
             {
-                if (error){
-                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
-                }else{
-                ctx.drawImage(kanjiNIM,  col*squareSize, row*squareSize, squareSize, squareSize);
-            }}
+                ctx.drawImage(kanjiNIM,  col*squareSize, row*squareSize, squareSize, squareSize);    
+            }
 
             else if (number == 0)
             {
-                if (error){
-                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
-                }else{
-                ctx.drawImage(kanjiB,  col*squareSize, row*squareSize, squareSize, squareSize);
-            }}
+                ctx.drawImage(kanjiB,  col*squareSize, row*squareSize, squareSize, squareSize);       
+            }
 
             else if (number == 1)
             {
-                if (error){
-                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
-                }else{
-                ctx.drawImage(kanjiN,  col*squareSize, row*squareSize, squareSize, squareSize);
-            }}
+                ctx.drawImage(kanjiN,  col*squareSize, row*squareSize, squareSize, squareSize);    
+            }
 
             else 
             {
-                if (error){
-                    ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
-                }else{
                 ctx.drawImage(emptycase,  col*squareSize, row*squareSize, squareSize, squareSize);
-            }}
+            }
+
+            if (error)
+            {
+                ctx.drawImage(errorcase,  col*squareSize, row*squareSize, squareSize, squareSize);
+            }
             
         }
         
